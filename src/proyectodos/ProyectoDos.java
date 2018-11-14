@@ -6,19 +6,8 @@
 package proyectodos;
 
 import Control.ControllerAdministrador;
-import Control.ControllerBien;
-import Control.ControllerLogin;
- import Control.ControllerSolicitud;
-import Modelo.ModeloLogin;
  import Vista.VistaBien;
-import Vista.VistaLogin;
 import Vista.VistaAdministrador;
-import Vista.VistaJefe;
-import Vista.VistaRecursosHumanos;
-import Vista.VistaSecretaria;
-import Vista.VistaSolicitud;
-import Vista.VistaRegistrador;
-import accesoADatos.ServicioSolicitud;
 
 import Modelo.ModeloAdministrador;
 import accesoADatos.ServicioBien;
