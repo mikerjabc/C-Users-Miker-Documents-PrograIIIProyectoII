@@ -45,7 +45,7 @@ public class ProyectoDos {
         //ControllerLogin controllerLogin = new ControllerLogin(new ModeloLogin(), new VistaLogin());
         
         //controllerLogin.getVistaLogin().setVisible(true);
-//54555
+//0000
         controlAdministrador.getVistaAdmistrador().setVisible(true);
     }
     
