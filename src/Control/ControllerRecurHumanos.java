@@ -7,10 +7,8 @@ package Control;
 
 import Logic.Funcionario;
 import Modelo.ModeloRecurHumanos;
-import Modelo.ModeloRegistrador;
 import Vista.VistaFuncionario;
 import Vista.VistaRecursosHumanos;
-import Vista.VistaRegistrador;
 import accesoADatos.GlobalException;
 import accesoADatos.NoDataException;
 import accesoADatos.ServicioDependencia;

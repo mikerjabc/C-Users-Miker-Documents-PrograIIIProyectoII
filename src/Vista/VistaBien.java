@@ -208,6 +208,7 @@ public class VistaBien extends javax.swing.JFrame implements Observer {
         });
 
         btnCancelar.setText("CANCELAR");
+        btnCancelar.setName(""); // NOI18N
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
