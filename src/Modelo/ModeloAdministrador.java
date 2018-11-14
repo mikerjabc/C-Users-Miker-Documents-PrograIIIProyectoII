@@ -6,6 +6,7 @@
 package Modelo;
 
 import Logic.Bien;
+import Logic.Solicitud;
 import Vista.VistaAdministrador;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -17,27 +18,32 @@ import java.util.Observable;
 public class ModeloAdministrador extends Observable {
     
     ArrayList<Bien> bienes  = new ArrayList<>();
-    VistaAdministrador view;
+    VistaAdministrador vistaAdmistrador;
     int total;
     public void updateTable(Bien bien  ){
         bienes.add(bien);
-        this.view.dtm.addRow(new Object [] {bien.getDescripcion(),bien.getModelo(),bien.getSerial(),bien.getPrecio(),bien.getCantidad()  });
+        this.vistaAdmistrador.dtm.addRow(new Object [] {bien.getDescripcion(),bien.getModelo(),bien.getSerial(),bien.getPrecio(),bien.getCantidad()  });
         
-        if (this.view.getCampoMontoTotal().getText().equalsIgnoreCase(""))
+        if (this.vistaAdmistrador.getCampoMontoTotal().getText().equalsIgnoreCase(""))
             total = 0;
         else 
-        total = Integer.parseInt(this.view.getCampoMontoTotal().getText());
+        total = Integer.parseInt(this.vistaAdmistrador.getCampoMontoTotal().getText());
         
         total = (int) (total + bien.getCantidad()*bien.getPrecio());
-        this.view.getCampoMontoTotal().setText(""+total);
+        this.vistaAdmistrador.getCampoMontoTotal().setText(""+total);
     }
  
     public void setVista(VistaAdministrador view){
-        this.view = view;
+        this.vistaAdmistrador = view;
     }
 
     
     public ArrayList<Bien> getBienes() {
         return bienes;    
     }
+ 
+    public void setNumeroNuevoSolicitud(ArrayList<Solicitud> misSolicitudes) {
+         int numeroSolicitudes = misSolicitudes.size()+1;
+            vistaAdmistrador.getCampoNumeroComprobante().setText(  ""+numeroSolicitudes );
+     }
 }

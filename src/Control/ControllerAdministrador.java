@@ -9,11 +9,14 @@ import Modelo.ModeloAdministrador;
 import Vista.VistaBien;
  import Vista.VistaLogin;
 import Vista.VistaAdministrador;
+import accesoADatos.GlobalException;
+import accesoADatos.NoDataException;
 import accesoADatos.ServicioBien;
 import accesoADatos.ServicioSolicitud;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 import javax.swing.JButton;
 
 /**
@@ -110,14 +113,17 @@ public class ControllerAdministrador extends AbstractController{
     
     
     
-    public ControllerAdministrador(ModeloAdministrador modelo, VistaAdministrador vistaAdmistrador ) {
+    public ControllerAdministrador(ModeloAdministrador modelo, VistaAdministrador vistaAdmistrador ) throws GlobalException, NoDataException, SQLException {
         this.vistaAdmistrador = vistaAdmistrador;
         this.modelo = modelo;
         this.modelo.setVista(this.vistaAdmistrador);
          this.vistaAdmistrador = vistaAdmistrador;
          vistaAdmistrador.setControlador(this);
+         
+         cargar();
     }
 
+    
     
     
     @Override
@@ -189,6 +195,10 @@ public class ControllerAdministrador extends AbstractController{
         accesoADatosSolicitud = new ServicioSolicitud();
         String  tipo = vistaAdmistrador.getCampoTipoAdqui().getSelectedItem().toString();
         accesoADatosSolicitud.insertarSolicitud(tipo,vistaAdmistrador.getCampoMontoTotal().getText(),modelo.getBienes());
+    }
+
+    private void cargar() throws GlobalException, NoDataException, SQLException {
+     modelo.setNumeroNuevoSolicitud( accesoADatosSolicitud.listarSolicitudes());
     }
     
     

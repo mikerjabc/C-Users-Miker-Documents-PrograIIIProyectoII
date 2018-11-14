@@ -25,7 +25,7 @@ import javax.swing.JTextPane;
  */
 public class ServicioSolicitud extends Servicio {
 
-    private static final String INSERTARSOLICITUD = "{call insertarSolicitud(?,?,?,?,?)}";
+    private static final String INSERTARSOLICITUD = "{call insertarSolicitud(?,?,?)}";
     private static final String ELIMINARSOLICITUD = "{call eliminarSolicitud(?)}";
     private static final String MODIFICARSOLICITUD = "{call modificarSolicitud(?,?,?,?,?)}";
     private static final String LISTARSOLICITUD = "{?=call listarSolicitud}";
@@ -218,7 +218,7 @@ public class ServicioSolicitud extends Servicio {
         return laSolicitud;
     }
 
-    public ArrayList<Solicitud> listarBienes() throws GlobalException, NoDataException, SQLException {
+    public ArrayList<Solicitud> listarSolicitudes() throws GlobalException, NoDataException, SQLException {
 
         try {
             conectar();

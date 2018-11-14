@@ -22,6 +22,20 @@ import java.util.Observer;
 public class VistaAdministrador extends javax.swing.JFrame implements Observer {
 
     /**
+     * @return the campoNumeroComprobante
+     */
+    public javax.swing.JTextField getCampoNumeroComprobante() {
+        return campoNumeroComprobante;
+    }
+
+    /**
+     * @param campoNumeroComprobante the campoNumeroComprobante to set
+     */
+    public void setCampoNumeroComprobante(javax.swing.JTextField campoNumeroComprobante) {
+        this.campoNumeroComprobante = campoNumeroComprobante;
+    }
+
+    /**
      * @return the campoTipoAdqui
      */
     public javax.swing.JComboBox<String> getCampoTipoAdqui() {
