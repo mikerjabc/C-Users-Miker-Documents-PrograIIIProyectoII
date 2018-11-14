@@ -31,7 +31,7 @@ public class ServicioBien extends Servicio {
     
     private static ServicioBien servicioBien = new ServicioBien();
     
-    public void insertarBien(Bien elBien) throws GlobalException, NoDataException {
+    public void insertarBien(Bien elBien, int elNumeroSolicitud) throws GlobalException, NoDataException {
         try {
             conectar();
         } catch (ClassNotFoundException e) {
@@ -49,7 +49,7 @@ public class ServicioBien extends Servicio {
             pstmt.setString(3, elBien.getMarca());
             pstmt.setString(4, elBien.getModelo());
             pstmt.setFloat(5, elBien.getPrecio());
-            pstmt.setInt(6, elBien.getCantidad());
+            pstmt.setInt(6, elNumeroSolicitud);
 
             boolean resultado = pstmt.execute();
             if (resultado == true) {
