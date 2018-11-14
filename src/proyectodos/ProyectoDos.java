@@ -8,7 +8,6 @@ package proyectodos;
 import Control.ControllerAdministrador;
  import Vista.VistaBien;
 import Vista.VistaAdministrador;
-
 import Modelo.ModeloAdministrador;
 import accesoADatos.ServicioBien;
 /**
@@ -26,15 +25,7 @@ public class ProyectoDos {
         
         ServicioBien accesoADatosBien = null;
         
-        
-      //  ControllerBien controlBien = new ControllerBien(vistaBien, accesoADatosBien);
-    
         ControllerAdministrador controlAdministrador = new ControllerAdministrador(modelo, vistaAdministrador );
-       
-        //ControllerLogin controllerLogin = new ControllerLogin(new ModeloLogin(), new VistaLogin());
-        
-        //controllerLogin.getVistaLogin().setVisible(true);
-//0000
         controlAdministrador.getVistaAdmistrador().setVisible(true);
     }
     
