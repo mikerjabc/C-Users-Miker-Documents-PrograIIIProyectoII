@@ -19,6 +19,7 @@ public class VistaFuncionario extends javax.swing.JFrame {
     /**
      * Creates new form VistaEmpleados
      */
+    
     public VistaFuncionario() {
         initComponents();
     }
