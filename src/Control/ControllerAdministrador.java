@@ -6,21 +6,15 @@
 package Control;
 
 import Modelo.ModeloAdministrador;
-import Vista.VistaAdministrador;
 import Vista.VistaBien;
  import Vista.VistaLogin;
-import Vista.VistaSecretaria;
 import Vista.VistaAdministrador;
 import accesoADatos.ServicioBien;
 import accesoADatos.ServicioSolicitud;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import javax.swing.JButton;
-
 
 /**
  *
@@ -41,9 +35,6 @@ public class ControllerAdministrador extends AbstractController{
     public void setModelo(ModeloAdministrador modelo) {
         this.modelo = modelo;
     }
-
- 
-    
     
     public VistaAdministrador getVistaAdmistrador() {
         return vistaAdmistrador;
