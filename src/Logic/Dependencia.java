@@ -1,34 +1,45 @@
 
 package Logic;
 
+import java.util.ArrayList;
+
 
 public class Dependencia  {
     
-    private int codigoDependencia;
-    private String nombreDependencia;
+    private int codigo;
+    private String nombre;
+    private ArrayList<Funcionario> listaFuncionarios;
 
-    public Dependencia() {
+    public Dependencia(int codigo, String nombre) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+        listaFuncionarios = new ArrayList();
     }
-	
-    public Dependencia(int codigoDependencia, String nombreDependencia) {
-        this.codigoDependencia = codigoDependencia;
-        this.nombreDependencia = nombreDependencia;
+
+    public int getCodigo() {
+        return codigo;
     }
-   
-    public int getCodigoDependencia() {
-        return this.codigoDependencia;
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public ArrayList<Funcionario> getListaFuncionarios() {
+        return listaFuncionarios;
+    }
+
+    public void setListaFuncionarios(ArrayList<Funcionario> listaFuncionarios) {
+        this.listaFuncionarios = listaFuncionarios;
     }
     
-    public void setCodigoDependencia(int codigoDependencia) {
-        this.codigoDependencia = codigoDependencia;
-    }
-    public String getNombreDependencia() {
-        return this.nombreDependencia;
-    }
-    
-    public void setNombreDependencia(String nombreDependencia) {
-        this.nombreDependencia = nombreDependencia;
-    }
     
 }
 
