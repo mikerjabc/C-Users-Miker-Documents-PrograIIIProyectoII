@@ -179,7 +179,6 @@ public class ServicioSolicitud extends Servicio {
         }
         ResultSet rs = null;
         Solicitud laSolicitud = null;
-        ArrayList<Solicitud> coleccion = new ArrayList();
         
         CallableStatement pstmt = null;
         try { 
@@ -196,6 +195,7 @@ public class ServicioSolicitud extends Servicio {
                         rs.getString("tipo"),
                         rs.getString("estado")
                     );
+                break;
              }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -213,8 +213,8 @@ public class ServicioSolicitud extends Servicio {
                 throw new GlobalException("Estatutos invalidos o nulos");
             }
         }
-        if (coleccion == null) {
-            throw new NoDataException("No hay datos");
+        if (laSolicitud == null) {
+            throw new NoDataException("No existe una transferencia con este número");
         }
         return laSolicitud;
     }

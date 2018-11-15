@@ -5,36 +5,30 @@
  */
 package accesoADatos;
 
-import Logic.Bien;
-import Logic.Dependencia;
-import Logic.Funcionario;
-import accesoADatos.GlobalException;
-import accesoADatos.NoDataException;
-import accesoADatos.Servicio;
-import Logic.Solicitud;
+import Logic.Transferencia;
 
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
-//import oracle.jdbc.OracleTypes;
+import oracle.jdbc.OracleTypes;
 
 /**
  *
  * @author Fernando
  */
-public class ServicioDependencia extends Servicio {
+public class ServicioTransferencia extends Servicio {
 
-    private static final String INSERTARDEPENDENCIA = "{call insertarDependencia(?,?)}";
-    private static final String ELIMINARDEPENDENCIA = "{call eliminarDependencia(?)}";
-    private static final String MODIFICARDEPENDENCIA = "{call modificarDependencia(?,?)}";
-    private static final String LISTARDEPENDENCIA = "{?=call listarDependencia}";
-    private static final String CONSULTARDEPENDENCIA = "{?=call consultarDependencia(?)}";
+    private static final String INSERTARTRANSFERENCIA = "{call insertarTransferencia(?,?,?,?,?)}";
+    private static final String ELIMINARTRANSFERENCIA = "{call eliminarTransferencia(?)}";
+    private static final String MODIFICARTRANSFERENCIA = "{call modificarTransferencia(?,?,?,?,?)}";
+    private static final String LISTARTRANSFERENCIA = "{?=call listarTransferencia}";
+    private static final String CONSULTARTRANSFERENCIA = "{?=call consultarTransferencia(?)}";
 
-    private static ServicioDependencia servicioDependencia = new ServicioDependencia();
+    public ServicioTransferencia() {
+    }
 
-    public void insertarDependencia(Dependencia laDependencia) throws GlobalException, NoDataException {
+    public void insertarTransferencia(Transferencia laTransferencia) throws GlobalException, NoDataException {
         try {
             conectar();
         } catch (ClassNotFoundException e) {
@@ -45,16 +39,13 @@ public class ServicioDependencia extends Servicio {
         CallableStatement pstmt = null;
 
         try {
-            pstmt = conexion.prepareCall(INSERTARDEPENDENCIA);
+            pstmt = conexion.prepareCall(INSERTARTRANSFERENCIA);
             
-            pstmt.setInt(1, laDependencia.getCodigo());
-            pstmt.setString(2, laDependencia.getNombre());
-
-            Iterator<Funcionario> ite = laDependencia.getListaFuncionarios().iterator();
-
-            while (ite.hasNext()) {
-                ServicioFuncionario.getServicioFuncionario().insertarFuncionario(ite.next(), laDependencia.getCodigo());
-            }
+            pstmt.setInt(1, laTransferencia.getNumero());
+            pstmt.setInt(2, laTransferencia.getOrigen().getCodigo());
+            pstmt.setInt(3, laTransferencia.getDestino().getCodigo());
+            pstmt.setString(4, laTransferencia.getUbicacion());
+            pstmt.setString(5, laTransferencia.getFuncionario().getId());
             
             boolean resultado = pstmt.execute();
             if (resultado == true) {
@@ -75,8 +66,8 @@ public class ServicioDependencia extends Servicio {
             }
         }
     }
-
-    public void eliminarDependencia(int elCodigo) throws GlobalException, NoDataException {
+    
+    public void eliminarTransferencia(int elNumero) throws GlobalException, NoDataException {
         try {
             conectar();
         } catch (ClassNotFoundException e) {
@@ -87,18 +78,11 @@ public class ServicioDependencia extends Servicio {
         
         CallableStatement pstmt = null;
         ResultSet rs = null;
-        Dependencia laDependencia = this.buscarDependencia(elCodigo);
         
         try {
-            pstmt = conexion.prepareCall(ELIMINARDEPENDENCIA);
-            pstmt.setInt(1, elCodigo);
+            pstmt = conexion.prepareCall(ELIMINARTRANSFERENCIA);
+            pstmt.setInt(1, elNumero);
             pstmt.execute();
-            
-            Iterator<Funcionario> ite = laDependencia.getListaFuncionarios().iterator();
-            
-            while (ite.hasNext()) {
-                ServicioFuncionario.getServicioFuncionario().eliminarFuncionario(ite.next().getId());
-            }
             
         } catch (SQLException e) {
             e.printStackTrace();
@@ -118,8 +102,8 @@ public class ServicioDependencia extends Servicio {
         }
 
     }
-
-    public void modificarDependencia(Dependencia laDependencia) throws GlobalException, NoDataException {
+ 
+    public void modificarTransferencia(Transferencia laTransferencia) throws GlobalException, NoDataException {
         
         try {
             conectar();
@@ -131,15 +115,12 @@ public class ServicioDependencia extends Servicio {
         CallableStatement pstmt = null;
 
         try {
-            pstmt = conexion.prepareCall(MODIFICARDEPENDENCIA);
-            pstmt.setInt(1, laDependencia.getCodigo());
-            pstmt.setString(2, laDependencia.getNombre());
-
-            Iterator<Funcionario> ite = laDependencia.getListaFuncionarios().iterator();
-
-            while (ite.hasNext()) {
-                ServicioFuncionario.getServicioFuncionario().modificarFuncionario(ite.next());
-            }
+            pstmt = conexion.prepareCall(MODIFICARTRANSFERENCIA);
+            pstmt.setInt(1, laTransferencia.getNumero());
+            pstmt.setInt(2, laTransferencia.getOrigen().getCodigo());
+            pstmt.setInt(3, laTransferencia.getDestino().getCodigo());
+            pstmt.setString(4, laTransferencia.getUbicacion());
+            pstmt.setString(5, laTransferencia.getFuncionario().getId());
 
             boolean resultado = pstmt.execute();
 
@@ -162,7 +143,8 @@ public class ServicioDependencia extends Servicio {
         }
     }
 
-    public Dependencia buscarDependencia(int elCodigo) throws GlobalException, NoDataException {
+    public ArrayList<Transferencia> listarTransferencia() throws GlobalException, NoDataException, SQLException {
+
         try {
             conectar();
         } catch (ClassNotFoundException e) {
@@ -170,74 +152,27 @@ public class ServicioDependencia extends Servicio {
         } catch (SQLException e) {
             throw new NoDataException("La base de datos no se encuentra disponible");
         }
-
         ResultSet rs = null;
-        Dependencia laDependencia = null;
-        CallableStatement pstmt = null;
+        Transferencia laTransferencia = null;
+        ArrayList<Transferencia> coleccion = new ArrayList();
 
+        CallableStatement pstmt = null;
         try {
-            pstmt = conexion.prepareCall(CONSULTARDEPENDENCIA);
-            //pstmt.registerOutParameter(1, OracleTypes.CURSOR);            
-            pstmt.setInt(2, elCodigo);
+            pstmt = conexion.prepareCall(LISTARTRANSFERENCIA);
+            pstmt.registerOutParameter(1, OracleTypes.CURSOR);
             pstmt.execute();
             rs = (ResultSet) pstmt.getObject(1);
 
             while (rs.next()) {
-                if (rs.getInt("codigo") == elCodigo){
-                    laDependencia = new Dependencia(rs.getInt("codigo"),
-                                                    rs.getString("nombre")
-                    );
-                    laDependencia.setListaFuncionarios(ServicioFuncionario.getServicioFuncionario().consultarFuncionarioPorDependencia(elCodigo));
-                    break;
-                }
-            }
-            
-        } catch (SQLException e) {
-            e.printStackTrace();
-
-            throw new GlobalException("Sentencia no valida");
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (pstmt != null) {
-                    pstmt.close();
-                }
-                desconectar();
-            } catch (SQLException e) {
-                throw new GlobalException("Estatutos invalidos o nulos");
-            }
-        }
-        if (laDependencia == null) {
-            throw new NoDataException("No existe una dependencia con este código");
-        }
-        return laDependencia;
-    }
-
-    public ArrayList<Dependencia> listarDependencia() throws GlobalException, NoDataException, SQLException {
-
-        try {
-            conectar();
-        } catch (ClassNotFoundException e) {
-            throw new GlobalException("No se ha localizado el driver");
-        } catch (SQLException e) {
-            throw new NoDataException("La base de datos no se encuentra disponible");
-        }
-        ResultSet rs = null;
-        Dependencia laDependencia = null;
-        ArrayList<Dependencia> coleccion = new ArrayList();
-        
-        CallableStatement pstmt = null;
-        try {
-            pstmt = conexion.prepareCall(LISTARDEPENDENCIA);
-            //pstmt.registerOutParameter(1, OracleTypes.CURSOR);	
-            while (rs.next()) {
-                    laDependencia = new Dependencia(rs.getInt("codigo"),
-                                                    rs.getString("nombre")
-                    );
-                    laDependencia.setListaFuncionarios(ServicioFuncionario.getServicioFuncionario().consultarFuncionarioPorDependencia(laDependencia.getCodigo()));
-                    coleccion.add(laDependencia);
+                laTransferencia = new Transferencia(
+                        rs.getInt("numero"),
+                        ServicioDependencia.getServicioDependencia().buscarDependencia(rs.getInt("origen")),
+                        ServicioDependencia.getServicioDependencia().buscarDependencia(rs.getInt("origen")),
+                        ServicioBien.getServicioBien().buscarBienPorTransferencia(rs.getInt("numero")),
+                        rs.getString("ubicacion"),
+                        ServicioFuncionario.getServicioFuncionario().buscarFuncionarioPorTransferencia(rs.getInt("numero"))
+                );
+                coleccion.add(laTransferencia);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -261,7 +196,55 @@ public class ServicioDependencia extends Servicio {
         return coleccion;
     }
 
-    public static ServicioDependencia getServicioDependencia() {
-        return servicioDependencia;
+    public Transferencia buscarTransferencia(int numero) throws GlobalException, NoDataException, SQLException {
+
+        try {
+            conectar();
+        } catch (ClassNotFoundException e) {
+            throw new GlobalException("No se ha localizado el driver");
+        } catch (SQLException e) {
+            throw new NoDataException("La base de datos no se encuentra disponible");
+        }
+        ResultSet rs = null;
+        Transferencia laTransferencia = null;
+        CallableStatement pstmt = null;
+        try { 
+            pstmt = conexion.prepareCall(CONSULTARTRANSFERENCIA);	
+            pstmt.registerOutParameter(1, OracleTypes.CURSOR);
+            pstmt.setInt(2, numero );
+            pstmt.execute();	
+            
+            rs = (ResultSet)pstmt.getObject(1);
+            while (rs.next()) {
+                laTransferencia = new Transferencia(
+                        rs.getInt("numero"),
+                        ServicioDependencia.getServicioDependencia().buscarDependencia(rs.getInt("origen")),
+                        ServicioDependencia.getServicioDependencia().buscarDependencia(rs.getInt("origen")),
+                        ServicioBien.getServicioBien().buscarBienPorTransferencia(rs.getInt("numero")),
+                        rs.getString("ubicacion"),
+                        ServicioFuncionario.getServicioFuncionario().buscarFuncionarioPorTransferencia(rs.getInt("numero"))
+                );
+                break;
+             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new GlobalException("Sentencia no valida");
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                desconectar();
+            } catch (SQLException e) {
+                throw new GlobalException("Estatutos invalidos o nulos");
+            }
+        }
+        if (laTransferencia == null) {
+            throw new NoDataException("No existe una transferencia con este número");
+        }
+        return laTransferencia;
     }
 }

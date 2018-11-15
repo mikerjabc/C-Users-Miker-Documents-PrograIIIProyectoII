@@ -27,6 +27,7 @@ public class ServicioBien extends Servicio {
     private static final String LISTARBIEN = "{?=call listarBien}";
     private static final String CONSULTARBIEN = "{?=call consultarBien(?)}";    
     private static final String BUSCARBIENPORSOLICITUD = "{?=call buscarBienPorSolicitud(?)}";
+    private static final String BUSCARBIENPORTRANSFERENCIA = "{?=call buscarBienPorTransferencia(?)}";
 
     
     private static ServicioBien servicioBien = new ServicioBien();
@@ -150,7 +151,7 @@ public class ServicioBien extends Servicio {
         }
     }
 
-    public Bien consultarBien(String elSerial) throws GlobalException, NoDataException {
+    public Bien buscarBien(String elSerial) throws GlobalException, NoDataException {
         try {
             conectar();
         } catch (ClassNotFoundException e) {
@@ -199,7 +200,9 @@ public class ServicioBien extends Servicio {
                 throw new GlobalException("Estatutos invalidos o nulos");
             }
         }
-
+        if (elBien == null) {
+            throw new NoDataException("No existe una transferencia con este número");
+        }
         return elBien;
     }
 
@@ -269,6 +272,58 @@ public class ServicioBien extends Servicio {
             pstmt = conexion.prepareCall(BUSCARBIENPORSOLICITUD);
             //pstmt.registerOutParameter(1, OracleTypes.CURSOR);	
             pstmt.setInt(2,numeroSolicitud);
+            pstmt.execute();
+            rs = (ResultSet) pstmt.getObject(1);
+            while (rs.next()) {
+                elBien = new Bien(
+                        rs.getString("SERIAL"),
+                        rs.getString("DESCRIPCION"),
+                        rs.getString("MARCA"),
+                        rs.getString("MODELO"),
+                        rs.getInt("PRECIOUNITARIO"),
+                        rs.getInt("CANTIDAD")
+                );
+            }
+            coleccion.add(elBien);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new GlobalException("Sentencia no valida");
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                desconectar();
+            } catch (SQLException e) {
+                throw new GlobalException("Estatutos invalidos o nulos");
+            }
+        }
+        if (coleccion == null) {
+            throw new NoDataException("No hay datos");
+        }
+        return coleccion;
+    }
+    
+    public ArrayList<Bien> buscarBienPorTransferencia(int numeroTransferencia) throws GlobalException, NoDataException, SQLException {
+
+        try {
+            conectar();
+        } catch (ClassNotFoundException e) {
+            throw new GlobalException("No se ha localizado el driver");
+        } catch (SQLException e) {
+            throw new NoDataException("La base de datos no se encuentra disponible");
+        }
+        ResultSet rs = null;
+        Bien elBien = null;
+        ArrayList<Bien> coleccion = new ArrayList();
+        CallableStatement pstmt = null;
+        try {
+            pstmt = conexion.prepareCall(BUSCARBIENPORSOLICITUD);
+            //pstmt.registerOutParameter(1, OracleTypes.CURSOR);	
+            pstmt.setInt(2,numeroTransferencia);
             pstmt.execute();
             rs = (ResultSet) pstmt.getObject(1);
             while (rs.next()) {

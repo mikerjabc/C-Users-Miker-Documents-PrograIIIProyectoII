@@ -15,6 +15,8 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumnModel;
 
 public class VistaJefe extends javax.swing.JFrame implements Observer {
 
@@ -232,6 +234,7 @@ public class VistaJefe extends javax.swing.JFrame implements Observer {
 
     public void setControlador(ControllerJefe controlador) {
         this.controlador = controlador;
+        jcbBuscar.addItemListener(controlador);
     }
 
     public void mostrarMensaje(String mensaje) {
@@ -260,6 +263,13 @@ public class VistaJefe extends javax.swing.JFrame implements Observer {
     public void update(Observable o, Object o1) {
         if (o1 != null) {
             if (o1.getClass() == ArrayList.class) {
+                if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[0])) {
+//                    JTableHeader head = jtSolicitudes.getTableHeader();
+//                    TableColumnModel tcm = head.getColumnModel();
+//                    TableColumn tabCM = tcm.getColumn();
+//                    tabCM.setHeaderValue(comboBox.getSelectedItem().toString());
+//                    jtSolicitudes.repaint();
+                }
                 ArrayList aux = (ArrayList) o1;
                 int filas = model.getRowCount();
                 for (int i = 0; i < filas; i++) {

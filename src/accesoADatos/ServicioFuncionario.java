@@ -30,7 +30,8 @@ public class ServicioFuncionario extends Servicio {
     private static final String MODIFICARFUNCIONARIO = "{call modificarFuncionario(?,?,?,?)}";
     private static final String LISTARFUNCIONARIO = "{?=call listarFuncionario}";
     private static final String CONSULTARFUNCIONARIO = "{?=call consultarFuncionario(?)}";
-    private static final String CONSULTARFUNCIONARIOASOCIADODEPENDENCIA = "{?=call consultarFuncionarioAsociadoDependencia(?)}";
+    private static final String CONSULTARFUNCIONARIOPORDEPENDENCIA = "{?=call consultarFuncionarioPorDependencia(?)}";
+    private static final String CONSULTARFUNCIONARIOPORTRANSFERENCIA = "{?=call consultarFuncionarioPorTransferencia(?)}";
 
     private static ServicioFuncionario servicioFuncionario = new ServicioFuncionario();
 
@@ -261,23 +262,21 @@ public class ServicioFuncionario extends Servicio {
         ArrayList<Funcionario> coleccion = new ArrayList();
 
         try {
-            pstmt = conexion.prepareCall(CONSULTARFUNCIONARIOASOCIADODEPENDENCIA);
+            pstmt = conexion.prepareCall(CONSULTARFUNCIONARIOPORDEPENDENCIA);
             //pstmt.registerOutParameter(1, OracleTypes.CURSOR);
             pstmt.setInt(2, elCodigoDependencia);
             pstmt.execute();
             rs = (ResultSet) pstmt.getObject(1);
 
             while (rs.next()) {
-                Funcionario elBien = null;
+                Funcionario elFuncionario = null;
                 if (rs.getInt("numeroSolicitud") == elCodigoDependencia) {
-                    elBien = new Funcionario(rs.getString("id"),
+                    elFuncionario = new Funcionario(rs.getString("id"),
                             rs.getString("nombre"),
                             rs.getString("puesto"),
                             rs.getString("password")
                     );
-                }
-                if(elBien != null){
-                coleccion.add(elBien);
+                    coleccion.add(elFuncionario);
                 }
             }
         } catch (SQLException e) {
@@ -299,6 +298,59 @@ public class ServicioFuncionario extends Servicio {
         }
 
         return coleccion;
+    }
+    
+    public Funcionario buscarFuncionarioPorTransferencia(int numeroTrasferencia) throws GlobalException, NoDataException {
+        try {
+            conectar();
+        } catch (ClassNotFoundException e) {
+            throw new GlobalException("No se ha localizado el driver");
+        } catch (SQLException e) {
+            throw new NoDataException("La base de datos no se encuentra disponible");
+        }
+
+        ResultSet rs = null;
+        CallableStatement pstmt = null;
+        Funcionario elFuncionario = null;
+        try {
+            pstmt = conexion.prepareCall(CONSULTARFUNCIONARIOPORDEPENDENCIA);
+            //pstmt.registerOutParameter(1, OracleTypes.CURSOR);
+            pstmt.setInt(2, numeroTrasferencia);
+            pstmt.execute();
+            rs = (ResultSet) pstmt.getObject(1);
+
+            while (rs.next()) {
+                
+                if (rs.getInt("numeroTrasferencia") == numeroTrasferencia) {
+                    elFuncionario = new Funcionario(rs.getString("id"),
+                            rs.getString("nombre"),
+                            rs.getString("puesto"),
+                            rs.getString("password")
+                    );
+                    break;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+            throw new GlobalException("Sentencia no valida");
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                desconectar();
+            } catch (SQLException e) {
+                throw new GlobalException("Estatutos invalidos o nulos");
+            }
+        }
+        if (elFuncionario == null) {
+            throw new NoDataException("No existe una transferencia con este número");
+        }
+        return elFuncionario;
     }
 
     public static ServicioFuncionario getServicioFuncionario() {

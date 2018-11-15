@@ -63,7 +63,7 @@ public class ModeloRecurHumanos extends Observable {
                 throw (new Exception("Dependencia invalida"));
             }
             servicioFuncionario.modificarFuncionario(new Funcionario(id, nombre, puesto, password));
-            this.dependencia = servicioDependencia.consultarDependencia(Integer.valueOf(dependencia));
+            this.dependencia = servicioDependencia.buscarDependencia(Integer.valueOf(dependencia));
             this.setChanged();
             this.notifyObservers();
         } catch (Exception ex) {
@@ -89,7 +89,7 @@ public class ModeloRecurHumanos extends Observable {
                 throw (new Exception("Dependencia invalida"));
             }
             servicioFuncionario.insertarFuncionario(new Funcionario(id, nombre, puesto, password), Integer.valueOf(dependencia));
-            this.dependencia = servicioDependencia.consultarDependencia(Integer.valueOf(dependencia));
+            this.dependencia = servicioDependencia.buscarDependencia(Integer.valueOf(dependencia));
             this.setChanged();
             this.notifyObservers();
         } catch (Exception ex) {
@@ -106,7 +106,7 @@ public class ModeloRecurHumanos extends Observable {
                 throw (new Exception("Dependencia invalida"));
             }
             servicioFuncionario.eliminarFuncionario(id);
-            this.dependencia = servicioDependencia.consultarDependencia(Integer.valueOf(dependencia));
+            this.dependencia = servicioDependencia.buscarDependencia(Integer.valueOf(dependencia));
             this.setChanged();
             this.notifyObservers();
         } catch (Exception ex) {
@@ -126,7 +126,7 @@ public class ModeloRecurHumanos extends Observable {
             if (servicioFuncionario.consultarFuncionario(id) == null) {
                 throw (new Exception("No existe este funcionario en la base de datos"));
             }
-            this.dependencia = servicioDependencia.consultarDependencia(Integer.valueOf(dependencia));
+            this.dependencia = servicioDependencia.buscarDependencia(Integer.valueOf(dependencia));
             this.dependencia.setListaFuncionarios(new ArrayList());
             aux = servicioFuncionario.consultarFuncionario(id);
             this.dependencia.getListaFuncionarios().add(aux);
@@ -147,7 +147,7 @@ public class ModeloRecurHumanos extends Observable {
             if (codigo.equals(ALL)) {
                 dependencia = null;
             }else{
-                dependencia = servicioDependencia.consultarDependencia(Integer.valueOf(codigo));
+                dependencia = servicioDependencia.buscarDependencia(Integer.valueOf(codigo));
             }
             this.setChanged();
             this.notifyObservers();

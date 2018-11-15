@@ -10,6 +10,8 @@ import Modelo.ModeloRegistrador;
 import Vista.VistaJefe;
 import Vista.VistaRegistrador;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
@@ -17,7 +19,7 @@ import java.awt.event.MouseEvent;
  *
  * @author Fernando
  */
-public class ControllerJefe extends AbstractController{
+public class ControllerJefe extends AbstractController implements ItemListener{
 
     ModeloJefe modelo ;
     VistaJefe vista;
@@ -31,6 +33,7 @@ public class ControllerJefe extends AbstractController{
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        
     }
 
     @Override
@@ -112,6 +115,17 @@ public class ControllerJefe extends AbstractController{
         }
         if (!mensaje.equals("")) {
             vista.mostrarMensaje(mensaje);
+        }
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent ie) {
+        if ( ie.getStateChange() == ItemEvent.DESELECTED ){
+            try{
+            modelo.cambiarTipo(ie.getItem().toString());
+            }catch(Exception exception){
+                vista.mostrarMensaje(exception.getMessage());
+            }
         }
     }
 }
