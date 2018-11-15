@@ -30,7 +30,7 @@ public class ProyectoDos {
         ControllerAdministrador controlAdministrador = new ControllerAdministrador(modelo, vistaAdministrador );
         controlAdministrador.getVistaAdmistrador().setVisible(true);
   
- // puto el que lo lea
+ // puto el que lo lea 123
         
     }
 
