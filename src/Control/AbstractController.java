@@ -48,4 +48,6 @@ public abstract class AbstractController implements MouseListener, ActionListene
     public abstract void mostrarVista();
     
     public abstract void ocultarVista();
+    
+    public abstract void cerrarVista();
 }

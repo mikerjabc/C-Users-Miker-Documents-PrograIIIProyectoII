@@ -5,6 +5,7 @@
  */
 package accesoADatos;
 
+import Logic.Activo;
 import Logic.Bien;
 import Logic.Dependencia;
 import Logic.Funcionario;
@@ -56,6 +57,12 @@ public class ServicioDependencia extends Servicio {
                 ServicioFuncionario.getServicioFuncionario().insertarFuncionario(ite.next(), laDependencia.getCodigo());
             }
             
+            Iterator<Activo> ite2 = laDependencia.getInventario().iterator();
+
+            while (ite2.hasNext()) {
+                ServicioActivo.getServicioActivo().insertarActivo(ite2.next(), laDependencia.getCodigo());
+            }
+            
             boolean resultado = pstmt.execute();
             if (resultado == true) {
                 throw new NoDataException("No se realizo la insercion");
@@ -100,6 +107,12 @@ public class ServicioDependencia extends Servicio {
                 ServicioFuncionario.getServicioFuncionario().eliminarFuncionario(ite.next().getId());
             }
             
+            Iterator<Activo> ite2 = laDependencia.getInventario().iterator();
+            
+            while (ite2.hasNext()) {
+                ServicioFuncionario.getServicioFuncionario().eliminarFuncionario(ite.next().getId());
+            }
+            
         } catch (SQLException e) {
             e.printStackTrace();
             throw new GlobalException("Sentencia no valida");
@@ -134,13 +147,6 @@ public class ServicioDependencia extends Servicio {
             pstmt = conexion.prepareCall(MODIFICARDEPENDENCIA);
             pstmt.setInt(1, laDependencia.getCodigo());
             pstmt.setString(2, laDependencia.getNombre());
-
-            Iterator<Funcionario> ite = laDependencia.getListaFuncionarios().iterator();
-
-            while (ite.hasNext()) {
-                ServicioFuncionario.getServicioFuncionario().modificarFuncionario(ite.next());
-            }
-
             boolean resultado = pstmt.execute();
 
             if (resultado == true) {
@@ -188,6 +194,7 @@ public class ServicioDependencia extends Servicio {
                                                     rs.getString("nombre")
                     );
                     laDependencia.setListaFuncionarios(ServicioFuncionario.getServicioFuncionario().consultarFuncionarioPorDependencia(elCodigo));
+                    laDependencia.setInventario(ServicioActivo.getServicioActivo().buscarActivoPorDependencia(elCodigo));
                     break;
                 }
             }
@@ -237,6 +244,7 @@ public class ServicioDependencia extends Servicio {
                                                     rs.getString("nombre")
                     );
                     laDependencia.setListaFuncionarios(ServicioFuncionario.getServicioFuncionario().consultarFuncionarioPorDependencia(laDependencia.getCodigo()));
+                    laDependencia.setInventario(ServicioActivo.getServicioActivo().listarActivo());
                     coleccion.add(laDependencia);
             }
         } catch (SQLException e) {

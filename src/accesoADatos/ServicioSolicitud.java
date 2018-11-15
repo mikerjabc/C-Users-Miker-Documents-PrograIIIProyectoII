@@ -67,7 +67,43 @@ public class ServicioSolicitud extends Servicio {
             }
         }
     }
- 
+    
+    public void eliminarSolicitud(int elNumero) throws GlobalException, NoDataException {
+        try {
+            conectar();
+        } catch (ClassNotFoundException e) {
+            throw new GlobalException("No se ha localizado el driver");
+        } catch (SQLException e) {
+            throw new NoDataException("La base de datos no se encuentra disponible");
+        }
+        
+        CallableStatement pstmt = null;
+        ResultSet rs = null;
+        
+        try {
+            pstmt = conexion.prepareCall(ELIMINARSOLICITUD);
+            pstmt.setInt(1, elNumero);
+            pstmt.execute();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new GlobalException("Sentencia no valida");
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                desconectar();
+            } catch (SQLException e) {
+                throw new GlobalException("Estatutos invalidos o nulos");
+            }
+        }
+
+    }
+
     public void modificarSolicitud(Solicitud laSolicitud) throws GlobalException, NoDataException {
         
         try {

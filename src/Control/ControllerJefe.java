@@ -226,4 +226,9 @@ public class ControllerJefe extends AbstractController implements ItemListener {
             vista.mostrarMensaje(exception.getMessage());
         }
     }
+    
+    @Override
+    public void cerrarVista() {
+        vista.dispose();
+    }
 }

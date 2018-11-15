@@ -128,4 +128,9 @@ public class ControllerSecretaria extends AbstractController{
     public VistaSecretaria getVistaSecretaria() {
         return vista;
     }
+
+    @Override
+    public void cerrarVista() {
+        vista.dispose();
+    }
 }

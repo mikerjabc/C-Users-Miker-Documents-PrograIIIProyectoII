@@ -217,4 +217,9 @@ public class ControllerRecurHumanos extends AbstractController implements ItemLi
         }
                    
     }
+    
+    @Override
+    public void cerrarVista() {
+        vista.dispose();
+    }
 }

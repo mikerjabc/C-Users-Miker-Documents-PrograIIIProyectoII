@@ -7,6 +7,7 @@ public class Dependencia  {
     private int codigo;
     private String nombre;
     private ArrayList<Funcionario> listaFuncionarios;
+    private ArrayList<Activo> inventario;
 
     public Dependencia(int codigo, String nombre) {
         this.codigo = codigo;
@@ -37,8 +38,14 @@ public class Dependencia  {
     public void setListaFuncionarios(ArrayList<Funcionario> listaFuncionarios) {
         this.listaFuncionarios = listaFuncionarios;
     }
-    
-    
+
+    public ArrayList<Activo> getInventario() {
+        return inventario;
+    }
+
+    public void setInventario(ArrayList<Activo> inventario) {
+        this.inventario = inventario;
+    }
 }
 
 

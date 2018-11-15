@@ -25,9 +25,12 @@ import Vista.VistaSecretaria;
 import Vista.VistaRegistrador;
 import Vista.VistaJefe;
 import Vista.VistaRecursosHumanos;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.awt.event.WindowStateListener;
 
 
-public class ControllerLogin implements MouseListener, ActionListener, KeyListener{
+public class ControllerLogin implements MouseListener, ActionListener, KeyListener, WindowListener{
 
     private AbstractController controlador;;
     // Daclaramos las vistas a las cuales vamos acceder
@@ -62,7 +65,9 @@ public class ControllerLogin implements MouseListener, ActionListener, KeyListen
                 controlador.ocultarVista();
                 controlador = null;
             }
-            controlador = new ControllerRegistrador(new ModeloRegistrador(), new VistaRegistrador());
+            VistaRegistrador vista = new VistaRegistrador();
+            vista.addWindowListener(this);
+            controlador = new ControllerRegistrador(new ModeloRegistrador(), vista);
             vista.setVisible(false);
             controlador.mostrarVista();
 
@@ -73,7 +78,9 @@ public class ControllerLogin implements MouseListener, ActionListener, KeyListen
                 controlador.ocultarVista();
                 controlador = null;
             }
-            controlador = new ControllerAdministrador(new ModeloAdministrador(), new VistaAdministrador());
+            VistaAdministrador vista = new VistaAdministrador();
+            vista.addWindowListener(this);
+            controlador = new ControllerAdministrador(new ModeloAdministrador(), vista);
             vista.setVisible(false);
             controlador.mostrarVista();
             return true;
@@ -84,7 +91,9 @@ public class ControllerLogin implements MouseListener, ActionListener, KeyListen
                 controlador.ocultarVista();
                 controlador = null;
             }
-            controlador = new ControllerSecretaria(new ModeloSecretaria(), new VistaSecretaria());
+            VistaSecretaria vista = new VistaSecretaria();
+            vista.addWindowListener(this);
+            controlador = new ControllerSecretaria(new ModeloSecretaria(), vista);
             vista.setVisible(false);
             controlador.mostrarVista();
             return true;
@@ -94,7 +103,9 @@ public class ControllerLogin implements MouseListener, ActionListener, KeyListen
                 controlador.ocultarVista();
                 controlador = null;
             }
-            controlador = new ControllerJefe(new ModeloJefe(), new VistaJefe());
+            VistaJefe vista = new VistaJefe();
+            vista.addWindowListener(this);
+            controlador = new ControllerJefe(new ModeloJefe(), vista);
             vista.setVisible(false);
             controlador.mostrarVista();
             return true;
@@ -104,7 +115,9 @@ public class ControllerLogin implements MouseListener, ActionListener, KeyListen
                 controlador.ocultarVista();
                 controlador = null;
             }
-            controlador = new ControllerRecurHumanos(new ModeloRecurHumanos(), new VistaRecursosHumanos());
+            VistaRecursosHumanos vista = new VistaRecursosHumanos();
+            vista.addWindowListener(this);
+            controlador = new ControllerRecurHumanos(new ModeloRecurHumanos(),vista);
             vista.setVisible(false);
             controlador.mostrarVista();
             return true;
@@ -179,5 +192,41 @@ public class ControllerLogin implements MouseListener, ActionListener, KeyListen
     @Override
     public void keyReleased(KeyEvent e) {
      }
+
+    @Override
+    public void windowOpened(WindowEvent we) {
+    }
+
+    @Override
+    public void windowClosing(WindowEvent we) {
+        controlador.cerrarVista();
+        vista.setVisible(true);
+    }
+
+    @Override
+    public void windowClosed(WindowEvent we) {
+        controlador.cerrarVista();
+        vista.setVisible(true);
+    }
+
+    @Override
+    public void windowIconified(WindowEvent we) {
+        
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent we) {
+        
+    }
+
+    @Override
+    public void windowActivated(WindowEvent we) {
+        
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent we) {
+        
+    }
     
 }

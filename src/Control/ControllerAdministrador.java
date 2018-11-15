@@ -239,7 +239,8 @@ public class ControllerAdministrador extends AbstractController{
         modelo.setNumeroNuevoSolicitud( accesoADatosSolicitud.listarSolicitudes());
     }
     
-    
-    
-    
+    @Override
+    public void cerrarVista() {
+        //vista.dispose();
+    }
 }

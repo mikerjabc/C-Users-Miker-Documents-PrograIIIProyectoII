@@ -7,20 +7,41 @@ package Vista;
 
 import Control.ControllerRegistrador;
 import Modelo.ModeloRegistrador;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Fernando
  */
 public class VistaRegistrador extends javax.swing.JFrame implements Observer {
-
+    
+    private DefaultTableModel model;
     /**
-     * Creates new form vistaRegistrador
+     * Creates new form vsitaRegistrador
      */
     public VistaRegistrador() {
         initComponents();
+        initLocal();
+    }
+    
+    private void initLocal(){
+        model = (DefaultTableModel)jtFuncionarios.getModel();
+        setTitle("Registro de Bienes");
+        setLocationRelativeTo(null);
+        DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+        tcr.setHorizontalAlignment(SwingConstants.LEFT);
+        jtFuncionarios.getColumnModel().getColumn(0).setCellRenderer(tcr);//ID
+        jtFuncionarios.getColumnModel().getColumn(1).setCellRenderer(tcr);//Nombre
+        jtFuncionarios.getColumnModel().getColumn(2).setCellRenderer(tcr);//Puesto
+        jtFuncionarios.getColumnModel().getColumn(3).setCellRenderer(tcr);//Dependencia
+        this.setResizable(false);
     }
 
     /**
@@ -32,46 +53,126 @@ public class VistaRegistrador extends javax.swing.JFrame implements Observer {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
-        btbBuscarBienes = new javax.swing.JButton();
-        btnSalir = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jtFuncionarios = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
+        jtIdBuscar = new javax.swing.JTextField();
+        jbBuscar = new javax.swing.JButton();
+        jcbBuscar = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jbAgregar = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jlNombre = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        jmOpciones = new javax.swing.JMenu();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        jmiCambiarUsuario = new javax.swing.JMenuItem();
+        jmiCambiarUsuario1 = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jmiSalir = new javax.swing.JMenuItem();
+        jmAyuda = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jtFuncionarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
-                "Tipo de Bien", "Marca", "Modelo", "Serial", "Precio Unitario", "Unidades Disponibles"
+                "#Solicitud", "Fecha", "Tipo", "Estado", "Cantidad de Bienes", "Monto total"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane2.setViewportView(jtFuncionarios);
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel1.setText("Catalogo Bienes");
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        btbBuscarBienes.setText("Buscar");
+        jtIdBuscar.setName("idBuscar"); // NOI18N
 
-        btnSalir.setText("SALIR");
+        jbBuscar.setText("Buscar");
 
-        jLabel2.setText("Marca del Bien");
+        jLabel2.setText("ID:");
 
-        jMenu1.setText("File");
-        jMenuBar1.add(jMenu1);
+        jbAgregar.setText("Insertar");
+        jbAgregar.setName("nuevo"); // NOI18N
 
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jcbBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jtIdBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jbBuscar)
+                .addGap(91, 91, 91)
+                .addComponent(jbAgregar)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jtIdBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbBuscar)
+                    .addComponent(jcbBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(jbAgregar))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jlNombre.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
+        jlNombre.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jlNombre.setText("Nombre de Usuario");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jlNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jlNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jLabel1.setFont(new java.awt.Font("Comic Sans MS", 2, 26)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Registrador de Bienes");
+
+        jmOpciones.setText("Opciones");
+        jmOpciones.setName("catalogo"); // NOI18N
+        jmOpciones.add(jSeparator2);
+
+        jmiCambiarUsuario.setText("Cambiar de Usuario");
+        jmiCambiarUsuario.setName("cambiar"); // NOI18N
+        jmOpciones.add(jmiCambiarUsuario);
+
+        jmiCambiarUsuario1.setText("Catálogo");
+        jmiCambiarUsuario1.setName("cambiar"); // NOI18N
+        jmOpciones.add(jmiCambiarUsuario1);
+        jmOpciones.add(jSeparator1);
+
+        jmiSalir.setText("Salir");
+        jmOpciones.add(jmiSalir);
+
+        jMenuBar1.add(jmOpciones);
+
+        jmAyuda.setText("Ayuda");
+        jMenuBar1.add(jmAyuda);
 
         setJMenuBar(jMenuBar1);
 
@@ -81,35 +182,26 @@ public class VistaRegistrador extends javax.swing.JFrame implements Observer {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 549, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btbBuscarBienes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 773, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(btnSalir))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btbBuscarBienes)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -140,8 +232,7 @@ public class VistaRegistrador extends javax.swing.JFrame implements Observer {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(VistaRegistrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
+       
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -150,35 +241,124 @@ public class VistaRegistrador extends javax.swing.JFrame implements Observer {
             }
         });
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btbBuscarBienes;
-    private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JPanel jPanel1;
+    public javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
+    public javax.swing.JButton jbAgregar;
+    public javax.swing.JButton jbBuscar;
+    public javax.swing.JComboBox<String> jcbBuscar;
+    private javax.swing.JLabel jlNombre;
+    public javax.swing.JMenu jmAyuda;
+    public javax.swing.JMenu jmOpciones;
+    public javax.swing.JMenuItem jmiCambiarUsuario;
+    public javax.swing.JMenuItem jmiCambiarUsuario1;
+    public javax.swing.JMenuItem jmiSalir;
+    public javax.swing.JTable jtFuncionarios;
+    public javax.swing.JTextField jtIdBuscar;
     // End of variables declaration//GEN-END:variables
     
-    private ModeloRegistrador modelo;
+   private ModeloRegistrador modelo;
     private ControllerRegistrador controlador;
     
-    public void setModelo(ModeloRegistrador modelo){
+    public void setModelo(ModeloRegistrador modelo) {
         this.modelo = modelo;
         modelo.addObserver(this);
+        
     }
     
     public void setControlador(ControllerRegistrador controlador){
         this.controlador = controlador;
+        jbBuscar.addActionListener(controlador);
+        jbAgregar.addActionListener(controlador);
+        jcbBuscar.addItemListener(controlador);
+        jlNombre.addKeyListener(controlador);
+        jmAyuda.addActionListener(controlador);
+        jmiCambiarUsuario.addActionListener(controlador);
+        jmiSalir.addActionListener(controlador);
+        jtIdBuscar.addActionListener(controlador);
+    }
+    
+    public void mostrarMensaje(String mensaje){
+        JOptionPane.showMessageDialog(this, mensaje);
+    }
+    
+    public void setNombreUsuario(String nombre) {
+        jlNombre.setText(nombre);
+    }
+
+    public void limpiarTodosEspacios() {
+        jtIdBuscar.setText("");
+        jcbBuscar.getModel().setSelectedItem(modelo.tiposSolicitud[0]);
+    }
+
+    public boolean confirmacionDeAccion(String mensaje) {
+        boolean respuesta = false;
+        int option = JOptionPane.showConfirmDialog(this, mensaje, "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (JOptionPane.OK_OPTION == option) {
+            respuesta = true;
+        }
+        return respuesta;
+    }
+
+    public void cambiarValoresTabla(String tipo) {
+        DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+        tcr.setHorizontalAlignment(SwingConstants.LEFT);
+
+        if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[0])) {
+            //Asignar tamaño de ancho de cada columna
+            jtFuncionarios.getColumnModel().getColumn(0).setPreferredWidth(100);//Numero
+            jtFuncionarios.getColumnModel().getColumn(1).setPreferredWidth(150);//Fecha
+            jtFuncionarios.getColumnModel().getColumn(2).setPreferredWidth(100);//Tipo
+            jtFuncionarios.getColumnModel().getColumn(3).setPreferredWidth(150);//Estado
+            jtFuncionarios.getColumnModel().getColumn(4).setPreferredWidth(150);//CantidadBienes
+            jtFuncionarios.getColumnModel().getColumn(5).setPreferredWidth(150);//MontoTotal
+            //Cargar nombres de cada columna
+            jtFuncionarios.getColumnModel().getColumn(0).setHeaderValue(modelo.VARIABLESTABLA[0]);//Numero
+            jtFuncionarios.getColumnModel().getColumn(1).setHeaderValue(modelo.VARIABLESTABLA[1]);//Fecha
+            jtFuncionarios.getColumnModel().getColumn(2).setHeaderValue(modelo.VARIABLESTABLA[2]);//Tipo
+            jtFuncionarios.getColumnModel().getColumn(3).setHeaderValue(modelo.VARIABLESTABLA[3]);//Estado
+            jtFuncionarios.getColumnModel().getColumn(4).setHeaderValue(modelo.VARIABLESTABLA[4]);//CantidadBienes
+            jtFuncionarios.getColumnModel().getColumn(5).setHeaderValue(modelo.VARIABLESTABLA[5]);//MontoTotal
+            jtFuncionarios.repaint();
+        } else {
+            //Asignar tamaño de ancho de cada columna
+            jtFuncionarios.getColumnModel().getColumn(0).setPreferredWidth(100);//Numero
+            jtFuncionarios.getColumnModel().getColumn(1).setPreferredWidth(200);//Origen
+            jtFuncionarios.getColumnModel().getColumn(2).setPreferredWidth(200);//Destino
+            jtFuncionarios.getColumnModel().getColumn(3).setPreferredWidth(150);//Ubicacion
+            jtFuncionarios.getColumnModel().getColumn(4).setPreferredWidth(150);//Funcionario
+            jtFuncionarios.getColumnModel().getColumn(5).setPreferredWidth(150);//Estado
+            //Cargar nombre de cada columna
+            jtFuncionarios.getColumnModel().getColumn(0).setHeaderValue(modelo.VARIABLESTABLA[0]);//Numero
+            jtFuncionarios.getColumnModel().getColumn(1).setHeaderValue(modelo.VARIABLESTABLA[6]);//Origen
+            jtFuncionarios.getColumnModel().getColumn(2).setHeaderValue(modelo.VARIABLESTABLA[7]);//Destino
+            jtFuncionarios.getColumnModel().getColumn(3).setHeaderValue(modelo.VARIABLESTABLA[8]);//ubicacion
+            jtFuncionarios.getColumnModel().getColumn(4).setHeaderValue(modelo.VARIABLESTABLA[9]);//Funcionario
+            jtFuncionarios.getColumnModel().getColumn(5).setHeaderValue(modelo.VARIABLESTABLA[10]);//Estado
+            jtFuncionarios.repaint();
+        }
     }
 
     @Override
     public void update(Observable o, Object o1) {
-        
+        if (o1 != null) {
+            if (o1.getClass() == ArrayList.class) {
+                ArrayList aux = (ArrayList) o1;
+                int filas = model.getRowCount();
+                for (int i = 0; i < filas; i++) {
+                    model.removeRow(0);
+                }
+                Iterator<Object[]> ite = aux.iterator();
+                while (ite.hasNext()) {
+                    model.addRow(ite.next());
+                }
+            }
+        }
     }
-
 }
