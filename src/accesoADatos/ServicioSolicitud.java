@@ -6,9 +6,6 @@
 package accesoADatos;
 
 import Logic.Bien;
-import accesoADatos.GlobalException;
-import accesoADatos.NoDataException;
-import accesoADatos.Servicio;
 import Logic.Solicitud;
 
 import java.sql.CallableStatement;
@@ -16,10 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
-import javax.swing.JTextPane;
 import oracle.jdbc.OracleTypes;
-//import oracle.jdbc.OracleTypes;
-//import oracle.jdbc.OracleTypes;
 
 /**
  *
@@ -36,7 +30,7 @@ public class ServicioSolicitud extends Servicio {
     public ServicioSolicitud() {
     }
 
-    public void insertarBienMueble(Solicitud laSolicitud) throws GlobalException, NoDataException {
+    public void insertarSolicitud(Solicitud laSolicitud) throws GlobalException, NoDataException {
         try {
             conectar();
         } catch (ClassNotFoundException e) {
@@ -75,7 +69,7 @@ public class ServicioSolicitud extends Servicio {
         }
     }
  
-    public void modificarBienesMuebles(Solicitud laSolicitud) throws GlobalException, NoDataException {
+    public void modificarSolicitud(Solicitud laSolicitud) throws GlobalException, NoDataException {
         
         try {
             conectar();
@@ -224,46 +218,4 @@ public class ServicioSolicitud extends Servicio {
         }
         return laSolicitud;
     }
-
-    public void insertarSolicitud(Solicitud solicitud) throws GlobalException, NoDataException {
-         try {
-            conectar();
-        } catch (ClassNotFoundException e) {
-            throw new GlobalException("No se ha localizado el driver");
-        } catch (SQLException e) {
-            throw new NoDataException("La base de datos no se encuentra disponible");
-        }
-        CallableStatement pstmt = null;
-
-        try {
-            pstmt = conexion.prepareCall(INSERTARSOLICITUD);
-            
-            int numero  = solicitud.getNumeroSolicitud();
-            String fecha  = solicitud.getFecha();
-            String estado  = solicitud.getEstado();  
-            String tipo  = solicitud.getTipo();
-            pstmt.setInt(1, numero);      
-            pstmt.setString(2, fecha);
-            pstmt.setString(3, estado);
-            pstmt.setString(4, tipo);
-            
-            boolean resultado = pstmt.execute();
-            if (resultado == true) {
-                throw new NoDataException("No se realizo la insercion");
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new GlobalException("Llave duplicada");
-        } finally {
-            try {
-                if (pstmt != null) {
-                    pstmt.close();
-                }
-                desconectar();
-            } catch (SQLException e) {
-                throw new GlobalException("Estatutos invalidos o nulos");
-            }
-        }
-     }
 }
