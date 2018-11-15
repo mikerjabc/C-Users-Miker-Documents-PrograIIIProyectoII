@@ -11,6 +11,7 @@ import Modelo.ModeloRegistrador;
 import Modelo.ModeloSecretaria;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -19,10 +20,29 @@ import java.util.Observer;
 public class VistaSecretaria extends javax.swing.JFrame implements Observer {
 
     /**
-     * Creates new form VistaSecretaria
+     * @return the campoBuscar
      */
+    public javax.swing.JTextField getCampoBuscar() {
+        return campoBuscar;
+    }
+
+    /**
+     * @param campoBuscar the campoBuscar to set
+     */
+    public void setCampoBuscar(javax.swing.JTextField campoBuscar) {
+        this.campoBuscar = campoBuscar;
+    }
+
+    public DefaultTableModel dtm = new DefaultTableModel();
+     
+      
+    
     public VistaSecretaria() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        String [] titulo1 = new String []{"comprobante", "fecha", "tipo adquisicion", "funcionario", "dependecia", "estado"};
+        tablaSolicitudes.setModel(dtm);
+        dtm.setColumnIdentifiers(titulo1);
     }
 
     /**
@@ -36,9 +56,10 @@ public class VistaSecretaria extends javax.swing.JFrame implements Observer {
 
         jMenuItem6 = new javax.swing.JMenuItem();
         btnVerSolicitudes = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaSolicitudes = new javax.swing.JTable();
+        btnBuscar = new javax.swing.JButton();
+        campoBuscar = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -58,9 +79,7 @@ public class VistaSecretaria extends javax.swing.JFrame implements Observer {
             }
         });
 
-        jLabel1.setText("VISTA SECRETARIA");
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaSolicitudes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -71,7 +90,15 @@ public class VistaSecretaria extends javax.swing.JFrame implements Observer {
                 "#Comprobante", "Fecha Adquiscion", "Tipo Adquisicion", "Funcionario", "Dependencia", "Estado"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tablaSolicitudes);
+
+        btnBuscar.setText("Buscar");
+
+        campoBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoBuscarActionPerformed(evt);
+            }
+        });
 
         jMenu1.setText("Funcionarios");
 
@@ -103,27 +130,31 @@ public class VistaSecretaria extends javax.swing.JFrame implements Observer {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnVerSolicitudes)
-                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 663, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 663, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(campoBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnBuscar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnVerSolicitudes)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(45, 45, 45)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(btnBuscar)
+                    .addComponent(campoBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnVerSolicitudes))
-                .addGap(65, 65, 65)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addGap(31, 31, 31)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         pack();
@@ -136,6 +167,10 @@ public class VistaSecretaria extends javax.swing.JFrame implements Observer {
     private void btnVerSolicitudesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerSolicitudesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnVerSolicitudesActionPerformed
+
+    private void campoBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoBuscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_campoBuscarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -173,8 +208,9 @@ public class VistaSecretaria extends javax.swing.JFrame implements Observer {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnVerSolicitudes;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JTextField campoBuscar;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
@@ -184,7 +220,7 @@ public class VistaSecretaria extends javax.swing.JFrame implements Observer {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tablaSolicitudes;
     // End of variables declaration//GEN-END:variables
 
     private ModeloSecretaria modelo;
@@ -197,6 +233,8 @@ public class VistaSecretaria extends javax.swing.JFrame implements Observer {
     
     public void setControlador(ControllerSecretaria controlador){
         this.controlador = controlador;
+        btnBuscar.addActionListener(controlador);
+        btnVerSolicitudes.addActionListener(controlador);
     }
 
     @Override

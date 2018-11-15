@@ -6,9 +6,12 @@
 package proyectodos;
 
 import Control.ControllerAdministrador;
+import Control.ControllerSecretaria;
 import Logic.Bien;
 import Vista.VistaAdministrador;
 import Modelo.ModeloAdministrador;
+import Modelo.ModeloSecretaria;
+import Vista.VistaSecretaria;
 import accesoADatos.GlobalException;
 import accesoADatos.NoDataException;
 import accesoADatos.ServicioBien;
@@ -25,13 +28,12 @@ public class ProyectoDos {
 
     
     public static void main(String[] args) throws SQLException  {
-        ModeloAdministrador modelo = new ModeloAdministrador();
-        VistaAdministrador vistaAdministrador = new VistaAdministrador();
-        ControllerAdministrador controlAdministrador = new ControllerAdministrador(modelo, vistaAdministrador );
-        controlAdministrador.getVistaAdmistrador().setVisible(true);
-//bla
+     
+        ModeloSecretaria modelo = new ModeloSecretaria();
+        VistaSecretaria vistaSecretaria = new VistaSecretaria();
+        ControllerSecretaria  controlSecretaria = new ControllerSecretaria(modelo, vistaSecretaria );
+        controlSecretaria.getVistaSecretaria().setVisible(true);
 
-        
     }
 
 }

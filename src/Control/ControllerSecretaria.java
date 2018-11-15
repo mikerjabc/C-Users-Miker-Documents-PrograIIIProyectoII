@@ -9,9 +9,16 @@ import Modelo.ModeloRegistrador;
 import Modelo.ModeloSecretaria;
 import Vista.VistaRegistrador;
 import Vista.VistaSecretaria;
+import accesoADatos.GlobalException;
+import accesoADatos.NoDataException;
+import accesoADatos.ServicioSolicitud;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JButton;
 
 /**
  *
@@ -19,18 +26,61 @@ import java.awt.event.MouseEvent;
  */
 public class ControllerSecretaria extends AbstractController{
 
+    /**
+     * @return the vista
+     */
+    public VistaSecretaria getVista() {
+        return vista;
+    }
+
+    /**
+     * @param vista the vista to set
+     */
+    public void setVista(VistaSecretaria vista) {
+        this.vista = vista;
+    }
+
     ModeloSecretaria modelo ;
-    VistaSecretaria vista;
+    private VistaSecretaria vista;
 
     public ControllerSecretaria(ModeloSecretaria modelo, VistaSecretaria vista) {
         this.modelo = modelo;
         this.vista = vista;
         vista.setModelo(modelo);
         vista.setControlador(this);
+        modelo.setVista(vista);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+              
+        JButton btn = (JButton)e.getSource();  
+        if(btn.getText().equalsIgnoreCase("buscar")) {
+            ServicioSolicitud accesoADatosSolicitud = new ServicioSolicitud();
+            try {
+                modelo.setTabla( accesoADatosSolicitud.buscarSolicitud(Integer.parseInt(this.vista.getCampoBuscar().getText())));
+            } catch (GlobalException ex) {
+                Logger.getLogger(ControllerSecretaria.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NoDataException ex) {
+                Logger.getLogger(ControllerSecretaria.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(ControllerSecretaria.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        
+        if(btn.getText().equalsIgnoreCase("ver solicitudes")) {
+            ServicioSolicitud accesoADatosSolicitud = new ServicioSolicitud();
+            try {
+                modelo.setTabla(accesoADatosSolicitud.listarSolicitudes());
+            } catch (GlobalException ex) {
+                Logger.getLogger(ControllerSecretaria.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NoDataException ex) {
+                Logger.getLogger(ControllerSecretaria.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(ControllerSecretaria.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            }
     }
 
     @Override
@@ -67,11 +117,15 @@ public class ControllerSecretaria extends AbstractController{
 
     @Override
     public void mostrarVista() {
-        vista.setVisible(true);
+        getVista().setVisible(true);
     }
 
     @Override
     public void ocultarVista() {
-        vista.setVisible(false);
+        getVista().setVisible(false);
+    }
+
+    public VistaSecretaria getVistaSecretaria() {
+        return vista;
     }
 }

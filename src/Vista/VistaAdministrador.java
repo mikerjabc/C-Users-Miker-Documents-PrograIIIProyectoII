@@ -79,8 +79,7 @@ public class VistaAdministrador extends javax.swing.JFrame implements Observer {
    
     ControllerSolicitud controller = null;    
     public DefaultTableModel dtm = new DefaultTableModel();
-    public DefaultTableModel dtm2 = new DefaultTableModel();
-    
+     
       
     
     public VistaAdministrador() {

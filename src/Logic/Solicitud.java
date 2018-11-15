@@ -27,8 +27,6 @@ public class Solicitud extends Observable {
         this.fecha = fecha;
         this.tipo = tipo;
         this.estado = estado;
-        this.cantiadadBienes = cantiadadBienes;
-        this.montoTotal = montoTotal;
     }
 
     public int getNumeroSolicitud() {
