@@ -21,7 +21,7 @@ import oracle.jdbc.OracleTypes;
  */
 public class ServicioBien extends Servicio {
 
-    private static final String INGRESABIEN = "{call ingresaBien(?,?,?,?,?,?)}";
+    private static final String INSERTARBIEN = "{call insertarBien(?,?,?,?,?,?,?)}";
     private static final String ELIMINARBIEN = "{call eliminarBien(?)}";
     private static final String MODIFICARBIEN = "{call modificarBien(?,?,?,?,?)}";
     private static final String LISTARBIEN = "{?=call listarBien}";
@@ -42,15 +42,18 @@ public class ServicioBien extends Servicio {
         CallableStatement pstmt = null;
 
         try {
-            pstmt = conexion.prepareCall(INGRESABIEN);
+            pstmt = conexion.prepareCall(INSERTARBIEN);
 
             pstmt.setString(1, elBien.getSerial());
             pstmt.setString(2, elBien.getDescripcion());
             pstmt.setString(3, elBien.getMarca());
             pstmt.setString(4, elBien.getModelo());
-            pstmt.setFloat(5, elBien.getPrecio());
-            pstmt.setInt(6, elNumeroSolicitud);
-
+            pstmt.setInt(5, (int)elBien.getPrecio());
+            pstmt.setInt(6, elBien.getCantidad());
+            pstmt.setInt(7, elNumeroSolicitud);
+            
+            
+            
             boolean resultado = pstmt.execute();
             if (resultado == true) {
                 throw new NoDataException("No se realizo la insercion");
@@ -265,16 +268,17 @@ public class ServicioBien extends Servicio {
         try {
             pstmt = conexion.prepareCall(BUSCARBIENPORSOLICITUD);
             pstmt.registerOutParameter(1, OracleTypes.CURSOR);	
-            pstmt.execute();
             pstmt.setInt(2,numeroSolicitud);
+            pstmt.execute();
             rs = (ResultSet) pstmt.getObject(1);
             while (rs.next()) {
-                elBien = new Bien(rs.getString("serial"),
-                        rs.getString("descripcion"),
-                        rs.getString("marca"),
-                        rs.getString("modelo"),
-                        rs.getFloat("precio"),
-                        rs.getInt("cantidad")
+                elBien = new Bien(
+                        rs.getString("SERIAL"),
+                        rs.getString("DESCRIPCION"),
+                        rs.getString("MARCA"),
+                        rs.getString("MODELO"),
+                        rs.getInt("PRECIOUNITARIO"),
+                        rs.getInt("CANTIDAD")
                 );
             }
             coleccion.add(elBien);
@@ -300,62 +304,6 @@ public class ServicioBien extends Servicio {
         return coleccion;
     }
     
-    
-    public ArrayList<Bien> consultarBienPorSolicitud(int elNumeroSolicitud) throws GlobalException, NoDataException {
-        try {
-            conectar();
-        } catch (ClassNotFoundException e) {
-            throw new GlobalException("No se ha localizado el driver");
-        } catch (SQLException e) {
-            throw new NoDataException("La base de datos no se encuentra disponible");
-        }
-
-        ResultSet rs = null;
-        CallableStatement pstmt = null;
-        ArrayList<Bien> coleccion = new ArrayList();
-
-        try {
-            pstmt = conexion.prepareCall(CONSULTARBIEN);
-            //pstmt.registerOutParameter(1, OracleTypes.CURSOR);
-            pstmt.setInt(2, elNumeroSolicitud);
-            pstmt.execute();
-            rs = (ResultSet) pstmt.getObject(1);
-
-            while (rs.next()) {
-                Bien elBien = null;
-                if (rs.getInt("numeroSolicitud") == elNumeroSolicitud) {
-                    elBien = new Bien(rs.getString("serial"),
-                            rs.getString("descripcion"),
-                            rs.getString("marca"),
-                            rs.getString("modelo"),
-                            rs.getInt("precio"),rs.getInt("cantidad")
-                    );
-                }
-                if(elBien != null){
-                coleccion.add(elBien);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-
-            throw new GlobalException("Sentencia no valida");
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (pstmt != null) {
-                    pstmt.close();
-                }
-                desconectar();
-            } catch (SQLException e) {
-                throw new GlobalException("Estatutos invalidos o nulos");
-            }
-        }
-
-        return coleccion;
-    }
-
     public static ServicioBien getServicioBien() {
         return servicioBien;
     }

@@ -15,14 +15,14 @@ import java.util.Observable;
 public class Solicitud extends Observable {
 
     private int numeroSolicitud;
-    private Date fecha;
+    private String fecha;
     private String tipo;
     private String estado;
     private int cantiadadBienes;
     public float montoTotal;
     private ArrayList<Bien> listaBienes;
 
-    public Solicitud(int numeroSolicitud, Date fecha, String tipo, String estado, int cantiadadBienes, float montoTotal) {
+    public Solicitud(int numeroSolicitud, String fecha, String tipo, String estado ) {
         this.numeroSolicitud = numeroSolicitud;
         this.fecha = fecha;
         this.tipo = tipo;
@@ -39,11 +39,11 @@ public class Solicitud extends Observable {
         this.numeroSolicitud = numeroSolicitud;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 

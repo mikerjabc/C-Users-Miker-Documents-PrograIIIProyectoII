@@ -17,7 +17,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
-import javax.swing.JButton;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+ import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -113,18 +116,23 @@ public class ControllerAdministrador extends AbstractController{
     
     
     
-    public ControllerAdministrador(ModeloAdministrador modelo, VistaAdministrador vistaAdmistrador ) throws GlobalException, NoDataException, SQLException {
+    public ControllerAdministrador(ModeloAdministrador modelo, VistaAdministrador vistaAdmistrador )   {
         this.vistaAdmistrador = vistaAdmistrador;
         this.modelo = modelo;
         this.modelo.setVista(this.vistaAdmistrador);
          this.vistaAdmistrador = vistaAdmistrador;
          vistaAdmistrador.setControlador(this);
          
-         cargar();
-    }
-
-    
-    
+        try {
+            cargar();
+        } catch (GlobalException ex) {
+            Logger.getLogger(ControllerAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoDataException ex) {
+            Logger.getLogger(ControllerAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(ControllerAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+   }
     
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -134,8 +142,8 @@ public class ControllerAdministrador extends AbstractController{
         if(btn.getText().equalsIgnoreCase("Agregar Bien")) {
             vistaBien = new VistaBien();
             accesoADatosBien = new ServicioBien();
-           controlbien = new ControllerBien(vistaBien, accesoADatosBien, this);
-           controlbien.getVistaBien().setVisible(true); 
+            controlbien = new ControllerBien(vistaBien, accesoADatosBien, this);
+            controlbien.getVistaBien().setVisible(true); 
         }
            if(btn.getText().equalsIgnoreCase("Cancelar")) {
                this.vistaAdmistrador.setVisible(false);
@@ -146,8 +154,6 @@ public class ControllerAdministrador extends AbstractController{
             }
     }
 
-    
-    
     @Override
     public void mouseClicked(MouseEvent e) {
     }
@@ -193,12 +199,44 @@ public class ControllerAdministrador extends AbstractController{
 
     private void guardarSolicitud() {
         accesoADatosSolicitud = new ServicioSolicitud();
-        String  tipo = vistaAdmistrador.getCampoTipoAdqui().getSelectedItem().toString();
-        accesoADatosSolicitud.insertarSolicitud(tipo,vistaAdmistrador.getCampoMontoTotal().getText(),modelo.getBienes());
+         try {
+            accesoADatosSolicitud.insertarSolicitud(modelo.getSolicitud());
+        } catch (GlobalException ex) {
+            Logger.getLogger(ControllerAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoDataException ex) {
+            Logger.getLogger(ControllerAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+         accesoADatosBien = new ServicioBien();
+         
+         for (int i = 0; i < modelo.getBienes().size(); i++) {
+            try {
+                accesoADatosBien.insertarBien(modelo.getBienes().get(i), modelo.getSolicitud().getNumeroSolicitud() );
+            } catch (GlobalException ex) {
+                Logger.getLogger(ControllerAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NoDataException ex) {
+                Logger.getLogger(ControllerAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+         
+         
+        JOptionPane.showMessageDialog(null," Solicitud Agregada Satisfactoriamente" );
+        modelo.limpiar();
+         try {
+            cargar();
+        } catch (GlobalException ex) {
+            Logger.getLogger(ControllerAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoDataException ex) {
+            Logger.getLogger(ControllerAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(ControllerAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void cargar() throws GlobalException, NoDataException, SQLException {
-     modelo.setNumeroNuevoSolicitud( accesoADatosSolicitud.listarSolicitudes());
+        accesoADatosSolicitud =  new ServicioSolicitud();
+        System.out.println(accesoADatosSolicitud.listarSolicitudes().toString());
+        modelo.setNumeroNuevoSolicitud( accesoADatosSolicitud.listarSolicitudes());
     }
     
     

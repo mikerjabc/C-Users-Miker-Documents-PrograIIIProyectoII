@@ -6,13 +6,17 @@
 package proyectodos;
 
 import Control.ControllerAdministrador;
- import Vista.VistaBien;
+import Logic.Bien;
 import Vista.VistaAdministrador;
 import Modelo.ModeloAdministrador;
 import accesoADatos.GlobalException;
 import accesoADatos.NoDataException;
 import accesoADatos.ServicioBien;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+ 
 /**
  *
  * @author Fernando
@@ -20,16 +24,26 @@ import java.sql.SQLException;
 public class ProyectoDos {
 
     
-    public static void main(String[] args) throws GlobalException, NoDataException, SQLException {
-        
-        ModeloAdministrador modelo = new ModeloAdministrador();
-        VistaBien vistaBien = new VistaBien(){};
+    public static void main(String[] args) throws SQLException  {
+       /*ModeloAdministrador modelo = new ModeloAdministrador();
         VistaAdministrador vistaAdministrador = new VistaAdministrador();
-        
-        ServicioBien accesoADatosBien = null;
-        
         ControllerAdministrador controlAdministrador = new ControllerAdministrador(modelo, vistaAdministrador );
         controlAdministrador.getVistaAdmistrador().setVisible(true);
+ */
+ 
+       ServicioBien  accesoADatosBien = new ServicioBien();
+
+       ArrayList <Bien> bienes = null;
+        try {
+             bienes = accesoADatosBien.buscarBienPorSolicitud(2);
+        } catch (GlobalException ex) {
+            Logger.getLogger(ProyectoDos.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoDataException ex) {
+            Logger.getLogger(ProyectoDos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        
+        System.out.println(bienes.get(0).getDescripcion());
     }
-    
+
 }
