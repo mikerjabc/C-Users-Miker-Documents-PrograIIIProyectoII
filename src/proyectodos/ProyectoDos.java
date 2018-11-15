@@ -29,8 +29,8 @@ public class ProyectoDos {
         VistaAdministrador vistaAdministrador = new VistaAdministrador();
         ControllerAdministrador controlAdministrador = new ControllerAdministrador(modelo, vistaAdministrador );
         controlAdministrador.getVistaAdmistrador().setVisible(true);
-  
- // puto el que lo lea 123
+//bla
+
         
     }
 
