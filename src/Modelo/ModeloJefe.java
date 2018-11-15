@@ -5,10 +5,12 @@
  */
 package Modelo;
 
+import Logic.Bien;
 import Logic.Solicitud;
 import Logic.Transferencia;
 import accesoADatos.GlobalException;
 import accesoADatos.NoDataException;
+import accesoADatos.ServicioFuncionario;
 import accesoADatos.ServicioSolicitud;
 import accesoADatos.ServicioTransferencia;
 import java.sql.SQLException;
@@ -21,27 +23,40 @@ import java.util.logging.Logger;
 public class ModeloJefe extends Observable {
     private ServicioSolicitud servicioSolicitud;
     private ServicioTransferencia servicioTransferencia;
-    public String[] tiposSolicitud = {"Incorporación","Traslado"};
+    private ServicioFuncionario servicioFuncionario;
+    public final String[] tiposSolicitud = {"Incorporación","Traslado"};
+    public final String[] tiposBienes = {"Compra","Donación","Producción institucional"};
+    public final Object[] VARIABLESTABLA = {"Número","Fecha","Tipo","Estado","Cantidad de Bienes","Monto Total","Origen","Destino","Ubicación","Funcionario","Autorización"};
     private String tipo;
     private Solicitud solicitud;
     private Transferencia transferencia;
-    
 
+    public ModeloJefe() {
+        tipo = tiposSolicitud[0];
+    }
+    
     public void setServicioSolicitud(ServicioSolicitud servicioDependencia) {
         this.servicioSolicitud = servicioDependencia;
-        tipo = tiposSolicitud[0];
         this.setChanged();
         this.notifyObservers();
     }
     
-    public Solicitud buscarSolicitud(String numero) throws Exception {
-        Solicitud aux = null;
+    public void setServicioTransferencia(ServicioTransferencia servicioTransferencia) {
+        this.servicioTransferencia = servicioTransferencia;
+        this.setChanged();
+        this.notifyObservers();
+    }
+    
+    public void setServicioFuncionario(ServicioFuncionario servicioFuncionario) {
+        this.servicioFuncionario = servicioFuncionario;
+        this.setChanged();
+        this.notifyObservers();
+    }
+    
+    public void buscarSolicitud(String numero) throws Exception {
         try {
             if (numero.equals("")) {
-                throw (new Exception("Codigo invalido"));
-            }
-            if (tipo.equals("")) {
-                throw (new Exception("Dependencia invalida"));
+                throw (new Exception("numero invalido"));
             }
             if(tipo.equalsIgnoreCase(tiposSolicitud[0])){
                 solicitud = servicioSolicitud.buscarSolicitud(Integer.valueOf(numero));
@@ -55,7 +70,75 @@ public class ModeloJefe extends Observable {
         } catch (Exception ex) {
             throw (new Exception(ex.getMessage()));
         }
+    }
+    
+    public Bien buscarBien(String numero, String serial) throws Exception {
+        Bien aux = null;
+        try {
+            if (numero.equals("")) {
+                throw (new Exception("numero invalido"));
+            }
+            if (serial.equals("")) {
+                throw (new Exception("ID invalido"));
+            }
+            if(tipo.equalsIgnoreCase(tiposSolicitud[0])){
+                Iterator<Bien> ite = servicioSolicitud.buscarSolicitud(Integer.valueOf(numero)).getListaBienes().iterator();
+                while (ite.hasNext()) {
+                    Bien d = ite.next();
+                    if (d.getSerial().equalsIgnoreCase(serial)) {
+                        aux = d;
+                        break;
+                    }
+                }
+            }else{
+                Iterator<Bien> ite = servicioTransferencia.buscarTransferencia(Integer.valueOf(numero)).getListaBienes().iterator();
+                while (ite.hasNext()) {
+                    Bien d = ite.next();
+                    if (d.getSerial().equalsIgnoreCase(serial)) {
+                        aux = d;
+                        break;
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            throw (new Exception(ex.getMessage()));
+        }
         return aux;
+    }
+    
+    public void AsignarSolicitudARegistrador(String numero, String id) throws Exception {
+        try {
+            if (numero.equals("")) {
+                throw (new Exception("numero invalido"));
+            }
+            if (id.equals("")) {
+                throw (new Exception("ID invalido"));
+            }
+            servicioFuncionario.consultarFuncionario(id);
+            //Asignar solicitud a funcionario
+            this.setChanged();
+            this.notifyObservers();
+        } catch (Exception ex) {
+            throw (new Exception(ex.getMessage()));
+        }
+    }
+    
+    public void AutorizarTransferencia(String numero, String estado) throws Exception {
+        try {
+            if (numero.equals("")) {
+                throw (new Exception("numero invalido"));
+            }
+            if (numero.equals("")) {
+                throw (new Exception("estado invalido"));
+            }
+            transferencia = servicioTransferencia.buscarTransferencia(Integer.valueOf(numero));
+            transferencia.setAutorizacion(estado);
+            servicioTransferencia.modificarTransferencia(transferencia);
+            this.setChanged();
+            this.notifyObservers();
+        } catch (Exception ex) {
+            throw (new Exception(ex.getMessage()));
+        }
     }
     
     public void cambiarTipo(String tipo) throws Exception {
@@ -114,13 +197,21 @@ public class ModeloJefe extends Observable {
         }
         return list;
     }
-
+    
     public String getTipo() {
         return tipo;
     }
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public Solicitud getSolicitud() {
+        return solicitud;
+    }
+
+    public Transferencia getTransferencia() {
+        return transferencia;
     }
     
     @Override
@@ -129,6 +220,8 @@ public class ModeloJefe extends Observable {
     }
 
     public void limpiar() {
+        solicitud = null;
+        transferencia = null;
         this.setChanged();
         this.notifyObservers();
     }

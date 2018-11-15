@@ -15,8 +15,6 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumnModel;
 
 public class VistaJefe extends javax.swing.JFrame implements Observer {
 
@@ -32,17 +30,14 @@ public class VistaJefe extends javax.swing.JFrame implements Observer {
         setTitle("Jefe");
         setLocationRelativeTo(null);
         DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
-        jtSolicitudes.getColumnModel().getColumn(0).setPreferredWidth(100);//Numero
-        jtSolicitudes.getColumnModel().getColumn(1).setPreferredWidth(150);//Fecha
-        jtSolicitudes.getColumnModel().getColumn(2).setPreferredWidth(100);//Tipo
-        jtSolicitudes.getColumnModel().getColumn(3).setPreferredWidth(150);//Estado
-        jtSolicitudes.getColumnModel().getColumn(4).setPreferredWidth(150);//CantidadBienes
         tcr.setHorizontalAlignment(SwingConstants.LEFT);
+        //Ajustar el texto a la izquierta
         jtSolicitudes.getColumnModel().getColumn(0).setCellRenderer(tcr);//Numero
         jtSolicitudes.getColumnModel().getColumn(1).setCellRenderer(tcr);//Fecha
         jtSolicitudes.getColumnModel().getColumn(2).setCellRenderer(tcr);//Tipo
         jtSolicitudes.getColumnModel().getColumn(3).setCellRenderer(tcr);//Estado
         jtSolicitudes.getColumnModel().getColumn(4).setCellRenderer(tcr);//CantidadBienes
+        jtSolicitudes.getColumnModel().getColumn(4).setCellRenderer(tcr);//MontoTotal
         this.setResizable(false);
     }
     
@@ -79,7 +74,7 @@ public class VistaJefe extends javax.swing.JFrame implements Observer {
 
             },
             new String [] {
-                "Número", "Fecha", "Tipo", "Estado", "Cantidad de Bienes", "Dependencia"
+                "Número", "Fecha", "Tipo", "Estado", "Cantidad de Bienes", "Monto Total"
             }
         ));
         jScrollPane2.setViewportView(jtSolicitudes);
@@ -89,8 +84,6 @@ public class VistaJefe extends javax.swing.JFrame implements Observer {
         jtIdBuscar.setName("idBuscar"); // NOI18N
 
         jbBuscar.setText("Buscar");
-
-        jcbBuscar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Incorporación", "Traslado" }));
 
         jLabel2.setText("Número de Solicitud:");
 
@@ -230,11 +223,14 @@ public class VistaJefe extends javax.swing.JFrame implements Observer {
     public void setModelo(ModeloJefe modelo) {
         this.modelo = modelo;
         modelo.addObserver(this);
+        jcbBuscar.addItem(modelo.tiposSolicitud[0]);
+        jcbBuscar.addItem(modelo.tiposSolicitud[1]);
     }
 
     public void setControlador(ControllerJefe controlador) {
         this.controlador = controlador;
         jcbBuscar.addItemListener(controlador);
+        jbBuscar.addActionListener(controlador);
     }
 
     public void mostrarMensaje(String mensaje) {
@@ -259,17 +255,49 @@ public class VistaJefe extends javax.swing.JFrame implements Observer {
         return respuesta;
     }
 
+    public void cambiarValoresTabla(String tipo) {
+        DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+        tcr.setHorizontalAlignment(SwingConstants.LEFT);
+
+        if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[0])) {
+            //Asignar tamaño de ancho de cada columna
+            jtSolicitudes.getColumnModel().getColumn(0).setPreferredWidth(100);//Numero
+            jtSolicitudes.getColumnModel().getColumn(1).setPreferredWidth(150);//Fecha
+            jtSolicitudes.getColumnModel().getColumn(2).setPreferredWidth(100);//Tipo
+            jtSolicitudes.getColumnModel().getColumn(3).setPreferredWidth(150);//Estado
+            jtSolicitudes.getColumnModel().getColumn(4).setPreferredWidth(150);//CantidadBienes
+            jtSolicitudes.getColumnModel().getColumn(5).setPreferredWidth(150);//MontoTotal
+            //Cargar nombres de cada columna
+            jtSolicitudes.getColumnModel().getColumn(0).setHeaderValue(modelo.VARIABLESTABLA[0]);//Numero
+            jtSolicitudes.getColumnModel().getColumn(1).setHeaderValue(modelo.VARIABLESTABLA[1]);//Fecha
+            jtSolicitudes.getColumnModel().getColumn(2).setHeaderValue(modelo.VARIABLESTABLA[2]);//Tipo
+            jtSolicitudes.getColumnModel().getColumn(3).setHeaderValue(modelo.VARIABLESTABLA[3]);//Estado
+            jtSolicitudes.getColumnModel().getColumn(4).setHeaderValue(modelo.VARIABLESTABLA[4]);//CantidadBienes
+            jtSolicitudes.getColumnModel().getColumn(5).setHeaderValue(modelo.VARIABLESTABLA[5]);//MontoTotal
+            jtSolicitudes.repaint();
+        } else {
+            //Asignar tamaño de ancho de cada columna
+            jtSolicitudes.getColumnModel().getColumn(0).setPreferredWidth(100);//Numero
+            jtSolicitudes.getColumnModel().getColumn(1).setPreferredWidth(200);//Origen
+            jtSolicitudes.getColumnModel().getColumn(2).setPreferredWidth(200);//Destino
+            jtSolicitudes.getColumnModel().getColumn(3).setPreferredWidth(150);//Ubicacion
+            jtSolicitudes.getColumnModel().getColumn(4).setPreferredWidth(150);//Funcionario
+            jtSolicitudes.getColumnModel().getColumn(5).setPreferredWidth(150);//Estado
+            //Cargar nombre de cada columna
+            jtSolicitudes.getColumnModel().getColumn(0).setHeaderValue(modelo.VARIABLESTABLA[0]);//Numero
+            jtSolicitudes.getColumnModel().getColumn(1).setHeaderValue(modelo.VARIABLESTABLA[6]);//Origen
+            jtSolicitudes.getColumnModel().getColumn(2).setHeaderValue(modelo.VARIABLESTABLA[7]);//Destino
+            jtSolicitudes.getColumnModel().getColumn(3).setHeaderValue(modelo.VARIABLESTABLA[8]);//ubicacion
+            jtSolicitudes.getColumnModel().getColumn(4).setHeaderValue(modelo.VARIABLESTABLA[9]);//Funcionario
+            jtSolicitudes.getColumnModel().getColumn(5).setHeaderValue(modelo.VARIABLESTABLA[10]);//Estado
+            jtSolicitudes.repaint();
+        }
+    }
+
     @Override
     public void update(Observable o, Object o1) {
         if (o1 != null) {
             if (o1.getClass() == ArrayList.class) {
-                if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[0])) {
-//                    JTableHeader head = jtSolicitudes.getTableHeader();
-//                    TableColumnModel tcm = head.getColumnModel();
-//                    TableColumn tabCM = tcm.getColumn();
-//                    tabCM.setHeaderValue(comboBox.getSelectedItem().toString());
-//                    jtSolicitudes.repaint();
-                }
                 ArrayList aux = (ArrayList) o1;
                 int filas = model.getRowCount();
                 for (int i = 0; i < filas; i++) {

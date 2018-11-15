@@ -9,9 +9,9 @@ import Control.AbstractController;
 import Control.ControllerRegistrador;
 import Control.ControllerSolicitud;
 import Logic.Solicitud;
+import Logic.Transferencia;
 import Modelo.ModeloRegistrador;
 import Modelo.ModeloSolicitud;
-import java.awt.event.MouseEvent;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -19,12 +19,12 @@ import java.util.Observer;
  *
  * @author Fernando
  */
-public class VistaSolicitud extends javax.swing.JFrame implements Observer {
+public class VistaTransferencia extends javax.swing.JFrame implements Observer {
 
     /**
      * Creates new form VistaSolicitudVerificar
      */
-    public VistaSolicitud() {
+    public VistaTransferencia() {
         initComponents();
     }
 
@@ -46,13 +46,11 @@ public class VistaSolicitud extends javax.swing.JFrame implements Observer {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jtfCantidadBienes = new javax.swing.JTextField();
-        jtfMontoTotal = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        jcbTipo = new javax.swing.JComboBox<>();
+        jtfUbicacion = new javax.swing.JTextField();
         jcbEstado = new javax.swing.JComboBox<>();
-        jtfRegistrador = new javax.swing.JTextField();
-        jtfFecha = new javax.swing.JTextField();
+        jtfOrigen = new javax.swing.JTextField();
+        jtfDestino = new javax.swing.JTextField();
+        jtfFuncionario = new javax.swing.JTextField();
         jbLimpiar = new javax.swing.JButton();
         jbCancelar = new javax.swing.JButton();
         jbAgregar = new javax.swing.JButton();
@@ -68,7 +66,7 @@ public class VistaSolicitud extends javax.swing.JFrame implements Observer {
 
         jLabel6.setFont(new java.awt.Font("Comic Sans MS", 2, 26)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Solicitud");
+        jLabel6.setText("Transferencia");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -76,7 +74,7 @@ public class VistaSolicitud extends javax.swing.JFrame implements Observer {
         jLabel8.setText("Número:");
 
         jtfNumero.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jtfNumero.setName("nombre"); // NOI18N
+        jtfNumero.setName("jtfNumero"); // NOI18N
         jtfNumero.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtfNumeroActionPerformed(evt);
@@ -84,41 +82,50 @@ public class VistaSolicitud extends javax.swing.JFrame implements Observer {
         });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel1.setText("Tipo:");
+        jLabel1.setText("Dependencia Destino:");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel2.setText("Estado:");
+        jLabel2.setText("Ubicación:");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel3.setText("Fecha:");
+        jLabel3.setText("Dependencia Origen:");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel4.setText("Cantidad de Bienes:");
+        jLabel4.setText("Funcionario Responsable:");
         jLabel4.setToolTipText("");
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel5.setText("Monto Total:");
+        jLabel5.setText("Estado de Autorización:");
         jLabel5.setToolTipText("");
 
-        jtfCantidadBienes.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jtfCantidadBienes.setName("precio"); // NOI18N
-
-        jtfMontoTotal.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jtfMontoTotal.setName("precio"); // NOI18N
-
-        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel9.setText("Registrador");
-        jLabel9.setToolTipText("");
-
-        jcbTipo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jtfUbicacion.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jtfUbicacion.setName("ubicacion"); // NOI18N
 
         jcbEstado.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
-        jtfRegistrador.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jtfRegistrador.setName("precio"); // NOI18N
+        jtfOrigen.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jtfOrigen.setName("jtfNumero"); // NOI18N
+        jtfOrigen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfOrigenActionPerformed(evt);
+            }
+        });
 
-        jtfFecha.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jtfFecha.setName("precio"); // NOI18N
+        jtfDestino.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jtfDestino.setName("jtfNumero"); // NOI18N
+        jtfDestino.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfDestinoActionPerformed(evt);
+            }
+        });
+
+        jtfFuncionario.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jtfFuncionario.setName("jtfNumero"); // NOI18N
+        jtfFuncionario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfFuncionarioActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -130,26 +137,23 @@ public class VistaSolicitud extends javax.swing.JFrame implements Observer {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addGap(15, 15, 15)
+                        .addGap(38, 38, 38)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jtfNumero, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jcbTipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jtfFecha)))
+                            .addComponent(jtfOrigen, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jtfNumero, javax.swing.GroupLayout.DEFAULT_SIZE, 536, Short.MAX_VALUE)
+                            .addComponent(jtfDestino)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING))
-                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING))
                         .addGap(9, 9, 9)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jtfMontoTotal, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jtfCantidadBienes, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jcbEstado, 0, 577, Short.MAX_VALUE)
-                            .addComponent(jtfRegistrador))))
+                            .addComponent(jtfUbicacion)
+                            .addComponent(jtfFuncionario)
+                            .addComponent(jcbEstado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -162,28 +166,24 @@ public class VistaSolicitud extends javax.swing.JFrame implements Observer {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jtfFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtfOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel1)
-                    .addComponent(jcbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtfDestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jcbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtfUbicacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jtfCantidadBienes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtfFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jtfMontoTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(jtfRegistrador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                    .addComponent(jcbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jbLimpiar.setText("Limpiar");
@@ -237,7 +237,7 @@ public class VistaSolicitud extends javax.swing.JFrame implements Observer {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 735, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 737, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -309,6 +309,18 @@ public class VistaSolicitud extends javax.swing.JFrame implements Observer {
         // TODO add your handling code here:
     }//GEN-LAST:event_jbBuscarActionPerformed
 
+    private void jtfOrigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfOrigenActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfOrigenActionPerformed
+
+    private void jtfDestinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfDestinoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfDestinoActionPerformed
+
+    private void jtfFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfFuncionarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfFuncionarioActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -326,14 +338,18 @@ public class VistaSolicitud extends javax.swing.JFrame implements Observer {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VistaSolicitud.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaTransferencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VistaSolicitud.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaTransferencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VistaSolicitud.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaTransferencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VistaSolicitud.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaTransferencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -342,7 +358,7 @@ public class VistaSolicitud extends javax.swing.JFrame implements Observer {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VistaSolicitud().setVisible(true);
+                new VistaTransferencia().setVisible(true);
             }
         });
     }
@@ -356,7 +372,6 @@ public class VistaSolicitud extends javax.swing.JFrame implements Observer {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -366,14 +381,13 @@ public class VistaSolicitud extends javax.swing.JFrame implements Observer {
     public javax.swing.JButton jbCancelar;
     public javax.swing.JButton jbLimpiar;
     public javax.swing.JComboBox<String> jcbEstado;
-    public javax.swing.JComboBox<String> jcbTipo;
     public javax.swing.JTable jtBienes;
-    public javax.swing.JTextField jtfCantidadBienes;
-    public javax.swing.JTextField jtfFecha;
+    public javax.swing.JTextField jtfDestino;
+    public javax.swing.JTextField jtfFuncionario;
     public javax.swing.JTextField jtfIdBuscar;
-    public javax.swing.JTextField jtfMontoTotal;
     public javax.swing.JTextField jtfNumero;
-    public javax.swing.JTextField jtfRegistrador;
+    public javax.swing.JTextField jtfOrigen;
+    private javax.swing.JTextField jtfUbicacion;
     // End of variables declaration//GEN-END:variables
     
     private ModeloSolicitud modelo;
@@ -391,17 +405,13 @@ public class VistaSolicitud extends javax.swing.JFrame implements Observer {
         jbCancelar.addActionListener(controlador);
         jbBuscar.addActionListener(controlador);
         jbLimpiar.addActionListener(controlador);
-        jtfCantidadBienes.addKeyListener(controlador);
         jtfNumero.addKeyListener(controlador);
         jtfIdBuscar.addKeyListener(controlador);
-        jtfMontoTotal.addKeyListener(controlador);
-        jtfFecha.addKeyListener(controlador);
     }
     
     public void ajustatVistaParaFuncionario(String tipo) {
         switch (tipo) {
             case "Administrador": {
-                jtfRegistrador.setEnabled(false);
             }
             break;
             case "Jefe": {
@@ -409,13 +419,12 @@ public class VistaSolicitud extends javax.swing.JFrame implements Observer {
                 
                 jbLimpiar.setEnabled(false);
                 
-                jtfCantidadBienes.setEditable(false);
+                jtfOrigen.setEditable(false);
+                jtfDestino.setEditable(false);
                 jtfNumero.setEditable(false);
                 jcbEstado.setEditable(false);
-                jtfIdBuscar.setEditable(false);
-                jtfMontoTotal.setEditable(false);
-                jcbTipo.setEditable(false);
-                jtfFecha.setEditable(false);
+                jtfUbicacion.setEditable(false);
+                jtfFuncionario.setEditable(false);
             }
             break;
             case "Registrador": {
@@ -423,43 +432,41 @@ public class VistaSolicitud extends javax.swing.JFrame implements Observer {
                 
                 jbLimpiar.setEnabled(false);
                 
-                jtfCantidadBienes.setEditable(false);
+                jtfOrigen.setEditable(false);
+                jtfDestino.setEditable(false);
                 jtfNumero.setEditable(false);
                 jcbEstado.setEditable(false);
-                jtfIdBuscar.setEditable(false);
-                jtfMontoTotal.setEditable(false);
-                jcbTipo.setEditable(false);
-                jtfFecha.setEditable(false);
+                jtfUbicacion.setEditable(false);
+                jtfFuncionario.setEditable(false);
+                jtfUbicacion.setEditable(false);
             }
             break;
         }
     }
     
     public void limpiarTodosEspacios() {
-        jtfCantidadBienes.setText("");
+        jtfOrigen.setText("");
+        jtfDestino.setText("");
         jtfNumero.setText("");
-        jtfIdBuscar.setText("");
         jcbEstado.getModel().setSelectedItem(this);
-        jcbTipo.getModel().setSelectedItem(this);
-        jtfMontoTotal.setText("");
-        jtfFecha.setText("");
+        jtfIdBuscar.setText("");
+        jtfFuncionario.setText("");
+        jtfUbicacion.setText("");
     }
     
-    public void cargarDatos(Solicitud solicitud, String[] estados, String[] tipos) {
+    public void cargarDatos(Transferencia transferencia, String[] estados) {
         
         jcbEstado.addItem(estados[0]);
         jcbEstado.addItem(estados[1]);
-        jcbTipo.addItem(tipos[0]);
-        jcbTipo.addItem(tipos[1]);
-        jcbTipo.addItem(tipos[2]);
+        jcbEstado.addItem(estados[3]);
         
-        if (solicitud != null) {
-            jtfCantidadBienes.setText(String.valueOf(solicitud.getCantiadadBienes()));
-            jtfNumero.setText(String.valueOf(solicitud.getNumeroSolicitud()));
-            jtfMontoTotal.setText(String.valueOf(solicitud.getMontoTotal()));
-            jtfFecha.setText(solicitud.getFecha());
-            jcbEstado.getModel().setSelectedItem(solicitud.getEstado());
-            jcbTipo.getModel().setSelectedItem(solicitud.getTipo());
+        if (transferencia != null) {
+            jtfOrigen.setText(transferencia.getOrigen().getNombre());
+            jtfDestino.setText(transferencia.getDestino().getNombre());
+            jtfFuncionario.setText(transferencia.getFuncionario().getNombre());
+            jtfUbicacion.setText(transferencia.getUbicacion());
+            jtfNumero.setText(String.valueOf(transferencia.getNumero()));
+            jcbEstado.getModel().setSelectedItem(transferencia.getAutorizacion());
         }
     }
     

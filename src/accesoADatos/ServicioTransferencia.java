@@ -24,9 +24,8 @@ public class ServicioTransferencia extends Servicio {
     private static final String MODIFICARTRANSFERENCIA = "{call modificarTransferencia(?,?,?,?,?)}";
     private static final String LISTARTRANSFERENCIA = "{?=call listarTransferencia}";
     private static final String CONSULTARTRANSFERENCIA = "{?=call consultarTransferencia(?)}";
-
-    public ServicioTransferencia() {
-    }
+    
+    private static ServicioTransferencia servicioTransferencia = new ServicioTransferencia();
 
     public void insertarTransferencia(Transferencia laTransferencia) throws GlobalException, NoDataException {
         try {
@@ -246,5 +245,9 @@ public class ServicioTransferencia extends Servicio {
             throw new NoDataException("No existe una transferencia con este número");
         }
         return laTransferencia;
+    }
+
+    public static ServicioTransferencia getServicioTransferencia() {
+        return servicioTransferencia;
     }
 }

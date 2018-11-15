@@ -26,9 +26,8 @@ public class ServicioSolicitud extends Servicio {
     private static final String MODIFICARSOLICITUD = "{call modificarSolicitud(?,?,?,?,?)}";
     private static final String LISTARSOLICITUD = "{?=call listarSolicitudes}";
     private static final String CONSULTARSOLICITUD = "{?=call consultarSolicitud(?)}";
-
-    public ServicioSolicitud() {
-    }
+    
+    private static ServicioSolicitud servicioSolicitud = new ServicioSolicitud();
 
     public void insertarSolicitud(Solicitud laSolicitud) throws GlobalException, NoDataException {
         try {
@@ -217,5 +216,9 @@ public class ServicioSolicitud extends Servicio {
             throw new NoDataException("No existe una transferencia con este número");
         }
         return laSolicitud;
+    }
+
+    public static ServicioSolicitud getServicioSolicitud() {
+        return servicioSolicitud;
     }
 }
