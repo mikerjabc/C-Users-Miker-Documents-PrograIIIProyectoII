@@ -11,7 +11,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import oracle.jdbc.OracleTypes;
+//import oracle.jdbc.OracleTypes;
 //import oracle.jdbc.OracleTypes;
 //import oracle.jdbc.OracleTypes;
 
@@ -166,7 +166,7 @@ public class ServicioBien extends Servicio {
 
         try {
             pstmt = conexion.prepareCall(CONSULTARBIEN);
-            pstmt.registerOutParameter(1, OracleTypes.CURSOR);
+            //pstmt.registerOutParameter(1, OracleTypes.CURSOR);
             pstmt.setString(2, elSerial);
             pstmt.execute();
             rs = (ResultSet) pstmt.getObject(1);
@@ -218,7 +218,7 @@ public class ServicioBien extends Servicio {
         CallableStatement pstmt = null;
         try {
             pstmt = conexion.prepareCall(LISTARBIEN);
-            pstmt.registerOutParameter(1, OracleTypes.CURSOR);	
+            //pstmt.registerOutParameter(1, OracleTypes.CURSOR);	
             pstmt.execute();
             rs = (ResultSet) pstmt.getObject(1);
             while (rs.next()) {
@@ -267,7 +267,7 @@ public class ServicioBien extends Servicio {
         CallableStatement pstmt = null;
         try {
             pstmt = conexion.prepareCall(BUSCARBIENPORSOLICITUD);
-            pstmt.registerOutParameter(1, OracleTypes.CURSOR);	
+            //pstmt.registerOutParameter(1, OracleTypes.CURSOR);	
             pstmt.setInt(2,numeroSolicitud);
             pstmt.execute();
             rs = (ResultSet) pstmt.getObject(1);

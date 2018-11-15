@@ -17,7 +17,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.JTextPane;
-import oracle.jdbc.OracleTypes;
+//import oracle.jdbc.OracleTypes;
 //import oracle.jdbc.OracleTypes;
 
 /**
@@ -137,7 +137,7 @@ public class ServicioSolicitud extends Servicio {
         CallableStatement pstmt = null;
         try { 
             pstmt = conexion.prepareCall(LISTARSOLICITUD);	
-            pstmt.registerOutParameter(1, OracleTypes.CURSOR);
+            //pstmt.registerOutParameter(1, OracleTypes.CURSOR);
             pstmt.execute();	
             rs = (ResultSet)pstmt.getObject(1);
            

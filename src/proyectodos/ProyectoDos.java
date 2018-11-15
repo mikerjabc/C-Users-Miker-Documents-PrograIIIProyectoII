@@ -25,7 +25,7 @@ public class ProyectoDos {
 
     
     public static void main(String[] args) throws SQLException  {
-         ModeloAdministrador modelo = new ModeloAdministrador();
+        ModeloAdministrador modelo = new ModeloAdministrador();
         VistaAdministrador vistaAdministrador = new VistaAdministrador();
         ControllerAdministrador controlAdministrador = new ControllerAdministrador(modelo, vistaAdministrador );
         controlAdministrador.getVistaAdmistrador().setVisible(true);
