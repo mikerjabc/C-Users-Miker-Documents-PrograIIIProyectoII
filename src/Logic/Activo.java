@@ -5,10 +5,12 @@ public class Activo {
     private int codigoActivo;
     private Bien bien;
     private String descripcionActivo;
+    private Funcionario funcionario;
+    private String ubicacion;
 
     public Activo() {}
 
-    public Activo(int codigoActivo, Bien bien, String descripcionActivo) {
+    public Activo(int codigoActivo, Bien bien, String descripcionActivo, Funcionario funcionario) {
         this.codigoActivo = codigoActivo;
         this.bien = bien;
         this.descripcionActivo = descripcionActivo;
