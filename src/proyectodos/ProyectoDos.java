@@ -5,23 +5,10 @@
  */
 package proyectodos;
 
-import Control.ControllerAdministrador;
-import Control.ControllerJefe;
-import Control.ControllerSecretaria;
-import Logic.Bien;
-import Vista.VistaAdministrador;
-import Modelo.ModeloAdministrador;
-import Modelo.ModeloJefe;
-import Modelo.ModeloSecretaria;
-import Vista.VistaJefe;
-import Vista.VistaSecretaria;
-import accesoADatos.GlobalException;
-import accesoADatos.NoDataException;
-import accesoADatos.ServicioBien;
+import Control.ControllerLogin;
+import Modelo.ModeloLogin;
+import Vista.VistaLogin;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
  
 /**
  *
@@ -30,16 +17,18 @@ import java.util.logging.Logger;
 public class ProyectoDos {
 
     
-    public static void main(String[] args) throws SQLException  {
-     
+    public static void main(String[] args) throws SQLException {
+
+        VistaLogin vista = new VistaLogin();
+        
+        ControllerLogin control = new ControllerLogin(new ModeloLogin(), vista);
+        
+        vista.setVisible(true);
+
 //        ModeloSecretaria modelo = new ModeloSecretaria();
 //        VistaSecretaria vistaSecretaria = new VistaSecretaria();
 //        ControllerSecretaria  controlSecretaria = new ControllerSecretaria(modelo, vistaSecretaria );
 //        controlSecretaria.getVistaSecretaria().setVisible(true);
-        
-        ControllerJefe contro = new ControllerJefe(new ModeloJefe(), new VistaJefe());
-        contro.mostrarVista();
-
     }
 
 }

@@ -73,7 +73,7 @@ public class ControllerLogin implements MouseListener, ActionListener, KeyListen
                 controlador.ocultarVista();
                 controlador = null;
             }
-            //controlador = new ControllerAdministrador(new ModeloAdministrador(), new VistaAdministrador());
+            controlador = new ControllerAdministrador(new ModeloAdministrador(), new VistaAdministrador());
             vista.setVisible(false);
             controlador.mostrarVista();
             return true;
