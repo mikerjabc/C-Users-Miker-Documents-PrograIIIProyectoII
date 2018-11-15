@@ -65,6 +65,7 @@ public class ControllerRegistrador extends AbstractController{
 
     @Override
     public void mostrarVista() {
+        vista.setVisible(true);
     }
 
     @Override
