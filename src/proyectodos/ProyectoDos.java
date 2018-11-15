@@ -25,25 +25,13 @@ public class ProyectoDos {
 
     
     public static void main(String[] args) throws SQLException  {
-       /*ModeloAdministrador modelo = new ModeloAdministrador();
+         ModeloAdministrador modelo = new ModeloAdministrador();
         VistaAdministrador vistaAdministrador = new VistaAdministrador();
         ControllerAdministrador controlAdministrador = new ControllerAdministrador(modelo, vistaAdministrador );
         controlAdministrador.getVistaAdmistrador().setVisible(true);
- */
+  
  
-       ServicioBien  accesoADatosBien = new ServicioBien();
-
-       ArrayList <Bien> bienes = null;
-        try {
-             bienes = accesoADatosBien.buscarBienPorSolicitud(2);
-        } catch (GlobalException ex) {
-            Logger.getLogger(ProyectoDos.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoDataException ex) {
-            Logger.getLogger(ProyectoDos.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
         
-        System.out.println(bienes.get(0).getDescripcion());
     }
 
 }
