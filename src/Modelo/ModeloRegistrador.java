@@ -6,6 +6,7 @@ import Logic.Solicitud;
 import Logic.Transferencia;
 import accesoADatos.GlobalException;
 import accesoADatos.NoDataException;
+import accesoADatos.ServicioActivo;
 import accesoADatos.ServicioFuncionario;
 import accesoADatos.ServicioSolicitud;
 import accesoADatos.ServicioTransferencia;
@@ -20,6 +21,7 @@ public class ModeloRegistrador extends Observable {
     private ServicioSolicitud servicioSolicitud;
     private ServicioTransferencia servicioTransferencia;
     private ServicioFuncionario servicioFuncionario;
+    private ServicioActivo servicioActivo;
     public final String[] tiposSolicitud = {"Incorporación","Traslado"};
     public final String[] tiposBienes = {"Compra","Donación","Producción institucional"};
     public final Object[] VARIABLESTABLA = {"Número","Fecha","Tipo","Estado","Cantidad de Bienes","Monto Total","Origen","Destino","Ubicación","Funcionario","Autorización"};
@@ -68,7 +70,7 @@ public class ModeloRegistrador extends Observable {
         }
     }
     
-    public Bien RegistrarBien(String numero, String serial) throws Exception {
+    public Bien RegistrarListaBien(String numero, String serial) throws Exception {
         Bien aux = null;
         try {
             if (numero.equals("")) {

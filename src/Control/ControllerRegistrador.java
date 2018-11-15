@@ -155,14 +155,13 @@ public final class ControllerRegistrador extends AbstractController implements I
                         vistaTrasferencia.setVisible(false);
                         mensaje = "Se guardo el cambio en el estado de la trasferencia";
                     }
-
                 }
                 break;
                 case "buscar": {
                     if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[0])) {
                         
                         vistaSolicitud.setVisible(false);
-                        modelo.buscarBien(vistaSolicitud.jtfNumero.getText(), vistaSolicitud.jtfIdBuscar.getText());
+                        //modelo.buscarBien(vistaSolicitud.jtfNumero.getText(), vistaSolicitud.jtfIdBuscar.getText());
                         mensaje = "Se encontro el bien";
                     } else {
                         modelo.AutorizarTransferencia(vistaTrasferencia.jtfNumero.getText(), vistaTrasferencia.jtfIdBuscar.getText());
@@ -175,7 +174,7 @@ public final class ControllerRegistrador extends AbstractController implements I
                     if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[0])) {
                         
                         vistaSolicitud.setVisible(false);
-                        modelo.buscarBien(vistaSolicitud.jtfNumero.getText(), vistaSolicitud.jtfIdBuscar.getText());
+                        //modelo.buscarBien(vistaSolicitud.jtfNumero.getText(), vistaSolicitud.jtfIdBuscar.getText());
                         mensaje = "Se encontro el bien";
                     } else {
                         modelo.AutorizarTransferencia(vistaTrasferencia.jtfNumero.getText(), vistaTrasferencia.jtfIdBuscar.getText());
