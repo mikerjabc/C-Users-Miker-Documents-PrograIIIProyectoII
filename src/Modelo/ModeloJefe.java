@@ -6,9 +6,11 @@
 package Modelo;
 
 import Logic.Solicitud;
+import Logic.Transferencia;
 import accesoADatos.GlobalException;
 import accesoADatos.NoDataException;
 import accesoADatos.ServicioSolicitud;
+import accesoADatos.ServicioTransferencia;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -18,8 +20,12 @@ import java.util.logging.Logger;
 
 public class ModeloJefe extends Observable {
     private ServicioSolicitud servicioSolicitud;
+    private ServicioTransferencia servicioTransferencia;
     public String[] tiposSolicitud = {"Incorporación","Traslado"};
     private String tipo;
+    private Solicitud solicitud;
+    private Transferencia transferencia;
+    
 
     public void setServicioSolicitud(ServicioSolicitud servicioDependencia) {
         this.servicioSolicitud = servicioDependencia;
@@ -28,7 +34,7 @@ public class ModeloJefe extends Observable {
         this.notifyObservers();
     }
     
-    public Solicitud buscarSolicitud(String numero, String tipo) throws Exception {
+    public Solicitud buscarSolicitud(String numero) throws Exception {
         Solicitud aux = null;
         try {
             if (numero.equals("")) {
@@ -37,7 +43,13 @@ public class ModeloJefe extends Observable {
             if (tipo.equals("")) {
                 throw (new Exception("Dependencia invalida"));
             }
-            //aux = servicioSolicitud.consultarBienesMuebles(Integer.valueOf(numero));
+            if(tipo.equalsIgnoreCase(tiposSolicitud[0])){
+                solicitud = servicioSolicitud.buscarSolicitud(Integer.valueOf(numero));
+                transferencia = null;
+            }else{
+                transferencia = servicioTransferencia.buscarTransferencia(Integer.valueOf(numero));
+                solicitud = null;
+            }
             this.setChanged();
             this.notifyObservers();
         } catch (Exception ex) {
@@ -52,6 +64,7 @@ public class ModeloJefe extends Observable {
                 throw (new Exception("Debe ingresar un codigo"));
             }
             this.tipo = tipo;
+            
             this.setChanged();
             this.notifyObservers();
         } catch (Exception ex) {
@@ -62,28 +75,35 @@ public class ModeloJefe extends Observable {
     public ArrayList<Object> getListaSolicitudes() {
         ArrayList<Object> list = new ArrayList();
         try {
-            Iterator<Solicitud> ite = servicioSolicitud.listarSolicitudes().iterator();
             if (tipo.equals(tiposSolicitud[0])) {
+                Iterator<Solicitud> ite = servicioSolicitud.listarSolicitudes().iterator();
                 while (ite.hasNext()) {
                     Solicitud d = ite.next();
-                    if (d.getEstado().equalsIgnoreCase("por verificar") && d.getTipo().equalsIgnoreCase(tipo)) {
-                        Object[] fila = new Object[5];
+                    if (d.getEstado().equalsIgnoreCase("por verificar")) {
+                        Object[] fila = new Object[6];
                         fila[0] = d.getNumeroSolicitud();
                         fila[1] = d.getFecha();
-                        fila[2] = d.getEstado();
-                        fila[3] = d.getCantiadadBienes();
+                        fila[2] = d.getTipo();
+                        fila[3] = d.getEstado();
+                        fila[4] = d.getCantiadadBienes();
+                        fila[5] = d.getMontoTotal();
+                        
                         list.add(fila);
                     }
                 }
             } else {
+                Iterator<Transferencia> ite = servicioTransferencia.listarTransferencia().iterator();
                 while (ite.hasNext()) {
-                    Solicitud d = ite.next();
-                    if (d.getTipo().equalsIgnoreCase(tipo)) {
-                        Object[] fila = new Object[5];
-                        fila[0] = d.getNumeroSolicitud();
-                        fila[1] = d.getFecha();
-                        fila[2] = d.getEstado();
-                        fila[3] = d.getCantiadadBienes();
+                    Transferencia t = ite.next();
+                    if (t.getAutorizacion().equalsIgnoreCase("Recibida")) {
+                        Object[] fila = new Object[6];
+                        fila[0] = t.getNumero();
+                        fila[1] = t.getOrigen().getNombre();
+                        fila[2] = t.getDestino().getNombre();
+                        fila[3] = t.getUbicacion();
+                        fila[4] = t.getFuncionario();
+                        fila[5] = t.getAutorizacion();
+                        
                         list.add(fila);
                     }
                 }
@@ -95,6 +115,14 @@ public class ModeloJefe extends Observable {
         return list;
     }
 
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+    
     @Override
     public void notifyObservers() {
         super.notifyObservers(getListaSolicitudes());
