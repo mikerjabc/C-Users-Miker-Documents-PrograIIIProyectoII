@@ -92,6 +92,15 @@ public class ModeloRegistrador extends Observable {
             if (codigo.equals("")) {
                 throw (new Exception("Numero invalido"));
             }
+            if (ubicacion.equals("")) {
+                throw (new Exception("Ubicación invalida"));
+            }
+            if (funcionario.equals("") || servicioFuncionario.consultarFuncionario(funcionario) == null) {
+                throw (new Exception("Funcionario invalido"));
+            }
+            if (bien.equals("") || servicioBien.buscarBien(bien) == null) {
+                throw (new Exception("Bien invalido"));
+            }
             servicioActivo.insertarActivo(new Activo(Integer.valueOf(codigo),servicioBien.buscarBien(bien),descripcion,servicioFuncionario.consultarFuncionario(funcionario),ubicacion), 0);
         } catch (Exception ex) {
             throw (new Exception(ex.getMessage()));
