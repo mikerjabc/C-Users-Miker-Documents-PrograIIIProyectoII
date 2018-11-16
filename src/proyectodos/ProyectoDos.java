@@ -24,11 +24,8 @@ public class ProyectoDos {
         ControllerLogin control = new ControllerLogin(new ModeloLogin(), vista);
         
         vista.setVisible(true);
-
-//        ModeloSecretaria modelo = new ModeloSecretaria();
-//        VistaSecretaria vistaSecretaria = new VistaSecretaria();
-//        ControllerSecretaria  controlSecretaria = new ControllerSecretaria(modelo, vistaSecretaria );
-//        controlSecretaria.getVistaSecretaria().setVisible(true);
+        
+        //Jose Prueba
     }
 
 }
