@@ -6,6 +6,7 @@ import Modelo.ModeloLogin;
 import Modelo.ModeloRegistrador;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.JOptionPane;
 
 
 
@@ -15,33 +16,10 @@ import java.util.Observer;
  */
 public class VistaLogin extends javax.swing.JFrame implements Observer {
 
- 
-    
-    public javax.swing.JTextField getCampoID() {
-        return campoID;
-    }
-
-   
-    public void setCampoID(javax.swing.JTextField campoID) {
-        this.campoID = campoID;
-    }
-
-  
-    public javax.swing.JPasswordField getCampoPassword() {
-        return campoPassword;
-    }
-
-    
-    public void setCampoPassword(javax.swing.JPasswordField campoPassword) {
-        this.campoPassword = campoPassword;
-    }
-
-   
     public VistaLogin() {
         initComponents();
         this.setLocationRelativeTo(null);
     }
-
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -51,10 +29,10 @@ public class VistaLogin extends javax.swing.JFrame implements Observer {
         Ingresar = new javax.swing.JButton();
         salir = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        campoPassword = new javax.swing.JPasswordField();
+        jtfPassword = new javax.swing.JPasswordField();
         id = new javax.swing.JLabel();
         password = new javax.swing.JLabel();
-        campoID = new javax.swing.JTextField();
+        ftfId = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -66,8 +44,10 @@ public class VistaLogin extends javax.swing.JFrame implements Observer {
         jLabel4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         Ingresar.setText("INGRESAR");
+        Ingresar.setName("ingresar"); // NOI18N
 
         salir.setText("SALIR");
+        salir.setName("salir"); // NOI18N
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -89,8 +69,8 @@ public class VistaLogin extends javax.swing.JFrame implements Observer {
                     .addComponent(id, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(campoPassword)
-                    .addComponent(campoID))
+                    .addComponent(jtfPassword)
+                    .addComponent(ftfId))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -98,12 +78,12 @@ public class VistaLogin extends javax.swing.JFrame implements Observer {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoID, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ftfId, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(id))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(password)
-                    .addComponent(campoPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtfPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -117,7 +97,7 @@ public class VistaLogin extends javax.swing.JFrame implements Observer {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 149, Short.MAX_VALUE)
+                        .addGap(0, 392, Short.MAX_VALUE)
                         .addComponent(salir)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Ingresar)))
@@ -134,7 +114,7 @@ public class VistaLogin extends javax.swing.JFrame implements Observer {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Ingresar)
                     .addComponent(salir))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         pack();
@@ -175,11 +155,11 @@ public class VistaLogin extends javax.swing.JFrame implements Observer {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Ingresar;
-    private javax.swing.JTextField campoID;
-    private javax.swing.JPasswordField campoPassword;
+    public javax.swing.JTextField ftfId;
     private javax.swing.JLabel id;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    public javax.swing.JPasswordField jtfPassword;
     private javax.swing.JLabel password;
     private javax.swing.JButton salir;
     // End of variables declaration//GEN-END:variables
@@ -196,6 +176,10 @@ public class VistaLogin extends javax.swing.JFrame implements Observer {
         this.controlador = controlador;
         Ingresar.addActionListener(controlador);
         salir.addActionListener(controlador);
+    }
+    
+    public void mostrarMensaje(String mensaje) {
+        JOptionPane.showMessageDialog(this, mensaje);
     }
 
     @Override

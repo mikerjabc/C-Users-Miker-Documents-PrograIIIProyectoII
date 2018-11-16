@@ -73,7 +73,7 @@ public class VistaRegistrador extends javax.swing.JFrame implements Observer {
         jmiSalir = new javax.swing.JMenuItem();
         jmAyuda = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         jtFuncionarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

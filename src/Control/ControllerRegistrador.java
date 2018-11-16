@@ -1,17 +1,12 @@
 package Control;
 
-import Logic.Funcionario;
-import Modelo.ModeloJefe;
 import Modelo.ModeloRegistrador;
 import Vista.VistaActivo;
-import Vista.VistaFuncionario;
-import Vista.VistaJefe;
 import Vista.VistaRegistrador;
 import Vista.VistaSolicitud;
 import Vista.VistaTransferencia;
 import accesoADatos.GlobalException;
 import accesoADatos.NoDataException;
-import accesoADatos.ServicioDependencia;
 import accesoADatos.ServicioFuncionario;
 import accesoADatos.ServicioSolicitud;
 import accesoADatos.ServicioTransferencia;
@@ -21,7 +16,6 @@ import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JMenuItem;
 import javax.swing.JTable;
 

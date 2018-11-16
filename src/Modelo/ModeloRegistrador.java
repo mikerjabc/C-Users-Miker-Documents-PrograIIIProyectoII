@@ -3,7 +3,6 @@ package Modelo;
 
 import Logic.Activo;
 import Logic.Bien;
-import Logic.Funcionario;
 import Logic.Solicitud;
 import Logic.Transferencia;
 import accesoADatos.GlobalException;

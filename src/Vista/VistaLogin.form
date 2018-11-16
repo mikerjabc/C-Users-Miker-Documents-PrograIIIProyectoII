@@ -4,7 +4,7 @@
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-      <Color id="Default Cursor"/>
+      <Color id="Cursor Por defecto"/>
     </Property>
     <Property name="undecorated" type="boolean" value="true"/>
   </Properties>
@@ -33,7 +33,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jPanel1" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="0" pref="149" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="392" max="32767" attributes="0"/>
                       <Component id="salir" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="Ingresar" min="-2" max="-2" attributes="0"/>
@@ -55,7 +55,7 @@
                   <Component id="Ingresar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="salir" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="23" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -74,11 +74,13 @@
     <Component class="javax.swing.JButton" name="Ingresar">
       <Properties>
         <Property name="text" type="java.lang.String" value="INGRESAR"/>
+        <Property name="name" type="java.lang.String" value="ingresar" noResource="true"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="salir">
       <Properties>
         <Property name="text" type="java.lang.String" value="SALIR"/>
+        <Property name="name" type="java.lang.String" value="salir" noResource="true"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JPanel" name="jPanel1">
@@ -101,8 +103,8 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="campoPassword" max="32767" attributes="0"/>
-                      <Component id="campoID" max="32767" attributes="0"/>
+                      <Component id="jtfPassword" max="32767" attributes="0"/>
+                      <Component id="ftfId" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -113,13 +115,13 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="campoID" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="ftfId" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                       <Component id="id" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="password" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="campoPassword" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="jtfPassword" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -127,7 +129,10 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JPasswordField" name="campoPassword">
+        <Component class="javax.swing.JPasswordField" name="jtfPassword">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="id">
           <Properties>
@@ -146,7 +151,10 @@
             <Property name="text" type="java.lang.String" value="Password:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="campoID">
+        <Component class="javax.swing.JTextField" name="ftfId">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

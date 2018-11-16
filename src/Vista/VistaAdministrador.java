@@ -135,7 +135,7 @@ public class VistaAdministrador extends javax.swing.JFrame implements Observer {
             }
         });
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setResizable(false);
 
         jLabel1.setText("NUMERO DE COMPROBANTE");

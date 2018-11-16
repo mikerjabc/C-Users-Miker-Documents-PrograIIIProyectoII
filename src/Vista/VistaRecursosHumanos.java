@@ -71,7 +71,7 @@ public class VistaRecursosHumanos extends javax.swing.JFrame implements Observer
         jmiSalir = new javax.swing.JMenuItem();
         jmAyuda = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Comic Sans MS", 2, 26)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

@@ -194,9 +194,7 @@ public class ControllerJefe extends AbstractController implements ItemListener {
                 }
                 break;
                 case "cambiar": {
-                    mensaje = "Cambiar de usuario";
-                    //vistaFuncionario.setVisible(false);
-
+                    vista.dispose();
                 }
                 break;
                 case "salir": {

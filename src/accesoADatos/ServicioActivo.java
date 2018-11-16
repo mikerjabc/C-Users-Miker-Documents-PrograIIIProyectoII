@@ -22,9 +22,9 @@ import java.util.ArrayList;
  */
 public class ServicioActivo extends Servicio {
 
-    private static final String INSERTARACTIVO = "{call insertarActivo(?,?,?,?,?,?,?)}";
+    private static final String INSERTARACTIVO = "{call insertarActivo(?,?,?,?,?,?)}";
     private static final String ELIMINARACTIVO = "{call eliminarActivo(?)}";
-    private static final String MODIFICARACTIVO = "{call modificarActivo(?,?,?,?,?)}";
+    private static final String MODIFICARACTIVO = "{call modificarActivo(?,?,?,?)}";
     private static final String LISTARACTIVO = "{?=call listarActivo}";
     private static final String CONSULTARACTIVO = "{?=call consultarActivo(?)}";    
     private static final String BUSCARACTIVOPORDEPENDENCIA = "{?=call buscarActivoPorDependencia(?)}";
@@ -50,7 +50,7 @@ public class ServicioActivo extends Servicio {
             pstmt.setString(3, elActivo.getUbicacion());
             pstmt.setString(4, elActivo.getBien().getSerial());
             pstmt.setString(5, elActivo.getFuncionario().getId());
-            pstmt.setInt(7, elCodigo);
+            pstmt.setInt(6, elCodigo);
             
             boolean resultado = pstmt.execute();
             if (resultado == true) {
