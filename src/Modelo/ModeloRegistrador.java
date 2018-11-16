@@ -25,13 +25,14 @@ public class ModeloRegistrador extends Observable {
     private ServicioFuncionario servicioFuncionario;
     private ServicioBien servicioBien;
     private ServicioActivo servicioActivo;
-    public final String[] tiposSolicitud = {"Incorporación","Traslado"};
+    public final String[] tiposSolicitud = {"Incorporación","Traslado","Catálogo"};
     public final String[] tiposBienes = {"Compra","Donación","Producción institucional"};
     public final Object[] VARIABLESTABLA = {"Número","Fecha","Tipo","Estado","Cantidad de Bienes","Monto Total","Origen","Destino","Ubicación","Funcionario","Autorización"};
     private String tipo;
     private Solicitud solicitud;
     private Transferencia transferencia;
     private Bien bien;
+    private Activo activo;
 
     public ModeloRegistrador() {
         tipo = tiposSolicitud[0];
@@ -128,7 +129,6 @@ public class ModeloRegistrador extends Observable {
                 throw (new Exception("Debe ingresar un codigo"));
             }
             this.tipo = tipo;
-            
             this.setChanged();
             this.notifyObservers();
         } catch (Exception ex) {
@@ -142,39 +142,74 @@ public class ModeloRegistrador extends Observable {
             if (tipo.equals(tiposSolicitud[0])) {
                 Iterator<Solicitud> ite = servicioSolicitud.listarSolicitudes().iterator();
                 while (ite.hasNext()) {
-                    Solicitud d = ite.next();
-                    if (d.getEstado().equalsIgnoreCase("por verificar")) {
-                        Object[] fila = new Object[6];
-                        fila[0] = d.getNumeroSolicitud();
-                        fila[1] = d.getFecha();
-                        fila[2] = d.getTipo();
-                        fila[3] = d.getEstado();
-                        fila[4] = d.getCantiadadBienes();
-                        fila[5] = d.getMontoTotal();
-                        
+                    Solicitud solicitud = ite.next();
+                    if (solicitud.getEstado().equalsIgnoreCase("por verificar")) {
+                        Object[] fila = {solicitud.getNumeroSolicitud(),
+                            solicitud.getFecha(),
+                            solicitud.getTipo(),
+                            solicitud.getEstado(),
+                            solicitud.getCantiadadBienes(),
+                            solicitud.getMontoTotal()
+                        };
                         list.add(fila);
                     }
                 }
-            } else {
+            } else if (tipo.equals(tiposSolicitud[1])) {
                 Iterator<Transferencia> ite = servicioTransferencia.listarTransferencia().iterator();
                 while (ite.hasNext()) {
                     Transferencia t = ite.next();
                     if (t.getAutorizacion().equalsIgnoreCase("Recibida")) {
-                        Object[] fila = new Object[6];
-                        fila[0] = t.getNumero();
-                        fila[1] = t.getOrigen().getNombre();
-                        fila[2] = t.getDestino().getNombre();
-                        fila[3] = t.getUbicacion();
-                        fila[4] = t.getFuncionario();
-                        fila[5] = t.getAutorizacion();
-                        
+                        Object[] fila = {t.getNumero(),
+                            t.getOrigen().getNombre(),
+                            t.getDestino().getNombre(),
+                            t.getUbicacion(),
+                            t.getFuncionario(),
+                            t.getAutorizacion()
+                        };
                         list.add(fila);
                     }
                 }
+            } else if (tipo.equals(tiposSolicitud[2])) {
+                Iterator<Activo> ite = servicioActivo.listarActivo().iterator();
+                while (ite.hasNext()) {
+                    Activo activo = ite.next();
+                    Object[] fila = {activo.getCodigoActivo(),
+                        activo.getBien().getDescripcion(),
+                        activo.getDescripcionActivo(),
+                        activo.getFuncionario().getNombre(),
+                        activo.getUbicacion()};
+                    list.add(fila);
+                }
+            } else if (solicitud != null) {
+                Object[] fila = {solicitud.getNumeroSolicitud(),
+                    solicitud.getFecha(),
+                    solicitud.getTipo(),
+                    solicitud.getEstado(),
+                    solicitud.getCantiadadBienes(),
+                    solicitud.getMontoTotal()
+                };
+                list.add(fila);
+            } else if (transferencia != null) {
+                Object[] fila = {transferencia.getNumero(),
+                    transferencia.getOrigen().getNombre(),
+                    transferencia.getDestino().getNombre(),
+                    transferencia.getUbicacion(),
+                    transferencia.getFuncionario(),
+                    transferencia.getAutorizacion()
+                };
+                list.add(fila);
+            } else if (activo != null) {
+                Object[] fila = {activo.getCodigoActivo(),
+                    activo.getBien().getDescripcion(),
+                    activo.getDescripcionActivo(),
+                    activo.getFuncionario().getNombre(),
+                    activo.getUbicacion()};
+                list.add(fila);
             }
         } catch (GlobalException | NoDataException ex) {
         } catch (SQLException ex) {
             Logger.getLogger(ModeloRecurHumanos.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
         return list;
     }

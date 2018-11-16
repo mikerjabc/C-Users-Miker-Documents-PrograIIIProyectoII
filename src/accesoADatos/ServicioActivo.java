@@ -32,7 +32,7 @@ public class ServicioActivo extends Servicio {
     
     private static ServicioActivo servicioActivo = new ServicioActivo();
     
-    public void insertarActivo(Activo elActivo, int elCodigo) throws GlobalException, NoDataException {
+    public void insertarActivo(Activo elActivo, int elCodigoDependencia) throws GlobalException, NoDataException {
         try {
             conectar();
         } catch (ClassNotFoundException e) {
@@ -50,7 +50,7 @@ public class ServicioActivo extends Servicio {
             pstmt.setString(3, elActivo.getUbicacion());
             pstmt.setString(4, elActivo.getBien().getSerial());
             pstmt.setString(5, elActivo.getFuncionario().getId());
-            pstmt.setInt(6, elCodigo);
+            pstmt.setInt(6, elCodigoDependencia);
             
             boolean resultado = pstmt.execute();
             if (resultado == true) {

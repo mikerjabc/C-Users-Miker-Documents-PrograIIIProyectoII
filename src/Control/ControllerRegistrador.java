@@ -197,14 +197,11 @@ public final class ControllerRegistrador extends AbstractController implements I
                 }
                 break;
                 case "cambiar": {
-                    mensaje = "Cambiar de usuario";
-                    //vistaFuncionario.setVisible(false);
+                    vista.dispose();
 
                 }
                 break;
                 case "catalogo": {
-                    mensaje = "Cambiar de usuario";
-                    //vistaFuncionario.setVisible(false);
                 }
                 break;
                 case "salir": {

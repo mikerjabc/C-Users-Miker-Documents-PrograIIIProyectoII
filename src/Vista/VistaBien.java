@@ -181,7 +181,7 @@ public class VistaBien extends javax.swing.JFrame implements Observer {
         jLabel7.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel7.setText("SOLICITUD DE BIENES ");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SOLICITUD DE BIENES");
         setLocation(new java.awt.Point(0, 0));
         setResizable(false);

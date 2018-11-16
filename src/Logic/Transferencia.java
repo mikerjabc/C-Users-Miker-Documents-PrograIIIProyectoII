@@ -21,11 +21,11 @@ public class Transferencia {
     private String autorizacion;
     private final String ESTADOINICIAL = "Recibida";
 
-    public Transferencia(int numero, Dependencia origen, Dependencia destino, ArrayList<Bien> listaBienes, String ubicacion, Funcionario funcionario) {
+    public Transferencia(int numero, Dependencia origen, Dependencia destino, String ubicacion, Funcionario funcionario) {
         this.numero = numero;
         this.origen = origen;
         this.destino = destino;
-        this.listaBienes = listaBienes;
+        this.listaBienes = new ArrayList();
         this.ubicacion = ubicacion;
         this.funcionario = funcionario;
         this.autorizacion = ESTADOINICIAL;

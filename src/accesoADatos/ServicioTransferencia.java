@@ -19,9 +19,9 @@ import oracle.jdbc.OracleTypes;
  */
 public class ServicioTransferencia extends Servicio {
 
-    private static final String INSERTARTRANSFERENCIA = "{call insertarTransferencia(?,?,?,?,?)}";
+    private static final String INSERTARTRANSFERENCIA = "{call insertarTransferencia(?,?,?,?,?,?)}";
     private static final String ELIMINARTRANSFERENCIA = "{call eliminarTransferencia(?)}";
-    private static final String MODIFICARTRANSFERENCIA = "{call modificarTransferencia(?,?,?,?,?)}";
+    private static final String MODIFICARTRANSFERENCIA = "{call modificarTransferencia(?,?,?,?,?,?)}";
     private static final String LISTARTRANSFERENCIA = "{?=call listarTransferencia}";
     private static final String CONSULTARTRANSFERENCIA = "{?=call consultarTransferencia(?)}";
     
@@ -45,6 +45,7 @@ public class ServicioTransferencia extends Servicio {
             pstmt.setInt(3, laTransferencia.getDestino().getCodigo());
             pstmt.setString(4, laTransferencia.getUbicacion());
             pstmt.setString(5, laTransferencia.getFuncionario().getId());
+            pstmt.setString(6, laTransferencia.getAutorizacion());
             
             boolean resultado = pstmt.execute();
             if (resultado == true) {
@@ -120,6 +121,7 @@ public class ServicioTransferencia extends Servicio {
             pstmt.setInt(3, laTransferencia.getDestino().getCodigo());
             pstmt.setString(4, laTransferencia.getUbicacion());
             pstmt.setString(5, laTransferencia.getFuncionario().getId());
+            pstmt.setString(6, laTransferencia.getAutorizacion());
 
             boolean resultado = pstmt.execute();
 
@@ -167,10 +169,11 @@ public class ServicioTransferencia extends Servicio {
                         rs.getInt("numero"),
                         ServicioDependencia.getServicioDependencia().buscarDependencia(rs.getInt("origen")),
                         ServicioDependencia.getServicioDependencia().buscarDependencia(rs.getInt("origen")),
-                        ServicioBien.getServicioBien().buscarBienPorTransferencia(rs.getInt("numero")),
                         rs.getString("ubicacion"),
                         ServicioFuncionario.getServicioFuncionario().buscarFuncionarioPorTransferencia(rs.getInt("numero"))
                 );
+                laTransferencia.setListaBienes(ServicioBien.getServicioBien().buscarBienPorTransferencia(rs.getInt("numero")));
+                laTransferencia.setAutorizacion(rs.getString("estado"));
                 coleccion.add(laTransferencia);
             }
         } catch (SQLException e) {
@@ -219,10 +222,11 @@ public class ServicioTransferencia extends Servicio {
                         rs.getInt("numero"),
                         ServicioDependencia.getServicioDependencia().buscarDependencia(rs.getInt("origen")),
                         ServicioDependencia.getServicioDependencia().buscarDependencia(rs.getInt("origen")),
-                        ServicioBien.getServicioBien().buscarBienPorTransferencia(rs.getInt("numero")),
                         rs.getString("ubicacion"),
                         ServicioFuncionario.getServicioFuncionario().buscarFuncionarioPorTransferencia(rs.getInt("numero"))
                 );
+                laTransferencia.setListaBienes(ServicioBien.getServicioBien().buscarBienPorTransferencia(rs.getInt("numero")));
+                laTransferencia.setAutorizacion(rs.getString("estado"));
                 break;
              }
         } catch (SQLException e) {

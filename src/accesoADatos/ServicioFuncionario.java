@@ -17,6 +17,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import oracle.jdbc.OracleTypes;
 //import oracle.jdbc.OracleTypes;
 
 /**
@@ -29,9 +30,9 @@ public class ServicioFuncionario extends Servicio {
     private static final String ELIMINARFUNCIONARIO = "{call eliminarFuncionario(?)}";
     private static final String MODIFICARFUNCIONARIO = "{call modificarFuncionario(?,?,?,?)}";
     private static final String LISTARFUNCIONARIO = "{?=call listarFuncionario}";
-    private static final String CONSULTARFUNCIONARIO = "{?=call consultarFuncionario(?)}";
-    private static final String CONSULTARFUNCIONARIOPORDEPENDENCIA = "{?=call consultarFuncionarioPorDependencia(?)}";
-    private static final String CONSULTARFUNCIONARIOPORTRANSFERENCIA = "{?=call consultarFuncionarioPorTransferencia(?)}";
+    private static final String CONSULTARFUNCIONARIO = "{?=call buscarFuncionario(?)}";
+    private static final String CONSULTARFUNCIONARIOPORDEPENDENCIA = "{?=call buscarFuncionarioPorDependencia(?)}";
+    private static final String CONSULTARFUNCIONARIOPORTRANSFERENCIA = "{?=call buscarFuncionarioPorTransferencia(?)}";
 
     private static ServicioFuncionario servicioFuncionario = new ServicioFuncionario();
 
@@ -164,7 +165,7 @@ public class ServicioFuncionario extends Servicio {
 
         try {
             pstmt = conexion.prepareCall(CONSULTARFUNCIONARIO);
-            //pstmt.registerOutParameter(1, OracleTypes.CURSOR);            
+            pstmt.registerOutParameter(1, OracleTypes.CURSOR);            
             pstmt.setString(2, elId);
             pstmt.execute();
             rs = (ResultSet) pstmt.getObject(1);
@@ -174,7 +175,7 @@ public class ServicioFuncionario extends Servicio {
                     elFuncionario = new Funcionario(rs.getString("id"),
                             rs.getString("nombre"),
                             rs.getString("puesto"),
-                            rs.getString("password")
+                            rs.getString("contrasena")
                     );
                     break;
                 }

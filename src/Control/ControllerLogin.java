@@ -95,7 +95,7 @@ public class ControllerLogin implements MouseListener, ActionListener, KeyListen
                     if (funcionario == null) {
                         throw (new Exception("¡No existe ningún funcionario con este ID: " + vista.ftfId.getText() + "!"));
                     }
-                    instrucciones(funcionario.getId());
+                    instrucciones(funcionario.getPuesto());
                     vista.mostrarMensaje("¡Bienvenido " + funcionario.getNombre() + '!');
                 }
                 break;
@@ -129,6 +129,7 @@ public class ControllerLogin implements MouseListener, ActionListener, KeyListen
                     aux.addWindowListener(this);
                     controlador = new ControllerRegistrador(new ModeloRegistrador(), aux);
                     this.vista.setVisible(false);
+                    controlador.mostrarVista();
                 }
                 break;
                 case "recursoshumanos": {

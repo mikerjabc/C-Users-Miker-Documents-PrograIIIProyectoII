@@ -70,7 +70,7 @@ public class VistaSecretaria extends javax.swing.JFrame implements Observer {
 
         jMenuItem6.setText("jMenuItem6");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btnVerSolicitudes.setText("VER SOLICITUDES");
         btnVerSolicitudes.addActionListener(new java.awt.event.ActionListener() {

@@ -184,8 +184,7 @@ public class ControllerRecurHumanos extends AbstractController implements ItemLi
                 }
                 break;
                 case "cambiar": {
-                    mensaje = "Cambiar de usuario";
-                    vistaFuncionario.setVisible(false);
+                    vista.dispose();
 
                 }
                 break;
