@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import oracle.jdbc.OracleTypes;
 
 public class ServicioDependencia extends Servicio {
 
@@ -160,7 +161,7 @@ public class ServicioDependencia extends Servicio {
 
         try {
             pstmt = conexion.prepareCall(CONSULTARDEPENDENCIA);
-            //pstmt.registerOutParameter(1, OracleTypes.CURSOR);            
+            pstmt.registerOutParameter(1, OracleTypes.CURSOR);            
             pstmt.setInt(2, elCodigo);
             pstmt.execute();
             rs = (ResultSet) pstmt.getObject(1);
@@ -215,7 +216,7 @@ public class ServicioDependencia extends Servicio {
         CallableStatement pstmt = null;
         try {
             pstmt = conexion.prepareCall(LISTARDEPENDENCIA);
-            //pstmt.registerOutParameter(1, OracleTypes.CURSOR);	
+            pstmt.registerOutParameter(1, OracleTypes.CURSOR);	
             while (rs.next()) {
                     laDependencia = new Dependencia(rs.getInt("codigo"),
                                                     rs.getString("nombre")

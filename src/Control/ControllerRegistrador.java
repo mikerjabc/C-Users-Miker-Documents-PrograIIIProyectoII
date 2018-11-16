@@ -72,7 +72,7 @@ public final class ControllerRegistrador extends AbstractController implements I
                 JTable tabla = (JTable) ae.getSource();
                 numero = tabla.getValueAt(tabla.getSelectedRow(), 0).toString();
                 tabla.changeSelection(tabla.getSelectedRow(), 0, false, true);
-                modelo.buscarSolicitud(vista.jtIdBuscar.getText());
+                modelo.buscarTransferencia_Incorporacion_Activo(vista.jtIdBuscar.getText());
                 if (ae.getClickCount() == 2) {
                     switch (ae.getButton()) {
                         case MouseEvent.BUTTON2: {//Click derecho
@@ -187,7 +187,6 @@ public final class ControllerRegistrador extends AbstractController implements I
                 case "cancelar": {
                     mensaje = "No se realizo ningun cambio";
                     if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[0])) {
-                        
                         vistaSolicitud.setVisible(false);
                         vistaSolicitud.limpiarTodosEspacios();
                     } else {
@@ -198,7 +197,6 @@ public final class ControllerRegistrador extends AbstractController implements I
                 break;
                 case "cambiar": {
                     vista.dispose();
-
                 }
                 break;
                 case "catalogo": {

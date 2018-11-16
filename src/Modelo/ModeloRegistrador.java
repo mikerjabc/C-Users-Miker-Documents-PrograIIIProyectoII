@@ -56,7 +56,7 @@ public class ModeloRegistrador extends Observable {
         this.notifyObservers();
     }
     
-    public void buscarSolicitud(String numero) throws Exception {
+    public void buscarTransferencia_Incorporacion_Activo(String numero) throws Exception {
         try {
             if (numero.equals("")) {
                 throw (new Exception("numero invalido"));
@@ -64,9 +64,15 @@ public class ModeloRegistrador extends Observable {
             if(tipo.equalsIgnoreCase(tiposSolicitud[0])){
                 solicitud = servicioSolicitud.buscarSolicitud(Integer.valueOf(numero));
                 transferencia = null;
-            }else{
+                activo = null;
+            } else if(tipo.equalsIgnoreCase(tiposSolicitud[1])){
                 transferencia = servicioTransferencia.buscarTransferencia(Integer.valueOf(numero));
                 solicitud = null;
+                activo = null;
+            }else{
+                activo = servicioActivo.buscarActivo(Integer.valueOf(numero));
+                solicitud = null;
+                transferencia = null;
             }
             this.setChanged();
             this.notifyObservers();
@@ -157,14 +163,14 @@ public class ModeloRegistrador extends Observable {
             } else if (tipo.equals(tiposSolicitud[1])) {
                 Iterator<Transferencia> ite = servicioTransferencia.listarTransferencia().iterator();
                 while (ite.hasNext()) {
-                    Transferencia t = ite.next();
-                    if (t.getAutorizacion().equalsIgnoreCase("Recibida")) {
-                        Object[] fila = {t.getNumero(),
-                            t.getOrigen().getNombre(),
-                            t.getDestino().getNombre(),
-                            t.getUbicacion(),
-                            t.getFuncionario(),
-                            t.getAutorizacion()
+                    Transferencia transferencia = ite.next();
+                    if (transferencia.getAutorizacion().equalsIgnoreCase("Recibida")) {
+                        Object[] fila = {transferencia.getNumero(),
+                            transferencia.getOrigen().getNombre(),
+                            transferencia.getDestino().getNombre(),
+                            transferencia.getUbicacion(),
+                            transferencia.getFuncionario(),
+                            transferencia.getAutorizacion()
                         };
                         list.add(fila);
                     }

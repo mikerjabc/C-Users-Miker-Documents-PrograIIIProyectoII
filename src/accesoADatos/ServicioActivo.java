@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import oracle.jdbc.OracleTypes;
 //import oracle.jdbc.OracleTypes;
 //import oracle.jdbc.OracleTypes;
 //import oracle.jdbc.OracleTypes;
@@ -147,7 +148,7 @@ public class ServicioActivo extends Servicio {
         }
     }
 
-    public Activo buscarActivo(String elCodigo) throws GlobalException, NoDataException {
+    public Activo buscarActivo(int elCodigo) throws GlobalException, NoDataException {
         try {
             conectar();
         } catch (ClassNotFoundException e) {
@@ -163,13 +164,13 @@ public class ServicioActivo extends Servicio {
 
         try {
             pstmt = conexion.prepareCall(CONSULTARACTIVO);
-            //pstmt.registerOutParameter(1, OracleTypes.CURSOR);
-            pstmt.setString(2, elCodigo);
+            pstmt.registerOutParameter(1, OracleTypes.CURSOR);
+            pstmt.setInt(2, elCodigo);
             pstmt.execute();
             rs = (ResultSet) pstmt.getObject(1);
 
             while (rs.next()) {
-                if (rs.getString("codigo").equals(elCodigo)) {
+                if (rs.getInt("codigo") == elCodigo) {
                     elActivo = new Activo(rs.getInt("codigo"),
                             ServicioBien.getServicioBien().buscarBien(rs.getString("serial")),
                             rs.getString("descripcion"),
@@ -217,7 +218,7 @@ public class ServicioActivo extends Servicio {
         CallableStatement pstmt = null;
         try {
             pstmt = conexion.prepareCall(LISTARACTIVO);
-            //pstmt.registerOutParameter(1, OracleTypes.CURSOR);	
+            pstmt.registerOutParameter(1, OracleTypes.CURSOR);	
             pstmt.execute();
             rs = (ResultSet) pstmt.getObject(1);
             while (rs.next()) {
@@ -265,7 +266,7 @@ public class ServicioActivo extends Servicio {
         CallableStatement pstmt = null;
         try {
             pstmt = conexion.prepareCall(BUSCARACTIVOPORDEPENDENCIA);
-            //pstmt.registerOutParameter(1, OracleTypes.CURSOR);	
+            pstmt.registerOutParameter(1, OracleTypes.CURSOR);	
             pstmt.setInt(2,codigoDependencia);
             pstmt.execute();
             rs = (ResultSet) pstmt.getObject(1);
