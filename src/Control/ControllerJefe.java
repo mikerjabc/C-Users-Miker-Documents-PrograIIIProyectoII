@@ -162,7 +162,7 @@ public class ControllerJefe extends AbstractController implements ItemListener {
                         modelo.buscarBien(vistaSolicitud.jtfNumero.getText(), vistaSolicitud.jtfIdBuscar.getText());
                         mensaje = "Se encontro el bien";
                     } else {
-                        modelo.AutorizarTransferencia(vistaTrasferencia.jtfNumero.getText(), vistaTrasferencia.jtfIdBuscar.getText());
+                        modelo.AutorizarTransferencia(vistaTrasferencia.jtfNumero.getText(), vistaTrasferencia.jtfCodigoBuscar.getText());
                         vistaTrasferencia.setVisible(false);
                         mensaje = "Se encontro el bien";
                     }
@@ -175,7 +175,7 @@ public class ControllerJefe extends AbstractController implements ItemListener {
                         modelo.buscarBien(vistaSolicitud.jtfNumero.getText(), vistaSolicitud.jtfIdBuscar.getText());
                         mensaje = "Se encontro el bien";
                     } else {
-                        modelo.AutorizarTransferencia(vistaTrasferencia.jtfNumero.getText(), vistaTrasferencia.jtfIdBuscar.getText());
+                        modelo.AutorizarTransferencia(vistaTrasferencia.jtfNumero.getText(), vistaTrasferencia.jtfCodigoBuscar.getText());
                         vistaTrasferencia.setVisible(false);
                         mensaje = "Se encontro el bien";
                     }

@@ -15,47 +15,55 @@ import java.util.Observable;
  *
  * @author MikerJABC
  */
-public class ModeloSolicitud extends Observable{
+public class ModeloSolicitud extends Observable {
+
     private ArrayList<Bien> listaBienes;
     private Bien bien;
-    public final String[] tiposBien = {"Compra","Donación","Producción institucional"};
-    public final String[] tiposEstadoSolicitud = {"Recibida","Por verificar","Rechazada","Espera de rotulación", "Procesada"};
-    
+    public final String[] tiposBien = {"Compra", "Donación", "Producción institucional"};
+    public final String[] tiposEstadoSolicitud = {"Recibida", "Por verificar", "Rechazada", "Espera de rotulación", "Procesada"};
+
     public ModeloSolicitud() {
         listaBienes = new ArrayList();
     }
-    
+
     public void agregarBien(String serial, String descripcion, String modelo, String marca, String precio, String cantidad) throws Exception {
-        if (serial.equals("")) {
-            throw (new Exception("Serial invalido"));
+        try {
+            if (serial.equals("")) {
+                throw (new Exception("Serial invalido"));
+            }
+            if (descripcion.equals("")) {
+                throw (new Exception("Descripción invalida"));
+            }
+            if (modelo.equals("")) {
+                throw (new Exception("Modelo invalido"));
+            }
+            if (marca.equals("")) {
+                throw (new Exception("Marca invalida"));
+            }
+            if (precio.equals("")) {
+                throw (new Exception("Precio invalido"));
+            }
+            if (cantidad.equals("")) {
+                throw (new Exception("Cantidad invalida"));
+            }
+            listaBienes.add(new Bien(serial, descripcion, modelo, marca, Integer.valueOf(precio), Integer.valueOf(cantidad)));
+            this.setChanged();
+            this.notifyObservers();
+        } catch (Exception ex) {
+            throw (new Exception(ex.getMessage()));
         }
-        if (descripcion.equals("")) {
-            throw (new Exception("Descripción invalida"));
-        }
-        if (modelo.equals("")) {
-            throw (new Exception("Modelo invalido"));
-        }
-        if (marca.equals("")) {
-            throw (new Exception("Marca invalida"));
-        }
-        if (precio.equals("")) {
-            throw (new Exception("Precio invalido"));
-        }
-        if (cantidad.equals("")) {
-            throw (new Exception("Cantidad invalida"));
-        }
-        listaBienes.add(new Bien(serial,descripcion,modelo,marca,Integer.valueOf(precio),Integer.valueOf(cantidad)));
     }
-    
+
     public void eliminarBien(Bien bien) throws Exception {
-        try{
+        try {
             listaBienes.remove(bien);
-        }
-        catch(Exception ex){
-            throw(new Exception(ex.getMessage()));
+            this.setChanged();
+            this.notifyObservers();
+        } catch (Exception ex) {
+            throw (new Exception(ex.getMessage()));
         }
     }
-    
+
     public void modificarBien(String serial, String descripcion, String modelo, String marca, String precio, String cantidad) throws Exception {
         try {
             if (serial.equals("")) {
@@ -84,24 +92,32 @@ public class ModeloSolicitud extends Observable{
                     break;
                 }
             }
+            this.setChanged();
+            this.notifyObservers();
         } catch (Exception ex) {
             throw (new Exception(ex.getMessage()));
         }
 
     }
-    
+
     public void buscarBien(String serial) throws Exception {
-        if (serial.equals("")) {
-            throw (new Exception("Serial invalido"));
-        }
-        Iterator<Bien> ite = listaBienes.iterator();
-        while (ite.hasNext()) {
-            Bien d = ite.next();
-            bien = d;
-            break;
+        try {
+            if (serial.equals("")) {
+                throw (new Exception("Serial invalido"));
+            }
+            Iterator<Bien> ite = listaBienes.iterator();
+            while (ite.hasNext()) {
+                Bien d = ite.next();
+                bien = d;
+                break;
+            }
+            this.setChanged();
+            this.notifyObservers();
+        } catch (Exception ex) {
+            throw (new Exception(ex.getMessage()));
         }
     }
-    
+
     private ArrayList<Object> getListaBien() {
         ArrayList<Object> list = new ArrayList();
         if (bien != null) {
@@ -131,7 +147,7 @@ public class ModeloSolicitud extends Observable{
     public Bien getBien() {
         return bien;
     }
-    
+
     @Override
     public void notifyObservers() {
         super.notifyObservers(getListaBien());

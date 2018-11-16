@@ -50,44 +50,29 @@ public class VistaActivo extends javax.swing.JFrame {
         jLabel6.setText("Activo");
 
         btnInsertar.setText("Agregar");
-        btnInsertar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnInsertarActionPerformed(evt);
-            }
-        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel3.setText("Ubicacion:");
+        jLabel3.setText("Ubicación:");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Funcionario:");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel2.setText("Descripcion:");
+        jLabel2.setText("Descripción:");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel4.setText("Codigo:");
+        jLabel4.setText("Código:");
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel5.setText("Bien:");
 
         jtfCodigo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jtfCodigo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtfCodigoActionPerformed(evt);
-            }
-        });
 
         jtfBien.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         jtfDescripcion1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jtfDescripcion1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtfDescripcion1ActionPerformed(evt);
-            }
-        });
 
         jtfDescripcion.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
@@ -181,18 +166,6 @@ public class VistaActivo extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertarActionPerformed
-
-    }//GEN-LAST:event_btnInsertarActionPerformed
-
-    private void jtfDescripcion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfDescripcion1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtfDescripcion1ActionPerformed
-
-    private void jtfCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCodigoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtfCodigoActionPerformed
 
     /**
      * @param args the command line arguments

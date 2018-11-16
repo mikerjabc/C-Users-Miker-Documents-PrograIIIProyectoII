@@ -1,6 +1,8 @@
 package Control;
 
 import Modelo.ModeloRegistrador;
+import Modelo.ModeloSolicitud;
+import Modelo.ModeloTransferencia;
 import Vista.VistaActivo;
 import Vista.VistaRegistrador;
 import Vista.VistaSolicitud;
@@ -62,8 +64,13 @@ public final class ControllerRegistrador extends AbstractController implements I
 
     public void ajustarVista() {
         vistaSolicitud = new VistaSolicitud();
+        vistaSolicitud.setModelo(new ModeloSolicitud());
+        //
         vistaTransferencia = new VistaTransferencia();
+        vistaTransferencia.setModelo(new ModeloTransferencia());
+        //
         vistaActivo = new VistaActivo();
+        //
         vistaSolicitud.ajustatVistaParaFuncionario("Registrador");
         vistaTransferencia.ajustatVistaParaFuncionario("Registrador");
     }
@@ -169,7 +176,7 @@ public final class ControllerRegistrador extends AbstractController implements I
                         //modelo.buscarBien(vistaSolicitud.jtfNumero.getText(), vistaSolicitud.jtfIdBuscar.getText());
                         mensaje = "Se encontro el bien";
                     } else {
-                        modelo.AutorizarTransferencia(vistaTransferencia.jtfNumero.getText(), vistaTransferencia.jtfIdBuscar.getText());
+                        modelo.AutorizarTransferencia(vistaTransferencia.jtfNumero.getText(), vistaTransferencia.jtfCodigoBuscar.getText());
                         vistaTransferencia.setVisible(false);
                         mensaje = "Se encontro el bien";
                     }
@@ -182,7 +189,7 @@ public final class ControllerRegistrador extends AbstractController implements I
                         //modelo.buscarBien(vistaSolicitud.jtfNumero.getText(), vistaSolicitud.jtfIdBuscar.getText());
                         mensaje = "Se encontro el bien";
                     } else {
-                        modelo.AutorizarTransferencia(vistaTransferencia.jtfNumero.getText(), vistaTransferencia.jtfIdBuscar.getText());
+                        modelo.AutorizarTransferencia(vistaTransferencia.jtfNumero.getText(), vistaTransferencia.jtfCodigoBuscar.getText());
                         vistaTransferencia.setVisible(false);
                         mensaje = "Se encontro el bien";
                     }

@@ -6,12 +6,10 @@
 package Vista;
 
 import Control.ControllerAdministrador;
-import Control.ControllerSolicitud;
 import java.util.Observable;
 import javax.swing.table.DefaultTableModel;
 
 import Logic.Solicitud;
-import Control.ControllerSolicitud;
 import Modelo.ModeloAdministrador;
 import java.util.Observer;
 
@@ -75,9 +73,7 @@ public class VistaAdministrador extends javax.swing.JFrame implements Observer {
     public void setCampoMontoTotal(javax.swing.JTextPane campoMontoTotal) {
         this.campoMontoTotal = campoMontoTotal;
     }
-
-   
-    ControllerSolicitud controller = null;    
+    
     public DefaultTableModel dtm = new DefaultTableModel();
      
       

@@ -5,74 +5,165 @@
  */
 package Modelo;
 
-import Logic.Bien;
+import Logic.Activo;
+import accesoADatos.ServicioActivo;
+import accesoADatos.ServicioBien;
+import accesoADatos.ServicioFuncionario;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.ListIterator;
 import java.util.Observable;
 
-/**
- *
- * @author MikerJABC
- */
-public class ModeloTransferencia extends Observable{
-    private ArrayList<Bien> listaBienes;
-    private Bien bien;
-    public final String[] tiposEstadoTransferencia = {"Recibida","Aceptada","Rechazada"};
+public class ModeloTransferencia extends Observable {
+
+    private ArrayList<Activo> listaActivos;
+    private Activo activo;
+    public final String[] tiposEstadoTransferencia = {"Recibida", "Aceptada", "Rechazada"};
+    public ServicioActivo servicioActivo;
+    private ServicioFuncionario servicioFuncionario;
+    private ServicioBien servicioBien;
+    
+    public void setServicioActivo(ServicioActivo servicioActivo){
+        this.servicioActivo = servicioActivo;
+    }
+    
+    public void setServicioFuncionario(ServicioFuncionario servicioFuncionario) {
+        this.servicioFuncionario = servicioFuncionario;
+    }
+    
+    public void setServicioBien(ServicioBien servicioBien) {
+        this.servicioBien = servicioBien;
+    }
     
     public ModeloTransferencia() {
-        listaBienes = new ArrayList();
+        listaActivos = new ArrayList();
     }
-    
-    public void buscarBien(String serial) throws Exception {
-        if (serial.equals("")) {
-            throw (new Exception("Serial invalido"));
-        }
-        Iterator<Bien> ite = listaBienes.iterator();
-        while (ite.hasNext()) {
-            Bien d = ite.next();
-            bien = d;
-            break;
+
+    public void agregarActivo(String codigo, String bien, String descripcion, String funcionario, String ubicacion) throws Exception {
+        try {
+            if (codigo.equals("")) {
+                throw (new Exception("Código invalido"));
+            }
+            if (bien.equals("")) {
+                throw (new Exception("Bien invalido"));
+            }
+            if (descripcion.equals("")) {
+                throw (new Exception("Descripción invalida"));
+            }
+            if (funcionario.equals("")) {
+                throw (new Exception("Funcionario invalido"));
+            }
+            if (ubicacion.equals("")) {
+                throw (new Exception("Ubicación invalida"));
+            }
+            listaActivos.add(new Activo(Integer.valueOf(codigo), servicioBien.buscarBien(bien), descripcion, servicioFuncionario.consultarFuncionario(funcionario), ubicacion));
+            this.setChanged();
+            this.notifyObservers();
+        } catch (Exception ex) {
+            throw (new Exception(ex.getMessage()));
         }
     }
-    
-    private ArrayList<Object> getListaBien() {
+
+    public void eliminarActivo(Activo activo) throws Exception {
+        try {
+            listaActivos.remove(activo);
+            this.setChanged();
+            this.notifyObservers();
+        } catch (Exception ex) {
+            throw (new Exception(ex.getMessage()));
+        }
+    }
+
+    public void modificarActivo(String codigo, String bien, String descripcion, String funcionario, String ubicacion) throws Exception {
+        try {
+            if (codigo.equals("")) {
+                throw (new Exception("Código invalido"));
+            }
+            if (bien.equals("")) {
+                throw (new Exception("Bien invalido"));
+            }
+            if (descripcion.equals("")) {
+                throw (new Exception("Descripción invalida"));
+            }
+            if (funcionario.equals("")) {
+                throw (new Exception("Funcionario invalido"));
+            }
+            if (ubicacion.equals("")) {
+                throw (new Exception("Ubicación invalida"));
+            }
+            ListIterator<Activo> ite = listaActivos.listIterator();
+            while (ite.hasNext()) {
+                Activo d = ite.next();
+                if (activo.getCodigoActivo() == Integer.valueOf(codigo)) {
+                    listaActivos.add(new Activo(Integer.valueOf(codigo), servicioBien.buscarBien(bien), descripcion, servicioFuncionario.consultarFuncionario(funcionario), ubicacion));
+                    break;
+                }
+            }
+            this.setChanged();
+            this.notifyObservers();
+        } catch (Exception ex) {
+            throw (new Exception(ex.getMessage()));
+        }
+    }
+
+    public void buscarActivo(String codigo) throws Exception {
+        try {
+            if (codigo.equals("")) {
+                throw (new Exception("Serial invalido"));
+            }
+            Iterator<Activo> ite = listaActivos.iterator();
+            while (ite.hasNext()) {
+                Activo d = ite.next();
+                if(d.getCodigoActivo() == Integer.valueOf(codigo)){
+                  activo = d;
+                  break;
+                }
+            }
+            this.setChanged();
+            this.notifyObservers();
+        } catch (Exception ex) {
+            throw (new Exception(ex.getMessage()));
+        }
+    }
+
+    private ArrayList<Object> getListaActivo() {
         ArrayList<Object> list = new ArrayList();
-        if (bien != null) {
-            Object[] fila = {bien.getSerial(), bien.getDescripcion(), bien.getMarca(), bien.getModelo(), bien.getPrecio(), bien.getCantidad()};
+        if (activo != null) {
+            Object[] fila = {activo.getCodigoActivo(), activo.getBien().getDescripcion(), activo.getFuncionario(), activo.getUbicacion()};
             list.add(fila);
         } else {
-            Iterator<Bien> ite = listaBienes.iterator();
+            Iterator<Activo> ite = listaActivos.iterator();
             while (ite.hasNext()) {
-                Bien bien = ite.next();
-                Object[] fila = {bien.getSerial(), bien.getDescripcion(), bien.getMarca(), bien.getModelo(), bien.getPrecio(), bien.getCantidad()};
+                Activo activo = ite.next();
+                Object[] fila = {activo.getCodigoActivo(), activo.getBien().getDescripcion(), activo.getFuncionario(), activo.getUbicacion()};
                 list.add(fila);
             }
         }
         return list;
     }
 
-    public ArrayList<Bien> getListaBienes() {
-        return listaBienes;
+    public ArrayList<Activo> getListaActivos() {
+        return listaActivos;
     }
 
-    public void setListaBienes(ArrayList<Bien> listaBienes) {
-        this.listaBienes = listaBienes;
+    public void setListaActivos(ArrayList<Activo> listaActivos) {
+        this.listaActivos = listaActivos;
         this.setChanged();
         this.notifyObservers();
     }
 
-    public Bien getBien() {
-        return bien;
+    public Activo getActivo() {
+        return activo;
     }
-    
+
     @Override
     public void notifyObservers() {
-        super.notifyObservers(getListaBien());
+        super.notifyObservers(getListaActivo());
     }
 
     public void limpiar() {
-        bien = null;
-        listaBienes.removeAll(listaBienes);
+        activo = null;
+        listaActivos.removeAll(listaActivos);
         this.setChanged();
         this.notifyObservers();
     }

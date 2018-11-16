@@ -21,12 +21,8 @@ import javax.swing.JButton;
 import accesoADatos.ServicioSolicitud;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import Vista.VistaBien;
-import Control.ControllerBien;
 import Logic.Bien;
- import javax.swing.JOptionPane;
 
 
 

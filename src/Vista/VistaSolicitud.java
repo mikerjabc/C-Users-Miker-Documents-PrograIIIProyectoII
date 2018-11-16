@@ -6,24 +6,17 @@
 package Vista;
 
 import Control.AbstractController;
-import Control.ControllerRegistrador;
-import Control.ControllerSolicitud;
 import Logic.Solicitud;
-import Modelo.ModeloRegistrador;
 import Modelo.ModeloSolicitud;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author Fernando
- */
 public class VistaSolicitud extends javax.swing.JFrame implements Observer {
 
     private DefaultTableModel model;
@@ -99,11 +92,6 @@ public class VistaSolicitud extends javax.swing.JFrame implements Observer {
 
         jtfNumero.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jtfNumero.setName("nombre"); // NOI18N
-        jtfNumero.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtfNumeroActionPerformed(evt);
-            }
-        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Tipo:");
@@ -223,11 +211,6 @@ public class VistaSolicitud extends javax.swing.JFrame implements Observer {
 
         jbBuscar.setText("Buscar");
         jbBuscar.setName("buscar"); // NOI18N
-        jbBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbBuscarActionPerformed(evt);
-            }
-        });
 
         jLabel7.setText("ID:");
 
@@ -323,45 +306,10 @@ public class VistaSolicitud extends javax.swing.JFrame implements Observer {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jtfNumeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfNumeroActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtfNumeroActionPerformed
-
-    private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbBuscarActionPerformed
-
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VistaSolicitud.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VistaSolicitud.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VistaSolicitud.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VistaSolicitud.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new VistaSolicitud().setVisible(true);
@@ -407,7 +355,6 @@ public class VistaSolicitud extends javax.swing.JFrame implements Observer {
         jcbTipo.addItem(modelo.tiposBien[0]);
         jcbTipo.addItem(modelo.tiposBien[1]);
         jcbTipo.addItem(modelo.tiposBien[2]);
-        
     }
     
     public void setControlador(AbstractController controlador){
@@ -494,6 +441,10 @@ public class VistaSolicitud extends javax.swing.JFrame implements Observer {
         jcbTipo.getModel().setSelectedItem(solicitud.getTipo());
         jtfCantidadBienes.setText(String.valueOf(solicitud.getCantiadadBienes()));
         modelo.setListaBienes(solicitud.getListaBienes());
+    }
+    
+    public void mostrarMensaje(String mensaje){
+        JOptionPane.showMessageDialog(this, mensaje);
     }
     
     @Override
