@@ -1,12 +1,15 @@
 package Modelo;
 
 
+import Logic.Activo;
 import Logic.Bien;
+import Logic.Funcionario;
 import Logic.Solicitud;
 import Logic.Transferencia;
 import accesoADatos.GlobalException;
 import accesoADatos.NoDataException;
 import accesoADatos.ServicioActivo;
+import accesoADatos.ServicioBien;
 import accesoADatos.ServicioFuncionario;
 import accesoADatos.ServicioSolicitud;
 import accesoADatos.ServicioTransferencia;
@@ -21,6 +24,7 @@ public class ModeloRegistrador extends Observable {
     private ServicioSolicitud servicioSolicitud;
     private ServicioTransferencia servicioTransferencia;
     private ServicioFuncionario servicioFuncionario;
+    private ServicioBien servicioBien;
     private ServicioActivo servicioActivo;
     public final String[] tiposSolicitud = {"Incorporación","Traslado"};
     public final String[] tiposBienes = {"Compra","Donación","Producción institucional"};
@@ -28,6 +32,7 @@ public class ModeloRegistrador extends Observable {
     private String tipo;
     private Solicitud solicitud;
     private Transferencia transferencia;
+    private Bien bien;
 
     public ModeloRegistrador() {
         tipo = tiposSolicitud[0];
@@ -70,34 +75,13 @@ public class ModeloRegistrador extends Observable {
         }
     }
     
-    public Bien RegistrarListaBien(String numero, String serial) throws Exception {
+    public Bien RegistrarListaBien(String codigo, String descripcion, String ubicacion, String funcionario ,String bien) throws Exception {
         Bien aux = null;
         try {
-            if (numero.equals("")) {
-                throw (new Exception("numero invalido"));
+            if (codigo.equals("")) {
+                throw (new Exception("Numero invalido"));
             }
-            if (serial.equals("")) {
-                throw (new Exception("ID invalido"));
-            }
-            if(tipo.equalsIgnoreCase(tiposSolicitud[0])){
-                Iterator<Bien> ite = servicioSolicitud.buscarSolicitud(Integer.valueOf(numero)).getListaBienes().iterator();
-                while (ite.hasNext()) {
-                    Bien d = ite.next();
-                    if (d.getSerial().equalsIgnoreCase(serial)) {
-                        aux = d;
-                        break;
-                    }
-                }
-            }else{
-                Iterator<Bien> ite = servicioTransferencia.buscarTransferencia(Integer.valueOf(numero)).getListaBienes().iterator();
-                while (ite.hasNext()) {
-                    Bien d = ite.next();
-                    if (d.getSerial().equalsIgnoreCase(serial)) {
-                        aux = d;
-                        break;
-                    }
-                }
-            }
+            servicioActivo.insertarActivo(new Activo(Integer.valueOf(codigo),servicioBien.buscarBien(bien),descripcion,servicioFuncionario.consultarFuncionario(funcionario),ubicacion), 0);
         } catch (Exception ex) {
             throw (new Exception(ex.getMessage()));
         }

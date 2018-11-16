@@ -3,6 +3,7 @@ package Control;
 import Logic.Funcionario;
 import Modelo.ModeloJefe;
 import Modelo.ModeloRegistrador;
+import Vista.VistaActivo;
 import Vista.VistaFuncionario;
 import Vista.VistaJefe;
 import Vista.VistaRegistrador;
@@ -34,6 +35,7 @@ public final class ControllerRegistrador extends AbstractController implements I
     private VistaRegistrador vista;
     private VistaSolicitud vistaSolicitud;
     private VistaTransferencia vistaTrasferencia;
+    private VistaActivo vistaActivo;
 
     public ControllerRegistrador(ModeloRegistrador modelo, VistaRegistrador vista) {
         this.modelo = modelo;
@@ -41,6 +43,7 @@ public final class ControllerRegistrador extends AbstractController implements I
         vista.setModelo(modelo);
         vista.setControlador(this);
         this.ajustarVista();
+        vistaActivo = new VistaActivo();
         modelo.setServicioSolicitud(ServicioSolicitud.getServicioSolicitud());
         modelo.setServicioTransferencia(ServicioTransferencia.getServicioTransferencia());
         modelo.setServicioFuncionario(ServicioFuncionario.getServicioFuncionario());
@@ -148,8 +151,12 @@ public final class ControllerRegistrador extends AbstractController implements I
                     if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[0])) {
                         
                         vistaSolicitud.setVisible(false);
-                        modelo.AsignarArticulosADependencia(vistaSolicitud.jtfNumero.getText(), vistaSolicitud.jtfRegistrador.getText());
-                        mensaje = "Se asigno un registrador a la solicitud";
+                        modelo.RegistrarListaBien(vistaActivo.jtfCodigo.getText(),
+                                                    vistaActivo.jtfDescripcion.getText(),
+                                                    vistaActivo.jtfCodigo.getText(),
+                                                    vistaActivo.jtfBien.getText(),
+                                                    vistaActivo.jtfDescripcion1.getText());
+                        mensaje = "Se asigno como activo el bien";
                     } else {
                         modelo.AutorizarTransferencia(vistaTrasferencia.jtfNumero.getText(),vistaTrasferencia.jcbEstado.getModel().getSelectedItem().toString());
                         vistaTrasferencia.setVisible(false);

@@ -27,7 +27,6 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jLabel6" alignment="1" max="32767" attributes="0"/>
-                  <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       <Component id="jbLimpiar" min="-2" max="-2" attributes="0"/>
@@ -37,6 +36,7 @@
                       <Component id="jbAgregar" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
+                  <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -113,7 +113,7 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jtfMontoTotal" alignment="1" max="32767" attributes="0"/>
                               <Component id="jtfCantidadBienes" alignment="1" max="32767" attributes="0"/>
-                              <Component id="jcbEstado" pref="577" max="32767" attributes="0"/>
+                              <Component id="jcbEstado" max="32767" attributes="0"/>
                               <Component id="jtfRegistrador" max="32767" attributes="0"/>
                           </Group>
                       </Group>
