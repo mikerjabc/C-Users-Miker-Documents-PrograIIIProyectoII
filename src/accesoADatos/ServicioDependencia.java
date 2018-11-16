@@ -8,18 +8,12 @@ package accesoADatos;
 import Logic.Activo;
 import Logic.Dependencia;
 import Logic.Funcionario;
-
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
-//import oracle.jdbc.OracleTypes;
 
-/**
- *
- * @author Fernando
- */
 public class ServicioDependencia extends Servicio {
 
     private static final String INSERTARDEPENDENCIA = "{call insertarDependencia(?,?)}";
