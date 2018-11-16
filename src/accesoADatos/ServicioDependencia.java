@@ -50,18 +50,6 @@ public class ServicioDependencia extends Servicio {
             
             pstmt.setInt(1, laDependencia.getCodigo());
             pstmt.setString(2, laDependencia.getNombre());
-
-            Iterator<Funcionario> ite = laDependencia.getListaFuncionarios().iterator();
-
-            while (ite.hasNext()) {
-                ServicioFuncionario.getServicioFuncionario().insertarFuncionario(ite.next(), laDependencia.getCodigo());
-            }
-            
-            Iterator<Activo> ite2 = laDependencia.getInventario().iterator();
-
-            while (ite2.hasNext()) {
-                ServicioActivo.getServicioActivo().insertarActivo(ite2.next(), laDependencia.getCodigo());
-            }
             
             boolean resultado = pstmt.execute();
             if (resultado == true) {
