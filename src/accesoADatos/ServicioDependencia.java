@@ -6,13 +6,8 @@
 package accesoADatos;
 
 import Logic.Activo;
-import Logic.Bien;
 import Logic.Dependencia;
 import Logic.Funcionario;
-import accesoADatos.GlobalException;
-import accesoADatos.NoDataException;
-import accesoADatos.Servicio;
-import Logic.Solicitud;
 
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
