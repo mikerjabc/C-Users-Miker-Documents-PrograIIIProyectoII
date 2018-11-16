@@ -27,7 +27,7 @@ public class ModeloRegistrador extends Observable {
     private ServicioActivo servicioActivo;
     public final String[] tiposSolicitud = {"Incorporación","Traslado","Catálogo"};
     public final String[] tiposBienes = {"Compra","Donación","Producción institucional"};
-    public final Object[] VARIABLESTABLA = {"Número","Fecha","Tipo","Estado","Cantidad de Bienes","Monto Total","Origen","Destino","Ubicación","Funcionario","Autorización"};
+    public final Object[] VARIABLESTABLA = {"Número","Fecha","Tipo","Estado","Cantidad de Bienes","Monto Total","Origen","Destino","Ubicación","Funcionario","Autorización","Código","Bien","Descripción"};
     private String tipo;
     private Solicitud solicitud;
     private Transferencia transferencia;
@@ -140,6 +140,9 @@ public class ModeloRegistrador extends Observable {
                 throw (new Exception("Debe ingresar un codigo"));
             }
             this.tipo = tipo;
+            solicitud = null;
+            transferencia = null;
+            activo = null;
             this.setChanged();
             this.notifyObservers();
         } catch (Exception ex) {
