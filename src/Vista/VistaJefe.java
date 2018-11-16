@@ -37,7 +37,7 @@ public class VistaJefe extends javax.swing.JFrame implements Observer {
         jtSolicitudes.getColumnModel().getColumn(2).setCellRenderer(tcr);//Tipo
         jtSolicitudes.getColumnModel().getColumn(3).setCellRenderer(tcr);//Estado
         jtSolicitudes.getColumnModel().getColumn(4).setCellRenderer(tcr);//CantidadBienes
-        jtSolicitudes.getColumnModel().getColumn(4).setCellRenderer(tcr);//MontoTotal
+        jtSolicitudes.getColumnModel().getColumn(5).setCellRenderer(tcr);//MontoTotal
         this.setResizable(false);
     }
     

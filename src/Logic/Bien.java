@@ -3,20 +3,6 @@ package Logic;
 
 
 public class Bien  {
-
-    /**
-     * @return the cantidad
-     */
-    public int getCantidad() {
-        return cantidad;
-    }
-
-    /**
-     * @param cantidad the cantidad to set
-     */
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
-    }
     
     private String serial;
     private String descripcion;
@@ -32,9 +18,8 @@ public class Bien  {
         this.modelo = modelo;
         this.precio = precio;
         this.cantidad = cantidad;
-        
     }
-
+    
     public String getSerial() {
         return serial;
     }
@@ -73,6 +58,13 @@ public class Bien  {
 
     public void setPrecio(float precio) {
         this.precio = precio;
+    }
+    
+    public int getCantidad() {
+        return cantidad;
+    }
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
     }
 }
 

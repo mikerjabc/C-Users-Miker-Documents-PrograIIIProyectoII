@@ -454,20 +454,13 @@ public class VistaTransferencia extends javax.swing.JFrame implements Observer {
         jtfUbicacion.setText("");
     }
     
-    public void cargarDatos(Transferencia transferencia, String[] estados) {
-        
-        jcbEstado.addItem(estados[0]);
-        jcbEstado.addItem(estados[1]);
-        jcbEstado.addItem(estados[3]);
-        
-        if (transferencia != null) {
-            jtfOrigen.setText(transferencia.getOrigen().getNombre());
-            jtfDestino.setText(transferencia.getDestino().getNombre());
-            jtfFuncionario.setText(transferencia.getFuncionario().getNombre());
-            jtfUbicacion.setText(transferencia.getUbicacion());
-            jtfNumero.setText(String.valueOf(transferencia.getNumero()));
-            jcbEstado.getModel().setSelectedItem(transferencia.getAutorizacion());
-        }
+    public void cargarDatos(Transferencia transferencia) {
+        jtfOrigen.setText(transferencia.getOrigen().getNombre());
+        jtfDestino.setText(transferencia.getDestino().getNombre());
+        jtfFuncionario.setText(transferencia.getFuncionario().getNombre());
+        jtfUbicacion.setText(transferencia.getUbicacion());
+        jtfNumero.setText(String.valueOf(transferencia.getNumero()));
+        jcbEstado.getModel().setSelectedItem(transferencia.getAutorizacion());
     }
     
     @Override

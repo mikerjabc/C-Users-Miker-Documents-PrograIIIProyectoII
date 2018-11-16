@@ -26,7 +26,6 @@ public class ModeloRegistrador extends Observable {
     private ServicioBien servicioBien;
     private ServicioActivo servicioActivo;
     public final String[] tiposSolicitud = {"Incorporación","Traslado","Catálogo"};
-    public final String[] tiposBienes = {"Compra","Donación","Producción institucional"};
     public final Object[] VARIABLESTABLA = {"Número","Fecha","Tipo","Estado","Cantidad de Bienes","Monto Total","Origen","Destino","Ubicación","Funcionario","Autorización","Código","Bien","Descripción"};
     private String tipo;
     private Solicitud solicitud;
@@ -95,10 +94,10 @@ public class ModeloRegistrador extends Observable {
             if (ubicacion.equals("")) {
                 throw (new Exception("Ubicación invalida"));
             }
-            if (funcionario.equals("") || servicioFuncionario.consultarFuncionario(funcionario) == null) {
+            if (funcionario.equals("")) {
                 throw (new Exception("Funcionario invalido"));
             }
-            if (bien.equals("") || servicioBien.buscarBien(bien) == null) {
+            if (bien.equals("")) {
                 throw (new Exception("Bien invalido"));
             }
             servicioActivo.insertarActivo(new Activo(Integer.valueOf(codigo),servicioBien.buscarBien(bien),descripcion,servicioFuncionario.consultarFuncionario(funcionario),ubicacion), 0);

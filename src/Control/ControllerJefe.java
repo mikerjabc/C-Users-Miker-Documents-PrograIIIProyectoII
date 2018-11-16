@@ -81,10 +81,10 @@ public class ControllerJefe extends AbstractController implements ItemListener {
                         break;
                         case MouseEvent.BUTTON1: {//Click izquierdo
                             if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[0])) {
-                                vistaSolicitud.cargarDatos(modelo.getSolicitud(), modelo.tiposSolicitud, modelo.tiposBienes);
+                                vistaSolicitud.cargarDatos(modelo.getSolicitud());
                                 vistaSolicitud.setVisible(true);
                             } else {
-                                vistaTrasferencia.cargarDatos(modelo.getTransferencia(), modelo.tiposSolicitud);
+                                vistaTrasferencia.cargarDatos(modelo.getTransferencia());
                                 vistaTrasferencia.setVisible(true);
                             }
                         }

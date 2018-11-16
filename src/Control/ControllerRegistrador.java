@@ -85,10 +85,10 @@ public final class ControllerRegistrador extends AbstractController implements I
                         break;
                         case MouseEvent.BUTTON1: {//Click izquierdo
                             if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[0])) {
-                                vistaSolicitud.cargarDatos(modelo.getSolicitud(), modelo.tiposSolicitud, modelo.tiposBienes);
+                                vistaSolicitud.cargarDatos(modelo.getSolicitud());
                                 vistaSolicitud.setVisible(true);
                             } else {
-                                vistaTransferencia.cargarDatos(modelo.getTransferencia(), modelo.tiposSolicitud);
+                                vistaTransferencia.cargarDatos(modelo.getTransferencia());
                                 vistaTransferencia.setVisible(true);
                             }
                         }
