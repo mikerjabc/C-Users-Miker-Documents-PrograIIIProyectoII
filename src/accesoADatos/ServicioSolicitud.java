@@ -23,7 +23,7 @@ public class ServicioSolicitud extends Servicio {
 
     private static final String INSERTARSOLICITUD = "{call insertarSolicitud(?,?,?,?)}";
     private static final String ELIMINARSOLICITUD = "{call eliminarSolicitud(?)}";
-    private static final String MODIFICARSOLICITUD = "{call modificarSolicitud(?,?,?,?,?)}";
+    private static final String MODIFICARSOLICITUD = "{call modificarSolicitud(?,?,?,?)}";
     private static final String LISTARSOLICITUD = "{?=call listarSolicitudes}";
     private static final String CONSULTARSOLICITUD = "{?=call consultarSolicitud(?)}";
     
@@ -38,16 +38,13 @@ public class ServicioSolicitud extends Servicio {
             throw new NoDataException("La base de datos no se encuentra disponible");
         }
         CallableStatement pstmt = null;
-
+        
         try {
             pstmt = conexion.prepareCall(INSERTARSOLICITUD);
-            
-            pstmt.setString(1, laSolicitud.getFecha().toString());
-            
-            pstmt.setString(2, laSolicitud.getTipo());
-
-            pstmt.setString(3, laSolicitud.getEstado());
-            
+            pstmt.setInt(1, laSolicitud.getNumeroSolicitud());
+            pstmt.setString(2, laSolicitud.getFecha());
+            pstmt.setString(3, laSolicitud.getTipo());
+            pstmt.setString(4, laSolicitud.getEstado());
             boolean resultado = pstmt.execute();
             if (resultado == true) {
                 throw new NoDataException("No se realizo la insercion");
@@ -121,14 +118,6 @@ public class ServicioSolicitud extends Servicio {
             pstmt.setString(2, laSolicitud.getFecha());
             pstmt.setString(3, laSolicitud.getTipo());
             pstmt.setString(4, laSolicitud.getEstado());
-            pstmt.setInt(5, laSolicitud.getCantiadadBienes());
-            pstmt.setFloat(6, laSolicitud.getMontoTotal());
-
-            Iterator<Bien> ite = laSolicitud.getListaBienes().iterator();
-
-            while (ite.hasNext()) {
-                ServicioBien.getServicioBien().modificarBien(ite.next());
-            }
 
             boolean resultado = pstmt.execute();
 
@@ -178,7 +167,6 @@ public class ServicioSolicitud extends Servicio {
                         rs.getString("tipo"),
                         rs.getString("estado")
                     );
- 
                     coleccion.add(laSolicitud);
             }
         } catch (SQLException e) {

@@ -399,12 +399,12 @@ public class VistaSolicitud extends javax.swing.JFrame implements Observer {
     }
     
     public void ajustatVistaParaFuncionario(String tipo) {
-        switch (tipo) {
-            case "Administrador": {
+        switch (tipo.toLowerCase()) {
+            case "administrador": {
                 jtfRegistrador.setEnabled(false);
             }
             break;
-            case "Jefe": {
+            case "jefe": {
                 jbAgregarBien.setEnabled(false);
                 
                 jbLimpiar.setEnabled(false);
@@ -418,7 +418,7 @@ public class VistaSolicitud extends javax.swing.JFrame implements Observer {
                 jtfFecha.setEditable(false);
             }
             break;
-            case "Registrador": {
+            case "registrador": {
                 jbAgregarBien.setEnabled(false);
                 
                 jbLimpiar.setEnabled(false);

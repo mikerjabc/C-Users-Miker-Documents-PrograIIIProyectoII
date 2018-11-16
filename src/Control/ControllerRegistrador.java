@@ -7,6 +7,7 @@ import Vista.VistaSolicitud;
 import Vista.VistaTransferencia;
 import accesoADatos.GlobalException;
 import accesoADatos.NoDataException;
+import accesoADatos.ServicioActivo;
 import accesoADatos.ServicioFuncionario;
 import accesoADatos.ServicioSolicitud;
 import accesoADatos.ServicioTransferencia;
@@ -28,7 +29,7 @@ public final class ControllerRegistrador extends AbstractController implements I
     private ModeloRegistrador modelo ;
     private VistaRegistrador vista;
     private VistaSolicitud vistaSolicitud;
-    private VistaTransferencia vistaTrasferencia;
+    private VistaTransferencia vistaTransferencia;
     private VistaActivo vistaActivo;
 
     public ControllerRegistrador(ModeloRegistrador modelo, VistaRegistrador vista) {
@@ -37,10 +38,10 @@ public final class ControllerRegistrador extends AbstractController implements I
         vista.setModelo(modelo);
         vista.setControlador(this);
         this.ajustarVista();
-        vistaActivo = new VistaActivo();
         modelo.setServicioSolicitud(ServicioSolicitud.getServicioSolicitud());
         modelo.setServicioTransferencia(ServicioTransferencia.getServicioTransferencia());
         modelo.setServicioFuncionario(ServicioFuncionario.getServicioFuncionario());
+        modelo.setServicioActivo(ServicioActivo.getServicioActivo());
     }
 
     @Override
@@ -61,7 +62,10 @@ public final class ControllerRegistrador extends AbstractController implements I
 
     public void ajustarVista() {
         vistaSolicitud = new VistaSolicitud();
+        vistaTransferencia = new VistaTransferencia();
+        vistaActivo = new VistaActivo();
         vistaSolicitud.ajustatVistaParaFuncionario("Registrador");
+        vistaTransferencia.ajustatVistaParaFuncionario("Registrador");
     }
 
     @Override
@@ -84,8 +88,8 @@ public final class ControllerRegistrador extends AbstractController implements I
                                 vistaSolicitud.cargarDatos(modelo.getSolicitud(), modelo.tiposSolicitud, modelo.tiposBienes);
                                 vistaSolicitud.setVisible(true);
                             } else {
-                                vistaTrasferencia.cargarDatos(modelo.getTransferencia(), modelo.tiposSolicitud);
-                                vistaTrasferencia.setVisible(true);
+                                vistaTransferencia.cargarDatos(modelo.getTransferencia(), modelo.tiposSolicitud);
+                                vistaTransferencia.setVisible(true);
                             }
                         }
                         break;
@@ -152,8 +156,8 @@ public final class ControllerRegistrador extends AbstractController implements I
                                                     vistaActivo.jtfDescripcion1.getText());
                         mensaje = "Se asigno como activo el bien";
                     } else {
-                        modelo.AutorizarTransferencia(vistaTrasferencia.jtfNumero.getText(),vistaTrasferencia.jcbEstado.getModel().getSelectedItem().toString());
-                        vistaTrasferencia.setVisible(false);
+                        modelo.AutorizarTransferencia(vistaTransferencia.jtfNumero.getText(),vistaTransferencia.jcbEstado.getModel().getSelectedItem().toString());
+                        vistaTransferencia.setVisible(false);
                         mensaje = "Se guardo el cambio en el estado de la trasferencia";
                     }
                 }
@@ -165,8 +169,8 @@ public final class ControllerRegistrador extends AbstractController implements I
                         //modelo.buscarBien(vistaSolicitud.jtfNumero.getText(), vistaSolicitud.jtfIdBuscar.getText());
                         mensaje = "Se encontro el bien";
                     } else {
-                        modelo.AutorizarTransferencia(vistaTrasferencia.jtfNumero.getText(), vistaTrasferencia.jtfIdBuscar.getText());
-                        vistaTrasferencia.setVisible(false);
+                        modelo.AutorizarTransferencia(vistaTransferencia.jtfNumero.getText(), vistaTransferencia.jtfIdBuscar.getText());
+                        vistaTransferencia.setVisible(false);
                         mensaje = "Se encontro el bien";
                     }
                 }
@@ -178,8 +182,8 @@ public final class ControllerRegistrador extends AbstractController implements I
                         //modelo.buscarBien(vistaSolicitud.jtfNumero.getText(), vistaSolicitud.jtfIdBuscar.getText());
                         mensaje = "Se encontro el bien";
                     } else {
-                        modelo.AutorizarTransferencia(vistaTrasferencia.jtfNumero.getText(), vistaTrasferencia.jtfIdBuscar.getText());
-                        vistaTrasferencia.setVisible(false);
+                        modelo.AutorizarTransferencia(vistaTransferencia.jtfNumero.getText(), vistaTransferencia.jtfIdBuscar.getText());
+                        vistaTransferencia.setVisible(false);
                         mensaje = "Se encontro el bien";
                     }
                 }
@@ -190,7 +194,7 @@ public final class ControllerRegistrador extends AbstractController implements I
                         vistaSolicitud.setVisible(false);
                         vistaSolicitud.limpiarTodosEspacios();
                     } else {
-                        vistaTrasferencia.setVisible(false);
+                        vistaTransferencia.setVisible(false);
                         vistaSolicitud.limpiarTodosEspacios();
                     }
                 }

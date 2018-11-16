@@ -269,6 +269,9 @@ public class VistaRegistrador extends javax.swing.JFrame implements Observer {
     public void setModelo(ModeloRegistrador modelo) {
         this.modelo = modelo;
         modelo.addObserver(this);
+        jcbBuscar.addItem(modelo.tiposSolicitud[0]);
+        jcbBuscar.addItem(modelo.tiposSolicitud[1]);
+        jcbBuscar.addItem(modelo.tiposSolicitud[2]);
         
     }
     
@@ -326,21 +329,40 @@ public class VistaRegistrador extends javax.swing.JFrame implements Observer {
             jtFuncionarios.getColumnModel().getColumn(4).setHeaderValue(modelo.VARIABLESTABLA[4]);//CantidadBienes
             jtFuncionarios.getColumnModel().getColumn(5).setHeaderValue(modelo.VARIABLESTABLA[5]);//MontoTotal
             jtFuncionarios.repaint();
-        } else {
+        } else if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[1])) {
             //Asignar tamaño de ancho de cada columna
             jtFuncionarios.getColumnModel().getColumn(0).setPreferredWidth(100);//Numero
-            jtFuncionarios.getColumnModel().getColumn(1).setPreferredWidth(200);//Origen
-            jtFuncionarios.getColumnModel().getColumn(2).setPreferredWidth(200);//Destino
-            jtFuncionarios.getColumnModel().getColumn(3).setPreferredWidth(150);//Ubicacion
-            jtFuncionarios.getColumnModel().getColumn(4).setPreferredWidth(150);//Funcionario
-            jtFuncionarios.getColumnModel().getColumn(5).setPreferredWidth(150);//Estado
-            //Cargar nombre de cada columna
+            jtFuncionarios.getColumnModel().getColumn(1).setPreferredWidth(150);//Fecha
+            jtFuncionarios.getColumnModel().getColumn(2).setPreferredWidth(100);//Tipo
+            jtFuncionarios.getColumnModel().getColumn(3).setPreferredWidth(150);//Estado
+            jtFuncionarios.getColumnModel().getColumn(4).setPreferredWidth(150);//CantidadBienes
+            jtFuncionarios.getColumnModel().getColumn(5).setPreferredWidth(150);//MontoTotal
+            //Cargar nombres de cada columna
             jtFuncionarios.getColumnModel().getColumn(0).setHeaderValue(modelo.VARIABLESTABLA[0]);//Numero
-            jtFuncionarios.getColumnModel().getColumn(1).setHeaderValue(modelo.VARIABLESTABLA[6]);//Origen
-            jtFuncionarios.getColumnModel().getColumn(2).setHeaderValue(modelo.VARIABLESTABLA[7]);//Destino
-            jtFuncionarios.getColumnModel().getColumn(3).setHeaderValue(modelo.VARIABLESTABLA[8]);//ubicacion
-            jtFuncionarios.getColumnModel().getColumn(4).setHeaderValue(modelo.VARIABLESTABLA[9]);//Funcionario
-            jtFuncionarios.getColumnModel().getColumn(5).setHeaderValue(modelo.VARIABLESTABLA[10]);//Estado
+            jtFuncionarios.getColumnModel().getColumn(1).setHeaderValue(modelo.VARIABLESTABLA[1]);//Fecha
+            jtFuncionarios.getColumnModel().getColumn(2).setHeaderValue(modelo.VARIABLESTABLA[2]);//Tipo
+            jtFuncionarios.getColumnModel().getColumn(3).setHeaderValue(modelo.VARIABLESTABLA[3]);//Estado
+            jtFuncionarios.getColumnModel().getColumn(4).setHeaderValue(modelo.VARIABLESTABLA[4]);//CantidadBienes
+            jtFuncionarios.getColumnModel().getColumn(5).setHeaderValue(modelo.VARIABLESTABLA[5]);//MontoTotal
+            jtFuncionarios.repaint();
+        }else {
+            //Asignar tamaño de ancho de cada columna
+            jtFuncionarios.getColumnModel().getColumn(0).setPreferredWidth(100);//Codigo
+            jtFuncionarios.getColumnModel().getColumn(1).setPreferredWidth(200);//DescripcionBien
+            jtFuncionarios.getColumnModel().getColumn(2).setPreferredWidth(200);//DescripcionActivo
+            jtFuncionarios.getColumnModel().getColumn(3).setPreferredWidth(150);//Nombre funcionario
+            jtFuncionarios.getColumnModel().getColumn(4).setPreferredWidth(150);//Ubicacion
+            jtFuncionarios.getColumnModel().getColumn(5).setMaxWidth(0);
+            jtFuncionarios.getColumnModel().getColumn(5).setMinWidth(0);
+            jtFuncionarios.getTableHeader().getColumnModel().getColumn(5).setMaxWidth(0);
+            jtFuncionarios.getTableHeader().getColumnModel().getColumn(5).setMinWidth(0);
+            //Cargar nombre de cada columna
+            jtFuncionarios.getColumnModel().getColumn(0).setHeaderValue(modelo.VARIABLESTABLA[0]);//Codigo
+            jtFuncionarios.getColumnModel().getColumn(1).setHeaderValue(modelo.VARIABLESTABLA[6]);//DescripcionBien
+            jtFuncionarios.getColumnModel().getColumn(2).setHeaderValue(modelo.VARIABLESTABLA[7]);//DescripcionActivo
+            jtFuncionarios.getColumnModel().getColumn(3).setHeaderValue(modelo.VARIABLESTABLA[8]);//Nombre funcionario
+            jtFuncionarios.getColumnModel().getColumn(4).setHeaderValue(modelo.VARIABLESTABLA[9]);//Ubicacion
+            jtFuncionarios.getColumnModel().getColumn(5).setHeaderValue("");//Ocultar
             jtFuncionarios.repaint();
         }
     }

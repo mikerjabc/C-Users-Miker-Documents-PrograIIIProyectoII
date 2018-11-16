@@ -55,6 +55,11 @@ public class ModeloRegistrador extends Observable {
         this.setChanged();
         this.notifyObservers();
     }
+    public void setServicioActivo(ServicioActivo servicioActivo) {
+        this.servicioActivo = servicioActivo;
+        this.setChanged();
+        this.notifyObservers();
+    }
     
     public void buscarTransferencia_Incorporacion_Activo(String numero) throws Exception {
         try {
@@ -69,7 +74,7 @@ public class ModeloRegistrador extends Observable {
                 transferencia = servicioTransferencia.buscarTransferencia(Integer.valueOf(numero));
                 solicitud = null;
                 activo = null;
-            }else{
+            }else if(tipo.equalsIgnoreCase(tiposSolicitud[2])){
                 activo = servicioActivo.buscarActivo(Integer.valueOf(numero));
                 solicitud = null;
                 transferencia = null;

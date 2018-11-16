@@ -410,11 +410,11 @@ public class VistaTransferencia extends javax.swing.JFrame implements Observer {
     }
     
     public void ajustatVistaParaFuncionario(String tipo) {
-        switch (tipo) {
-            case "Administrador": {
+        switch (tipo.toLowerCase()) {
+            case "administrador": {
             }
             break;
-            case "Jefe": {
+            case "jefe": {
                 jbAgregarBien.setEnabled(false);
                 
                 jbLimpiar.setEnabled(false);
@@ -427,7 +427,7 @@ public class VistaTransferencia extends javax.swing.JFrame implements Observer {
                 jtfFuncionario.setEditable(false);
             }
             break;
-            case "Registrador": {
+            case "registrador": {
                 jbAgregarBien.setEnabled(false);
                 
                 jbLimpiar.setEnabled(false);
