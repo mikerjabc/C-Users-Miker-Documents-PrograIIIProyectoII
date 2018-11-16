@@ -25,7 +25,7 @@ public class ProyectoDos {
         
         vista.setVisible(true);
         
-        //Jose Prueba
+        //Jose
     }
 
 }
