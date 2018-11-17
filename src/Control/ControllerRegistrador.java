@@ -82,9 +82,9 @@ public final class ControllerRegistrador extends AbstractController implements I
                 if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[0]) && modelo.getSolicitud() != null) {
                     modeloSolicitud.buscarBien(numero);
                 } else if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[0]) && modelo.getSolicitud() == null) {
-                    modelo.buscarIncorporacion_Activo(numero);
+                    modelo.buscarSolicitud_Activo(numero);
                 } else if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[1])) {
-                    modelo.buscarIncorporacion_Activo(numero);
+                    modelo.buscarSolicitud_Activo(numero);
                 }
                 
                 if (ae.getClickCount() == 1) {
@@ -157,10 +157,9 @@ public final class ControllerRegistrador extends AbstractController implements I
     }
 
     public void instrucciones(String x) throws Exception {
-        String mensaje = "";
         try {
             switch (x.toLowerCase()) {
-                case "Agregar": {
+                case "agregar": {
                     if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[0])) {
                         if (modelo.getSolicitud() != null && modeloActivo != null) {
                             modelo.agregarActivo(modeloActivo.getNumeroActivo(),
@@ -171,12 +170,14 @@ public final class ControllerRegistrador extends AbstractController implements I
                             );
                             vistaActivo.limpiarTodosEspacios();
                             modeloActivo = null;
+                            vista.mostrarMensaje("Se asigno como activo el bien");
                         }else{
+                            modelo.procesarSolicitud();
                             vistaSolicitud.setVisible(false);
                             vistaSolicitud.limpiarTodosEspacios();
                             modelo.limpiar();
+                            vista.mostrarMensaje("¡Solicitud procesada!");
                         }
-                        mensaje = "Se asigno como activo el bien";
                     }
                 }
                 break;
@@ -184,13 +185,13 @@ public final class ControllerRegistrador extends AbstractController implements I
                     if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[0]) && modelo.getSolicitud() != null) {
                         modeloSolicitud.buscarBien(vistaSolicitud.jtfIdBuscar.getText());
                     }else{
-                       modelo.buscarIncorporacion_Activo(vista.jtIdBuscar.getText()); 
+                       modelo.buscarSolicitud_Activo(vista.jtIdBuscar.getText()); 
                     }
                 }
                 break;
                 case "buscarfuncionario": {
                     modeloActivo.buscarFuncionario(vistaActivo.jtfFuncionario.getText());
-                    mensaje = "¡Funcionario encontrado!";
+                    vistaActivo.mostrarMensaje("¡Funcionario encontrado!");
                 }
                 break;
                 case "limpiar": {
@@ -206,22 +207,25 @@ public final class ControllerRegistrador extends AbstractController implements I
                 }
                 break;
                 case "cancelar": {
-                    mensaje = "No se realizó ningún cambio";
                     if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[0])) {
                         if (modelo.getActivo() != null) {
                             vistaActivo.setVisible(false);
                             vistaActivo.limpiarTodosEspacios();
                             modeloActivo = null;
+                            vistaActivo.mostrarMensaje("No se realizó ningún cambio");
                         }else if (modeloActivo.getBien() == null) {
                             vistaSolicitud.setVisible(false);
                             vistaSolicitud.limpiarTodosEspacios();
+                            vistaActivo.mostrarMensaje("No se realizó ningún cambio");
                         }else if (modeloActivo.getBien() != null) {
                             vistaActivo.setVisible(false);
                             vistaActivo.limpiarTodosEspacios();
+                            vistaActivo.mostrarMensaje("No se realizó ningún cambio");
                         }
                     }else{
                         vistaActivo.setVisible(false);
                         vistaActivo.limpiarTodosEspacios();
+                        vistaActivo.mostrarMensaje("No se realizó ningún cambio");
                     }
                 }
                 break;
@@ -239,9 +243,6 @@ public final class ControllerRegistrador extends AbstractController implements I
             }
         } catch (Exception ex) {
             throw (new Exception(ex.getMessage()));
-        }
-        if (!mensaje.equals("")) {
-            vista.mostrarMensaje(mensaje);
         }
     }
 

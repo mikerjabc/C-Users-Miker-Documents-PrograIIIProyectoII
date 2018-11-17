@@ -319,10 +319,10 @@ public class ServicioActivo extends Servicio {
             pstmt.execute();
             rs = (ResultSet) pstmt.getObject(1);
             while (rs.next()) {
-                elActivo = new Activo(rs.getInt("codigo"),
-                            ServicioBien.getServicioBien().buscarBien(rs.getString("serial")),
+                elActivo = new Activo(rs.getInt("codigoactivo"),
+                            ServicioBien.getServicioBien().buscarBien(rs.getString("bien")),
                             rs.getString("descripcion"),
-                            ServicioFuncionario.getServicioFuncionario().consultarFuncionario(rs.getString("id")),
+                            ServicioFuncionario.getServicioFuncionario().consultarFuncionario(rs.getString("funcionario")),
                             rs.getString("ubicacion")
                     );
                  coleccion.add(elActivo);

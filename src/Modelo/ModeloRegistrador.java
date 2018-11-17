@@ -113,7 +113,7 @@ public class ModeloRegistrador extends Observable {
         }
     }
     
-    public void buscarIncorporacion_Activo(String numero) throws Exception {
+    public void buscarSolicitud_Activo(String numero) throws Exception {
         try {
             if (numero.equals("")) {
                 throw (new Exception("Número invalido"));
@@ -129,10 +129,10 @@ public class ModeloRegistrador extends Observable {
         }
     }
     
-    public void procesarSolicitud(String numero) throws Exception {
+    public void procesarSolicitud() throws Exception {
         try {
-            if (numero.equals("")) {
-                throw (new Exception("Número invalido"));
+            if (solicitud == null) {
+                throw (new Exception("Solicitud invalida"));
             }
             int cant = 0;
             Iterator<Bien> ite = solicitud.getListaBienes().iterator();
@@ -142,27 +142,11 @@ public class ModeloRegistrador extends Observable {
                         cant++;
                     }
                 }
-            if (solicitud.getListaBienes().size() == cant) {
-                solicitud.setEstado("Procesada");
-                servicioSolicitud.modificarSolicitud(solicitud);
+            if (solicitud.getListaBienes().size() != cant) {
+                throw (new Exception("No todos los bienes han sido asignados"));
             }
-            this.setChanged();
-            this.notifyObservers();
-        } catch (Exception ex) {
-            throw (new Exception(ex.getMessage()));
-        }
-    }
-    
-    public void AsignarArticulosADependencia(String numero, String id) throws Exception {
-        try {
-            if (numero.equals("")) {
-                throw (new Exception("numero invalido"));
-            }
-            if (id.equals("")) {
-                throw (new Exception("ID invalido"));
-            }
-            servicioFuncionario.consultarFuncionario(id);
-            //Asignar solicitud a funcionario
+            solicitud.setEstado("Procesada");
+            servicioSolicitud.modificarSolicitud(solicitud);
             this.setChanged();
             this.notifyObservers();
         } catch (Exception ex) {

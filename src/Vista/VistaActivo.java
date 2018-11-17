@@ -51,6 +51,7 @@ public class VistaActivo extends javax.swing.JFrame implements Observer {
         jLabel6.setText("Activo");
 
         btnInsertar.setText("Agregar");
+        btnInsertar.setName("agregar"); // NOI18N
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
