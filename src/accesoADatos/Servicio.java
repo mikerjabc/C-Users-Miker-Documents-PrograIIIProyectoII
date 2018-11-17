@@ -27,6 +27,7 @@ public class Servicio {
     protected void conectar() throws SQLException, ClassNotFoundException {
         Class.forName("oracle.jdbc.driver.OracleDriver");
         conexion = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "System", "miker13bc");
+        //Hi
     }
     
     protected void desconectar() throws SQLException{
