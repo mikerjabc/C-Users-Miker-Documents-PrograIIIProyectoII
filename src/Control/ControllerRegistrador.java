@@ -16,6 +16,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
 import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JTable;
@@ -65,10 +66,12 @@ public final class ControllerRegistrador extends AbstractController implements I
         modeloSolicitud = new ModeloSolicitud(modelo.getFuncionario());
         vistaSolicitud.setModelo(modeloSolicitud);
         vistaSolicitud.setControlador(this);
+        vistaSolicitud.addWindowListener(this);
         //
         vistaActivo = new VistaActivo();
         vistaActivo.setControlador(this);
         modeloActivo = null;
+        vistaActivo.addWindowListener(this);
     }
 
     @Override
@@ -103,7 +106,10 @@ public final class ControllerRegistrador extends AbstractController implements I
                                 vistaActivo.setModelo(modeloActivo);
                                 vistaActivo.setVisible(true);
                             } else if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[1])) {
+                                modeloActivo = new ModeloActivo(modelo.getActivo().getBien(),modelo.getActivo().getCodigoActivo());
+                                modeloActivo.setServicioFuncionario(ServicioFuncionario.getServicioFuncionario());
                                 vistaActivo.cargarDatos(modelo.getActivo());
+                                vistaActivo.setModelo(modeloActivo);
                                 vistaActivo.setVisible(true);
                             }
                         }
@@ -170,14 +176,31 @@ public final class ControllerRegistrador extends AbstractController implements I
                             );
                             vistaActivo.limpiarTodosEspacios();
                             modeloActivo = null;
+                            vistaActivo.dispose();
                             vista.mostrarMensaje("Se asigno como activo el bien");
                         }else{
                             modelo.procesarSolicitud();
                             vistaSolicitud.setVisible(false);
                             vistaSolicitud.limpiarTodosEspacios();
                             modelo.limpiar();
+                            vistaActivo.dispose();
                             vista.mostrarMensaje("¡Solicitud procesada!");
                         }
+                    }
+                }
+                break;
+                case "modificar": {
+                    if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[1])) {
+                        modelo.modificarActivo(modeloActivo.getNumeroActivo(),
+                                modeloActivo.getBien(),
+                                vistaActivo.jtfDescripcion.getText(),
+                                modelo.getFuncionario(),
+                                vistaActivo.jtfUbicacion.getText()
+                        );
+                        vistaActivo.limpiarTodosEspacios();
+                        modeloActivo = null;
+                        vistaActivo.dispose();
+                        vista.mostrarMensaje("Se guardo la modificación del bien");
                     }
                 }
                 break;
@@ -212,20 +235,24 @@ public final class ControllerRegistrador extends AbstractController implements I
                             vistaActivo.setVisible(false);
                             vistaActivo.limpiarTodosEspacios();
                             modeloActivo = null;
+                            vistaActivo.dispose();
                             vistaActivo.mostrarMensaje("No se realizó ningún cambio");
                         }else if (modeloActivo.getBien() == null) {
                             vistaSolicitud.setVisible(false);
                             vistaSolicitud.limpiarTodosEspacios();
+                            vistaSolicitud.dispose();
                             vistaActivo.mostrarMensaje("No se realizó ningún cambio");
                         }else if (modeloActivo.getBien() != null) {
                             vistaActivo.setVisible(false);
                             vistaActivo.limpiarTodosEspacios();
+                            vistaActivo.dispose();
                             vistaActivo.mostrarMensaje("No se realizó ningún cambio");
                         }
                     }else{
                         vistaActivo.setVisible(false);
                         vistaActivo.limpiarTodosEspacios();
                         vistaActivo.mostrarMensaje("No se realizó ningún cambio");
+                        vistaActivo.dispose();
                     }
                 }
                 break;
@@ -261,6 +288,36 @@ public final class ControllerRegistrador extends AbstractController implements I
     @Override
     public void cerrarVista() {
         vista.dispose();
+    }
+    
+    @Override
+    public void windowOpened(WindowEvent we) {
+        vista.setEnabled(false);
+    }
+
+    @Override
+    public void windowClosing(WindowEvent we) {
+    }
+
+    @Override
+    public void windowClosed(WindowEvent we) {
+        vista.setEnabled(true);
+    }
+
+    @Override
+    public void windowIconified(WindowEvent we) {
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent we) {
+    }
+
+    @Override
+    public void windowActivated(WindowEvent we) {
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent we) {
     }
 }
 

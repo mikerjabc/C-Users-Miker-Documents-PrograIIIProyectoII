@@ -6,6 +6,8 @@
 package Control;
 
 import Modelo.ModeloJefe;
+import Modelo.ModeloSolicitud;
+import Modelo.ModeloTransferencia;
 import Vista.VistaJefe;
 import Vista.VistaSolicitud;
 import Vista.VistaTransferencia;
@@ -19,6 +21,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
 import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JTable;
@@ -33,6 +36,8 @@ public class ControllerJefe extends AbstractController implements ItemListener {
     private VistaJefe vista;
     private VistaSolicitud vistaSolicitud;
     private VistaTransferencia vistaTrasferencia;
+    private ModeloSolicitud modeloSolicitud;
+    private ModeloTransferencia modeloTrasferencia;
 
     public ControllerJefe(ModeloJefe modelo, VistaJefe vista) {
         this.modelo = modelo;
@@ -62,6 +67,12 @@ public class ControllerJefe extends AbstractController implements ItemListener {
 
     public void ajustarVista() {
         vistaSolicitud = new VistaSolicitud();
+        vistaTrasferencia = new VistaTransferencia();
+        modeloSolicitud = null;
+        //modeloSolicitud = new ModeloSolicitud();
+        modeloTrasferencia = new ModeloTransferencia();
+        vistaSolicitud.addWindowListener(this);
+        vistaTrasferencia.addWindowListener(this);
     }
 
     @Override
@@ -146,13 +157,14 @@ public class ControllerJefe extends AbstractController implements ItemListener {
                         
                         vistaSolicitud.setVisible(false);
                         modelo.AsignarSolicitudARegistrador(vistaSolicitud.jtfNumero.getText(), vistaSolicitud.jtfRegistrador.getText());
+                        vistaSolicitud.dispose();
                         mensaje = "Se asigno un registrador a la solicitud";
                     } else {
                         modelo.AutorizarTransferencia(vistaTrasferencia.jtfNumero.getText(),vistaTrasferencia.jcbEstado.getModel().getSelectedItem().toString());
                         vistaTrasferencia.setVisible(false);
+                        vistaTrasferencia.dispose();
                         mensaje = "Se guardo el cambio en el estado de la trasferencia";
                     }
-
                 }
                 break;
                 case "buscar": {
@@ -160,10 +172,12 @@ public class ControllerJefe extends AbstractController implements ItemListener {
                         
                         vistaSolicitud.setVisible(false);
                         modelo.buscarBien(vistaSolicitud.jtfNumero.getText(), vistaSolicitud.jtfIdBuscar.getText());
+                        vistaTrasferencia.dispose();
                         mensaje = "Se encontro el bien";
                     } else {
                         modelo.AutorizarTransferencia(vistaTrasferencia.jtfNumero.getText(), vistaTrasferencia.jtfCodigoBuscar.getText());
                         vistaTrasferencia.setVisible(false);
+                        vistaTrasferencia.dispose();
                         mensaje = "Se encontro el bien";
                     }
                 }
@@ -187,9 +201,11 @@ public class ControllerJefe extends AbstractController implements ItemListener {
                         
                         vistaSolicitud.setVisible(false);
                         vistaSolicitud.limpiarTodosEspacios();
+                        vistaSolicitud.dispose();
                     } else {
                         vistaTrasferencia.setVisible(false);
-                        vistaSolicitud.limpiarTodosEspacios();
+                        vistaTrasferencia.limpiarTodosEspacios();
+                        vistaTrasferencia.dispose();
                     }
                 }
                 break;
@@ -228,5 +244,39 @@ public class ControllerJefe extends AbstractController implements ItemListener {
     @Override
     public void cerrarVista() {
         vista.dispose();
+    }
+    
+    @Override
+    public void windowOpened(WindowEvent we) {
+        vista.setEnabled(false);
+    }
+
+    @Override
+    public void windowClosing(WindowEvent we) {
+    }
+
+    @Override
+    public void windowClosed(WindowEvent we) {
+        vista.setEnabled(true);
+    }
+
+    @Override
+    public void windowIconified(WindowEvent we) {
+        
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent we) {
+        
+    }
+
+    @Override
+    public void windowActivated(WindowEvent we) {
+        
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent we) {
+        
     }
 }

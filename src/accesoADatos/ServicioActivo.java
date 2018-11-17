@@ -17,9 +17,9 @@ public class ServicioActivo extends Servicio {
 
     private static final String INSERTARACTIVO = "{call insertarActivo(?,?,?,?,?,?)}";
     private static final String ELIMINARACTIVO = "{call eliminarActivo(?)}";
-    private static final String MODIFICARACTIVO = "{call modificarActivo(?,?,?,?)}";
+    private static final String MODIFICARACTIVO = "{call modificarActivo(?,?,?,?,?)}";
     private static final String LISTARACTIVO = "{?=call listarActivo}";
-    private static final String CONSULTARACTIVO = "{?=call consultarActivo(?)}";    
+    private static final String CONSULTARACTIVO = "{?=call buscarActivo(?)}";    
     private static final String BUSCARACTIVOPORDEPENDENCIA = "{?=call buscarActivoPorDependencia(?)}";
     private static final String BUSCARACTIVOPORBIEN = "{?=call buscarActivoPorBien(?)}";
 
@@ -53,7 +53,7 @@ public class ServicioActivo extends Servicio {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new GlobalException("Llave duplicada");
+            throw new GlobalException("Ya fue añadido este activo");
         } finally {
             try {
                 if (pstmt != null) {
@@ -163,11 +163,11 @@ public class ServicioActivo extends Servicio {
             rs = (ResultSet) pstmt.getObject(1);
 
             while (rs.next()) {
-                if (rs.getInt("codigo") == elCodigo) {
-                    elActivo = new Activo(rs.getInt("codigo"),
-                            ServicioBien.getServicioBien().buscarBien(rs.getString("serial")),
+                if (rs.getInt("codigoactivo") == elCodigo) {
+                    elActivo = new Activo(rs.getInt("codigoactivo"),
+                            ServicioBien.getServicioBien().buscarBien(rs.getString("bien")),
                             rs.getString("descripcion"),
-                            ServicioFuncionario.getServicioFuncionario().consultarFuncionario(rs.getString("id")),
+                            ServicioFuncionario.getServicioFuncionario().consultarFuncionario(rs.getString("funcionario")),
                             rs.getString("ubicacion")
                     );
                     break;
@@ -219,10 +219,10 @@ public class ServicioActivo extends Servicio {
 
             while (rs.next()) {
                 if (rs.getString("bien").equals(elSerial)) {
-                    elActivo = new Activo(rs.getInt("codigo"),
-                            ServicioBien.getServicioBien().buscarBien(rs.getString("serial")),
+                    elActivo = new Activo(rs.getInt("codigoactivo"),
+                            ServicioBien.getServicioBien().buscarBien(rs.getString("bien")),
                             rs.getString("descripcion"),
-                            ServicioFuncionario.getServicioFuncionario().consultarFuncionario(rs.getString("id")),
+                            ServicioFuncionario.getServicioFuncionario().consultarFuncionario(rs.getString("funcionario")),
                             rs.getString("ubicacion")
                     );
                     break;

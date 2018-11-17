@@ -226,6 +226,9 @@ public class VistaActivo extends javax.swing.JFrame implements Observer {
         jtfDescripcion.setText("");
         jtfUbicacion.setText("");
         modelo.limpiar();
+        jbLimpiar.setEnabled(true);
+        btnInsertar.setText("Agregar");
+        btnInsertar.setName("agregar");
     }
     
     public void cargarDatos(Activo activo) {
@@ -234,6 +237,9 @@ public class VistaActivo extends javax.swing.JFrame implements Observer {
         jtfFuncionario.setText(activo.getFuncionario().getNombre());
         jtfDescripcion.setText(activo.getDescripcionActivo());
         jtfUbicacion.setText(activo.getUbicacion());
+        jbLimpiar.setEnabled(false);
+        btnInsertar.setText("Modificar");
+        btnInsertar.setName("modificar");
     }
     
     public void mostrarMensaje(String mensaje){

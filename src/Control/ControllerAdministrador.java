@@ -16,6 +16,7 @@ import accesoADatos.ServicioSolicitud;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -242,5 +243,37 @@ public class ControllerAdministrador extends AbstractController{
     @Override
     public void cerrarVista() {
         //vista.dispose();
+    }
+    
+    @Override
+    public void windowOpened(WindowEvent we) {
+    }
+
+    @Override
+    public void windowClosing(WindowEvent we) {
+    }
+
+    @Override
+    public void windowClosed(WindowEvent we) {
+    }
+
+    @Override
+    public void windowIconified(WindowEvent we) {
+        
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent we) {
+        
+    }
+
+    @Override
+    public void windowActivated(WindowEvent we) {
+        
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent we) {
+        
     }
 }

@@ -121,6 +121,9 @@ public class ModeloRegistrador extends Observable {
             if (tipo.equalsIgnoreCase(tiposSolicitud[0])) {
                 solicitud = servicioSolicitud.buscarSolicitud(Integer.valueOf(numero));
                 activo = null;
+            }else{
+                activo = servicioActivo.buscarActivo(Integer.valueOf(numero));
+                solicitud = null;
             }
             this.setChanged();
             this.notifyObservers();

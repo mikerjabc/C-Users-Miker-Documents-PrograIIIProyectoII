@@ -18,6 +18,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JMenuItem;
@@ -43,6 +44,7 @@ public class ControllerRecurHumanos extends AbstractController implements ItemLi
         vistaFuncionario = new VistaFuncionario();
         vistaFuncionario.setModelo(modelo);
         vistaFuncionario.setControlador(this);
+        vistaFuncionario.addWindowListener(this);
     }
 
     @Override
@@ -142,6 +144,7 @@ public class ControllerRecurHumanos extends AbstractController implements ItemLi
                     modelo.limpiar();
                     vistaFuncionario.setVisible(false);
                     vistaFuncionario.limpiarTodos();
+                    vistaFuncionario.dispose();
                 }
                 break;
                 case "nuevo": {
@@ -166,6 +169,7 @@ public class ControllerRecurHumanos extends AbstractController implements ItemLi
                     modelo.limpiar();
                     vistaFuncionario.setVisible(false);
                     vistaFuncionario.limpiarTodos();
+                    vistaFuncionario.dispose();
                 }
                 break;
                 case "buscar": {
@@ -180,6 +184,7 @@ public class ControllerRecurHumanos extends AbstractController implements ItemLi
                     mensaje = "No se realizo ningun cambio";
                     modelo.limpiar();
                     vistaFuncionario.setVisible(false);
+                    vistaFuncionario.dispose();
                     vistaFuncionario.limpiarTodos();
                 }
                 break;
@@ -218,5 +223,35 @@ public class ControllerRecurHumanos extends AbstractController implements ItemLi
     @Override
     public void cerrarVista() {
         vista.dispose();
+    }
+    
+    @Override
+    public void windowOpened(WindowEvent we) {
+        vista.setEnabled(false);
+    }
+
+    @Override
+    public void windowClosing(WindowEvent we) {
+    }
+
+    @Override
+    public void windowClosed(WindowEvent we) {
+        vista.setEnabled(true);
+    }
+
+    @Override
+    public void windowIconified(WindowEvent we) {
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent we) {
+    }
+
+    @Override
+    public void windowActivated(WindowEvent we) {
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent we) {
     }
 }

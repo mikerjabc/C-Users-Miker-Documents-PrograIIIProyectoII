@@ -19,7 +19,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import Vista.VistaLogin;
  import Vista.VistaAdministrador;
 import Vista.VistaSecretaria;
@@ -29,7 +28,6 @@ import Vista.VistaRecursosHumanos;
 import accesoADatos.ServicioLogin;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import javax.swing.JMenuItem;
 
 
 public class ControllerLogin implements MouseListener, ActionListener, KeyListener, WindowListener{
