@@ -40,10 +40,10 @@ public class ServicioActivo extends Servicio {
             pstmt = conexion.prepareCall(INSERTARACTIVO);
 
             pstmt.setInt(1, elActivo.getCodigoActivo());
-            pstmt.setString(2, elActivo.getDescripcionActivo());
-            pstmt.setString(3, elActivo.getUbicacion());
-            pstmt.setString(4, elActivo.getBien().getSerial());
-            pstmt.setString(5, elActivo.getFuncionario().getId());
+            pstmt.setString(2, elActivo.getBien().getSerial());
+            pstmt.setString(3, elActivo.getDescripcionActivo());
+            pstmt.setString(4, elActivo.getFuncionario().getId());
+            pstmt.setString(5, elActivo.getUbicacion());
             pstmt.setInt(6, elCodigoDependencia);
             
             boolean resultado = pstmt.execute();
@@ -115,10 +115,10 @@ public class ServicioActivo extends Servicio {
             pstmt = conexion.prepareCall(MODIFICARACTIVO);
 
             pstmt.setInt(1, elActivo.getCodigoActivo());
-            pstmt.setString(2, elActivo.getDescripcionActivo());
-            pstmt.setString(3, elActivo.getUbicacion());
-            pstmt.setString(4, elActivo.getBien().getSerial());
-            pstmt.setString(5, elActivo.getFuncionario().getId());
+            pstmt.setString(2, elActivo.getBien().getSerial());
+            pstmt.setString(3, elActivo.getDescripcionActivo());
+            pstmt.setString(4, elActivo.getFuncionario().getId());
+            pstmt.setString(5, elActivo.getUbicacion());
 
             boolean resultado = pstmt.execute();
 
