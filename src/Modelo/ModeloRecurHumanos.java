@@ -149,14 +149,15 @@ public class ModeloRecurHumanos extends Observable {
                     }
                 }
             } else if (funcionario == null) {
-                Iterator<Funcionario> ite = servicioDependencia.buscarDependencia(codigoDependencia).getListaFuncionarios().iterator();
+                Dependencia dep = servicioDependencia.buscarDependencia(codigoDependencia);
+                Iterator<Funcionario> ite = dep.getListaFuncionarios().iterator();
                 while (ite.hasNext()) {
                     Funcionario e = ite.next();
                     Object[] fila = new Object[5];
                     fila[0] = e.getId();
                     fila[1] = e.getNombre();
                     fila[2] = e.getPuesto();
-                    fila[3] = servicioFuncionario.consultarDependenciaPorFuncionario(funcionario.getId()).getNombre();
+                    fila[3] = dep.getNombre();
                     list.add(fila);
                 }
             } else {

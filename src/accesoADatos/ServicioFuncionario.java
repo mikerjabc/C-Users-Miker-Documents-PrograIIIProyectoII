@@ -29,6 +29,7 @@ public class ServicioFuncionario extends Servicio {
     private static final String CONSULTARFUNCIONARIOIDNOMBRE = "{?=call buscarFuncionarioidNombre(?)}";
     private static final String CONSULTARFUNCIONARIOPORDEPENDENCIA = "{?=call buscarPorDependencia(?)}";
     private static final String CONSULTARFUNCIONARIOPORTRANSFERENCIA = "{?=call buscarFuncionarioPorTransferencia(?)}";
+    private static final String CONSULTARDEPENDENCIAPORFUNCIONARIO= "{?=call buscarDependenciaFuncionario(?)}";
 
     private static ServicioFuncionario servicioFuncionario = new ServicioFuncionario();
 
@@ -215,7 +216,7 @@ public class ServicioFuncionario extends Servicio {
         CallableStatement pstmt = null;
 
         try {
-            pstmt = conexion.prepareCall(CONSULTARFUNCIONARIO);
+            pstmt = conexion.prepareCall(CONSULTARDEPENDENCIAPORFUNCIONARIO);
             pstmt.registerOutParameter(1, OracleTypes.CURSOR);
             pstmt.setString(2, elId);
             pstmt.execute();
