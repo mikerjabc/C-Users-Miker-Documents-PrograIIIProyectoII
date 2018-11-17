@@ -6,6 +6,7 @@
 package Vista;
 
 import Control.ControllerRecurHumanos;
+import Logic.Funcionario;
 import Modelo.ModeloRecurHumanos;
 import java.util.Iterator;
 import javax.swing.JOptionPane;
@@ -35,7 +36,7 @@ public class VistaFuncionario extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
-        jttfId = new javax.swing.JTextField();
+        jtfId = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         jtfContrasenna = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
@@ -57,8 +58,8 @@ public class VistaFuncionario extends javax.swing.JFrame {
         jLabel13.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel13.setText("Puesto:");
 
-        jttfId.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jttfId.setName("id"); // NOI18N
+        jtfId.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jtfId.setName("id"); // NOI18N
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel14.setText("Contraseña:");
@@ -78,7 +79,6 @@ public class VistaFuncionario extends javax.swing.JFrame {
         jLabel7.setText("Nombre:");
 
         jcbPuesto.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jcbPuesto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "Secretaria de la OCCB", "Jefe de la OCCB", "Registrador de Bienes", "Administrador de la Dependencia" }));
         jcbPuesto.setName("puesto"); // NOI18N
 
         jcbDependencia.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -101,7 +101,7 @@ public class VistaFuncionario extends javax.swing.JFrame {
                             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jttfId, javax.swing.GroupLayout.PREFERRED_SIZE, 469, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtfId, javax.swing.GroupLayout.PREFERRED_SIZE, 469, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jtfContrasenna, javax.swing.GroupLayout.PREFERRED_SIZE, 469, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -135,7 +135,7 @@ public class VistaFuncionario extends javax.swing.JFrame {
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jttfId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtfId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -246,8 +246,8 @@ public class VistaFuncionario extends javax.swing.JFrame {
     public javax.swing.JComboBox<String> jcbPuesto;
     private javax.swing.JLabel jlfFuncionario;
     public javax.swing.JTextField jtfContrasenna;
+    public javax.swing.JTextField jtfId;
     public javax.swing.JTextField jtfNombre;
-    public javax.swing.JTextField jttfId;
     // End of variables declaration//GEN-END:variables
     private ModeloRecurHumanos modelo;
     private ControllerRecurHumanos controlador;
@@ -260,6 +260,13 @@ public class VistaFuncionario extends javax.swing.JFrame {
         while (ite.hasNext()) {
             jcbDependencia.addItem(ite.next());
         }
+        jcbPuesto.addItem(modelo.tiposSolicitud[0]);
+        jcbPuesto.addItem(modelo.tiposSolicitud[1]);
+        jcbPuesto.addItem(modelo.tiposSolicitud[2]);
+        jcbPuesto.addItem(modelo.tiposSolicitud[3]);
+        jcbPuesto.addItem(modelo.tiposSolicitud[4]);
+        jcbPuesto.addItem(modelo.tiposSolicitud[5]);
+        
     }
     
     public void setControlador(ControllerRecurHumanos controlador){
@@ -268,16 +275,30 @@ public class VistaFuncionario extends javax.swing.JFrame {
        jbtnLimpiar.addActionListener(controlador);
        jbtnCancelar.addActionListener(controlador);
        jtfNombre.addActionListener(controlador);
-       jttfId.addActionListener(controlador);
+       jtfId.addActionListener(controlador);
        jtfContrasenna.addActionListener(controlador);
     }
     
     public void limpiarTodos(){
         jtfContrasenna.setText("");
         jtfNombre.setText("");
-        jttfId.setText("");
+        jtfId.setText("");
         jcbDependencia.setSelectedItem("-");
         jcbPuesto.setSelectedItem("-");
+        jbtnGuardar.setName("Agregar");
+        jbtnLimpiar.setEnabled(true);
+        jtfId.setEditable(true);
+    }
+    
+    public void cargarDatos(Funcionario funcionario, String dependencia){
+        jtfContrasenna.setText(funcionario.getPassword());
+        jtfNombre.setText(funcionario.getNombre());
+        jtfId.setText(funcionario.getId());
+        jtfId.setEditable(false);
+        jcbDependencia.setSelectedItem(dependencia);
+        jcbPuesto.setSelectedItem(funcionario.getPuesto());
+        jbtnLimpiar.setEnabled(false);
+        jbtnGuardar.setName("modificar");
     }
     
     public void mostrarMensaje(String mensaje){

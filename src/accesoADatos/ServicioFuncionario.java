@@ -5,18 +5,12 @@
  */
 package accesoADatos;
 
-import Logic.Bien;
 import Logic.Funcionario;
-import accesoADatos.GlobalException;
-import accesoADatos.NoDataException;
-import accesoADatos.Servicio;
-import Logic.Solicitud;
 
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import oracle.jdbc.OracleTypes;
 //import oracle.jdbc.OracleTypes;
 
@@ -45,7 +39,7 @@ public class ServicioFuncionario extends Servicio {
             throw new NoDataException("La base de datos no se encuentra disponible");
         }
         CallableStatement pstmt = null;
-
+        
         try {
             pstmt = conexion.prepareCall(INSERTARFUNCIONARIO);
             pstmt.setString(1, elFuncionario.getId());

@@ -32,8 +32,6 @@ public class ControllerRecurHumanos extends AbstractController implements ItemLi
     private ModeloRecurHumanos modelo ;
     private VistaRecursosHumanos vista;
     private VistaFuncionario vistaFuncionario;
-    private Funcionario funcionario;
-    private String numeroDependencia;
 
     public ControllerRecurHumanos(ModeloRecurHumanos modelo, VistaRecursosHumanos vista) {
         this.modelo = modelo;
@@ -72,15 +70,14 @@ public class ControllerRecurHumanos extends AbstractController implements ItemLi
                 id = tabla.getValueAt(tabla.getSelectedRow(), 0).toString();
                 numero = tabla.getValueAt(tabla.getSelectedRow(), 3).toString();
                 tabla.changeSelection(tabla.getSelectedRow(), 0, false, true);
-                funcionario = modelo.buscarFuncionario(id, vista.jcbBuscar.getModel().getSelectedItem().toString());
-                numeroDependencia = numero;
-                
-                if (ae.getClickCount() == 2) {
+                modelo.buscarFuncionario(id);
+                if (ae.getClickCount() == 1) {
                     switch (ae.getButton()) {
                         case MouseEvent.BUTTON2: {//Click derecho
                             crud("eliminar");
                         } break;
                         case MouseEvent.BUTTON1: {//Click izquierdo
+                            vistaFuncionario.cargarDatos(modelo.getFuncionario(), numero);
                             vistaFuncionario.setVisible(true);
                         }break;
                     }
@@ -136,13 +133,15 @@ public class ControllerRecurHumanos extends AbstractController implements ItemLi
         try {
             switch (x.toLowerCase()) {
                 case "agregar": {
-                    modelo.crearFuncionario(vistaFuncionario.jttfId.getText(),
+                    modelo.crearFuncionario(vistaFuncionario.jtfId.getText(),
                                             vistaFuncionario.jtfNombre.getText(),
-                                            vistaFuncionario.jtfContrasenna.getText(),
                                             vistaFuncionario.jcbPuesto.getModel().getSelectedItem().toString(),
+                                            vistaFuncionario.jtfContrasenna.getText(),
                                             vistaFuncionario.jcbDependencia.getModel().getSelectedItem().toString());
                     mensaje = "Se ingresó el funcionario";
+                    modelo.limpiar();
                     vistaFuncionario.setVisible(false);
+                    vistaFuncionario.limpiarTodos();
                 }
                 break;
                 case "nuevo": {
@@ -151,7 +150,7 @@ public class ControllerRecurHumanos extends AbstractController implements ItemLi
                 break;
                 case "eliminar": {
                     if (vista.confirmacionDeAccion("¿Eliminar Funcionario?")) {
-                        modelo.eliminarFuncionario(funcionario.getId(), numeroDependencia);
+                        modelo.eliminarFuncionario(modelo.getFuncionario().getId());
                         mensaje = "El funcionario fue eliminado";
                     } else {
                         mensaje = "No se ha realizado ningun cambio";
@@ -159,18 +158,18 @@ public class ControllerRecurHumanos extends AbstractController implements ItemLi
                 }
                 break;
                 case "modificar": {
-                    modelo.modificarFuncionario(vistaFuncionario.jttfId.getText(),
+                    modelo.modificarFuncionario(vistaFuncionario.jtfId.getText(),
                                                 vistaFuncionario.jtfNombre.getText(),
-                                                vistaFuncionario.jtfContrasenna.getText(),
                                                 vistaFuncionario.jcbPuesto.getModel().getSelectedItem().toString(),
-                                                vistaFuncionario.jcbDependencia.getModel().getSelectedItem().toString());
+                                                vistaFuncionario.jtfContrasenna.getText());
                     mensaje = "El cambio fue guardado con éxito";
+                    modelo.limpiar();
                     vistaFuncionario.setVisible(false);
+                    vistaFuncionario.limpiarTodos();
                 }
                 break;
                 case "buscar": {
-                    modelo.buscarFuncionario(vista.jtIdBuscar.getText(), vista.jcbBuscar.getModel().getSelectedItem().toString());
-                    vistaFuncionario.setVisible(true);
+                    modelo.buscarFuncionario(vista.jtIdBuscar.getText());
                 }
                 break;
                 case "limpiar": {
@@ -179,8 +178,9 @@ public class ControllerRecurHumanos extends AbstractController implements ItemLi
                 break;
                 case "cancelar": {
                     mensaje = "No se realizo ningun cambio";
-                    //Instruccion para cambiar de usuario
+                    modelo.limpiar();
                     vistaFuncionario.setVisible(false);
+                    vistaFuncionario.limpiarTodos();
                 }
                 break;
                 case "cambiar": {
@@ -206,15 +206,13 @@ public class ControllerRecurHumanos extends AbstractController implements ItemLi
 
     @Override
     public void itemStateChanged(ItemEvent ie) {
-        try{
-            if(ie.getSource().getClass() == JComboBox.class){
+        try {
+            if (ie.getSource().getClass() == JComboBox.class) {
                 modelo.cambiarDependencia(ie.getItem().toString());
-                vista.mostrarMensaje("Se cambio de dependencia");
             }
-        }catch(Exception ex){
-            
+        } catch (Exception ex) {
+            vista.mostrarMensaje(ex.getMessage());
         }
-                   
     }
     
     @Override

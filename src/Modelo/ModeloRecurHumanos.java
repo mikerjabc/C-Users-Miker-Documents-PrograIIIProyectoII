@@ -25,25 +25,23 @@ import java.util.logging.Logger;
 public class ModeloRecurHumanos extends Observable {
     private ServicioDependencia servicioDependencia;
     private ServicioFuncionario servicioFuncionario;
-    private Dependencia dependencia;
     public final String ALL = "Todas";
+    public final String[] tiposSolicitud = {"-","Administrador","Registrador","Jefe","Secretaria","Recursos Humanos"};
+    private Funcionario funcionario;
+    private int codigoDependencia;
     
-    public ModeloRecurHumanos(){
-        dependencia = null;
-    }
+    
+    public ModeloRecurHumanos(){}
 
     public void setServicioDependencia(ServicioDependencia servicioDependencia) {
         this.servicioDependencia = servicioDependencia;
-        dependencia = null;
-        this.setChanged();
-        this.notifyObservers();
     }
     
     public void setServicioFuncionario(ServicioFuncionario servicioFuncionario) {
         this.servicioFuncionario = servicioFuncionario;
     }
     
-    public void modificarFuncionario(String id, String nombre, String puesto, String password, String dependencia) throws Exception {
+    public void modificarFuncionario(String id, String nombre, String puesto, String password) throws Exception {
         try {
             if (id.equals("")) {
                 throw (new Exception("ID invalido"));
@@ -57,11 +55,7 @@ public class ModeloRecurHumanos extends Observable {
             if (password.equals("")) {
                 throw (new Exception("Contraseña invalida"));
             }
-            if (dependencia.equals("") || id.equals("-")) {
-                throw (new Exception("Dependencia invalida"));
-            }
             servicioFuncionario.modificarFuncionario(new Funcionario(id, nombre, puesto, password));
-            this.dependencia = servicioDependencia.buscarDependenciaPorNombre(dependencia);
             this.setChanged();
             this.notifyObservers();
         } catch (Exception ex) {
@@ -83,11 +77,10 @@ public class ModeloRecurHumanos extends Observable {
             if (password.equals("")) {
                 throw (new Exception("Contraseña invalida"));
             }
-            if (dependencia.equals("") || id.equals("-")) {
+            if (dependencia.equals("") || id.equals(ALL)) {
                 throw (new Exception("Dependencia invalida"));
             }
-            this.dependencia = servicioDependencia.buscarDependenciaPorNombre(dependencia);
-            servicioFuncionario.insertarFuncionario(new Funcionario(id, nombre, puesto, password), this.dependencia.getCodigo());
+            servicioFuncionario.insertarFuncionario(new Funcionario(id, nombre, puesto, password), servicioDependencia.buscarDependenciaPorNombre(dependencia).getCodigo());
             this.setChanged();
             this.notifyObservers();
         } catch (Exception ex) {
@@ -95,16 +88,12 @@ public class ModeloRecurHumanos extends Observable {
         }
     }
 
-    public void eliminarFuncionario(String id, String dependencia) throws Exception {
+    public void eliminarFuncionario(String id) throws Exception {
         try {
             if (id.equals("")) {
                 throw (new Exception("ID invalido"));
             }
-            if (dependencia.equals("")) {
-                throw (new Exception("Dependencia invalida"));
-            }
             servicioFuncionario.eliminarFuncionario(id);
-            this.dependencia = servicioDependencia.buscarDependencia(Integer.valueOf(dependencia));
             this.setChanged();
             this.notifyObservers();
         } catch (Exception ex) {
@@ -112,41 +101,30 @@ public class ModeloRecurHumanos extends Observable {
         }
     }
     
-    public Funcionario buscarFuncionario(String id, String dependencia) throws Exception {
-        Funcionario aux = null;
+    public void buscarFuncionario(String id) throws Exception {
         try {
             if (id.equals("")) {
                 throw (new Exception("Codigo invalido"));
             }
-            if (dependencia.equals("")) {
-                throw (new Exception("Dependencia invalida"));
-            }
-            if (servicioFuncionario.consultarFuncionario(id) == null) {
-                throw (new Exception("No existe este funcionario en la base de datos"));
-            }
-            this.dependencia = servicioDependencia.buscarDependencia(Integer.valueOf(dependencia));
-            this.dependencia.setListaFuncionarios(new ArrayList());
-            aux = servicioFuncionario.consultarFuncionario(id);
-            this.dependencia.getListaFuncionarios().add(aux);
-            
+            funcionario = servicioFuncionario.consultarFuncionario(id);
             this.setChanged();
             this.notifyObservers();
         } catch (Exception ex) {
             throw (new Exception(ex.getMessage()));
         }
-        return aux;
     }
     
-    public void cambiarDependencia(String codigo) throws Exception {
+    public void cambiarDependencia(String nombre) throws Exception {
         try {
-            if (codigo.equals("")) {
+            if (nombre.equals("")) {
                 throw (new Exception("Debe ingresar un codigo"));
             }
-            if (codigo.equals(ALL)) {
-                dependencia = null;
+            if (nombre.equals(ALL)) {
+                codigoDependencia = -1;
             }else{
-                dependencia = servicioDependencia.buscarDependencia(Integer.valueOf(codigo));
+                codigoDependencia = servicioDependencia.buscarDependenciaPorNombre(nombre).getCodigo();
             }
+            funcionario = null;
             this.setChanged();
             this.notifyObservers();
         } catch (Exception ex) {
@@ -157,7 +135,7 @@ public class ModeloRecurHumanos extends Observable {
     public ArrayList<Object> getListaFuncionarios(){
         ArrayList<Object> list = new ArrayList();
         try {
-            if (dependencia == null) {
+            if (funcionario == null && codigoDependencia == -1) {
                 Iterator<Dependencia> ite = servicioDependencia.listarDependencia().iterator();
                 while (ite.hasNext()) {
                     Dependencia d = ite.next();
@@ -172,19 +150,25 @@ public class ModeloRecurHumanos extends Observable {
                         list.add(fila);
                     }
                 }
-            }else{
-                Iterator<Funcionario> ite = dependencia.getListaFuncionarios().iterator();
-                    while (ite.hasNext()) {
-                        Funcionario e = ite.next();
-                        Object[] fila = new Object[5];
-                        fila[0] = e.getId();
-                        fila[1] = e.getNombre();
-                        fila[2] = e.getPuesto();
-                        fila[3] = dependencia.getNombre();
-                        list.add(fila);
-                    }
+            } else if (funcionario == null) {
+                Iterator<Funcionario> ite = servicioDependencia.buscarDependencia(codigoDependencia).getListaFuncionarios().iterator();
+                while (ite.hasNext()) {
+                    Funcionario e = ite.next();
+                    Object[] fila = new Object[5];
+                    fila[0] = e.getId();
+                    fila[1] = e.getNombre();
+                    fila[2] = e.getPuesto();
+                    fila[3] = servicioDependencia.buscarDependencia(codigoDependencia).getNombre();
+                    list.add(fila);
+                }
+            } else {
+                Object[] fila = new Object[5];
+                fila[0] = funcionario.getId();
+                fila[1] = funcionario.getNombre();
+                fila[2] = funcionario.getPuesto();
+                fila[3] = servicioDependencia.buscarDependencia(codigoDependencia).getNombre();
+                list.add(fila);
             }
-
         } catch (GlobalException | NoDataException ex) {
         } catch (SQLException ex) {
             Logger.getLogger(ModeloRecurHumanos.class.getName()).log(Level.SEVERE, null, ex);
@@ -202,6 +186,8 @@ public class ModeloRecurHumanos extends Observable {
                     list.add(ite.next().getNombre());
                 }
             }
+            this.setChanged();
+            this.notifyObservers();
         } catch (GlobalException | NoDataException ex) {} catch (SQLException ex) {
             Logger.getLogger(ModeloRecurHumanos.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -221,19 +207,25 @@ public class ModeloRecurHumanos extends Observable {
                     }
                 }
             }
+            this.setChanged();
+            this.notifyObservers();
         } catch (GlobalException | NoDataException ex) {} catch (SQLException ex) {
             Logger.getLogger(ModeloRecurHumanos.class.getName()).log(Level.SEVERE, null, ex);
         }
         return codigo;
     }
 
+    public Funcionario getFuncionario() {
+        return funcionario;
+    }
+    
     @Override
     public void notifyObservers() {
         super.notifyObservers(getListaFuncionarios());
     }
 
     public void limpiar() {
-        dependencia = null;
+        funcionario = null;
         this.setChanged();
         this.notifyObservers();
     }

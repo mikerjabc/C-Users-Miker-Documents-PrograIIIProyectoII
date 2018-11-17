@@ -92,6 +92,7 @@ public class VistaRecursosHumanos extends javax.swing.JFrame implements Observer
         jtIdBuscar.setName("idBuscar"); // NOI18N
 
         jbBuscar.setText("Buscar");
+        jbBuscar.setName("buscar"); // NOI18N
 
         jLabel2.setText("ID:");
 
@@ -253,6 +254,7 @@ public class VistaRecursosHumanos extends javax.swing.JFrame implements Observer
         jmiCambiarUsuario.addActionListener(controlador);
         jmiSalir.addActionListener(controlador);
         jtIdBuscar.addActionListener(controlador);
+        jtFuncionarios.addMouseListener(controlador);
     }
     
     public void mostrarMensaje(String mensaje){

@@ -132,7 +132,7 @@ public class ControllerLogin implements MouseListener, ActionListener, KeyListen
                     controlador.mostrarVista();
                 }
                 break;
-                case "recursoshumanos": {
+                case "recursos humanos": {
                     VistaRecursosHumanos aux = new VistaRecursosHumanos();
                     aux.addWindowListener(this);
                     controlador = new ControllerRecurHumanos(new ModeloRecurHumanos(), aux);
