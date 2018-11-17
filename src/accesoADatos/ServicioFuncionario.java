@@ -5,6 +5,7 @@
  */
 package accesoADatos;
 
+import Logic.Dependencia;
 import Logic.Funcionario;
 
 import java.sql.CallableStatement;
@@ -197,6 +198,57 @@ public class ServicioFuncionario extends Servicio {
         }
 
         return elFuncionario;
+    }
+    
+        public Dependencia consultarDependenciaPorFuncionario(String elId) throws GlobalException, NoDataException {
+            Dependencia dependencia = null;
+        try {
+            conectar();
+        } catch (ClassNotFoundException e) {
+            throw new GlobalException("No se ha localizado el driver");
+        } catch (SQLException e) {
+            throw new NoDataException("La base de datos no se encuentra disponible");
+        }
+
+        ResultSet rs = null;
+        CallableStatement pstmt = null;
+
+        try {
+            pstmt = conexion.prepareCall(CONSULTARFUNCIONARIO);
+            pstmt.registerOutParameter(1, OracleTypes.CURSOR);            
+            pstmt.setString(2, elId);
+            pstmt.execute();
+            rs = (ResultSet) pstmt.getObject(1);
+
+            while (rs.next()) {
+                if (rs.getString("id").equalsIgnoreCase(elId)){
+                    dependencia = ServicioDependencia.getServicioDependencia().buscarDependencia(rs.getInt("codigoDependencia"));
+                    break;
+                }
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+            throw new GlobalException("Sentencia no valida");
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                desconectar();
+            } catch (SQLException e) {
+                throw new GlobalException("Estatutos invalidos o nulos");
+            }
+        }
+        if (dependencia == null) {
+            throw new NoDataException("El funcionario no existe en la base de datos");
+        }
+
+        return dependencia;
     }
 
     public ArrayList<Funcionario> listarFuncionario() throws GlobalException, NoDataException, SQLException {

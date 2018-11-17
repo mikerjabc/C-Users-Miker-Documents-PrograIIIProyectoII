@@ -156,7 +156,7 @@ public class ModeloRecurHumanos extends Observable {
                     fila[0] = e.getId();
                     fila[1] = e.getNombre();
                     fila[2] = e.getPuesto();
-                    fila[3] = servicioDependencia.buscarDependencia(codigoDependencia).getNombre();
+                    fila[3] = servicioFuncionario.consultarDependenciaPorFuncionario(funcionario.getId()).getNombre();
                     list.add(fila);
                 }
             } else {
@@ -164,7 +164,7 @@ public class ModeloRecurHumanos extends Observable {
                 fila[0] = funcionario.getId();
                 fila[1] = funcionario.getNombre();
                 fila[2] = funcionario.getPuesto();
-                fila[3] = servicioDependencia.buscarDependencia(codigoDependencia).getNombre();
+                fila[3] = servicioFuncionario.consultarDependenciaPorFuncionario(funcionario.getId()).getNombre();
                 list.add(fila);
             }
         } catch (GlobalException | NoDataException ex) {
