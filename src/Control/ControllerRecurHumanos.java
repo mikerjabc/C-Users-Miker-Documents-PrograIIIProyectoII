@@ -138,7 +138,7 @@ public class ControllerRecurHumanos extends AbstractController implements ItemLi
                     modelo.crearFuncionario(vistaFuncionario.jtfId.getText(),
                                             vistaFuncionario.jtfNombre.getText(),
                                             vistaFuncionario.jcbPuesto.getModel().getSelectedItem().toString(),
-                                            vistaFuncionario.jtfContrasenna.getText(),
+                                            vistaFuncionario.jtfPassword1.getText(),
                                             vistaFuncionario.jcbDependencia.getModel().getSelectedItem().toString());
                     mensaje = "Se ingresó el funcionario";
                     modelo.limpiar();
@@ -164,7 +164,7 @@ public class ControllerRecurHumanos extends AbstractController implements ItemLi
                     modelo.modificarFuncionario(vistaFuncionario.jtfId.getText(),
                                                 vistaFuncionario.jtfNombre.getText(),
                                                 vistaFuncionario.jcbPuesto.getModel().getSelectedItem().toString(),
-                                                vistaFuncionario.jtfContrasenna.getText());
+                                                vistaFuncionario.jtfPassword1.getText());
                     mensaje = "El cambio fue guardado con éxito";
                     modelo.limpiar();
                     vistaFuncionario.setVisible(false);

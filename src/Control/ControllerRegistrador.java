@@ -184,7 +184,7 @@ public final class ControllerRegistrador extends AbstractController implements I
                             vistaSolicitud.limpiarTodosEspacios();
                             modelo.limpiar();
                             vistaActivo.dispose();
-                            vista.mostrarMensaje("¡Solicitud procesada!");
+                            vistaActivo.mostrarMensaje("¡Solicitud procesada!");
                         }
                     }
                 }
@@ -200,7 +200,7 @@ public final class ControllerRegistrador extends AbstractController implements I
                         vistaActivo.limpiarTodosEspacios();
                         modeloActivo = null;
                         vistaActivo.dispose();
-                        vista.mostrarMensaje("Se guardo la modificación del bien");
+                        vistaActivo.mostrarMensaje("Se guardo la modificación del bien");
                     }
                 }
                 break;
@@ -237,7 +237,7 @@ public final class ControllerRegistrador extends AbstractController implements I
                             modeloActivo = null;
                             vistaActivo.dispose();
                             vistaActivo.mostrarMensaje("No se realizó ningún cambio");
-                        }else if (modeloActivo.getBien() == null) {
+                        }else if (modeloActivo == null) {
                             vistaSolicitud.setVisible(false);
                             vistaSolicitud.limpiarTodosEspacios();
                             vistaSolicitud.dispose();

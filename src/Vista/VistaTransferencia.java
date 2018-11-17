@@ -80,7 +80,7 @@ public class VistaTransferencia extends javax.swing.JFrame implements Observer {
         jtActivos = new javax.swing.JTable();
         jbAgregarBien = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel6.setFont(new java.awt.Font("Comic Sans MS", 2, 26)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
