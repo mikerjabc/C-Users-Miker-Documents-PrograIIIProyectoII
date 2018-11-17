@@ -2,17 +2,14 @@ package Control;
 
 import Modelo.ModeloRegistrador;
 import Modelo.ModeloSolicitud;
-import Modelo.ModeloTransferencia;
 import Vista.VistaActivo;
 import Vista.VistaRegistrador;
 import Vista.VistaSolicitud;
-import Vista.VistaTransferencia;
 import accesoADatos.GlobalException;
 import accesoADatos.NoDataException;
 import accesoADatos.ServicioActivo;
 import accesoADatos.ServicioFuncionario;
 import accesoADatos.ServicioSolicitud;
-import accesoADatos.ServicioTransferencia;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
