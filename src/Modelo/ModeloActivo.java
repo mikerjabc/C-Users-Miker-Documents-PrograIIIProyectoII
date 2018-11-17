@@ -69,6 +69,10 @@ public class ModeloActivo extends Observable {
         return funcionario;
     }
     
+    public int getNumeroActivo(){
+        return numeroActivo;
+    }
+    
     @Override
     protected synchronized void setChanged() {
         super.setChanged();

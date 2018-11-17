@@ -162,14 +162,15 @@ public final class ControllerRegistrador extends AbstractController implements I
             switch (x.toLowerCase()) {
                 case "Agregar": {
                     if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[0])) {
-                        if (modelo.getSolicitud() != null) {
-                            modelo.agregarActivo(vistaActivo.jtfCodigo.getText(),
-                                    vistaActivo.jtfBien.getText(),
+                        if (modelo.getSolicitud() != null && modeloActivo != null) {
+                            modelo.agregarActivo(modeloActivo.getNumeroActivo(),
+                                    modeloActivo.getBien(),
                                     vistaActivo.jtfDescripcion.getText(),
-                                    vistaActivo.jtfFuncionario.getText(),
+                                    modelo.getFuncionario(),
                                     vistaActivo.jtfUbicacion.getText()
                             );
                             vistaActivo.limpiarTodosEspacios();
+                            modeloActivo = null;
                         }else{
                             vistaSolicitud.setVisible(false);
                             vistaSolicitud.limpiarTodosEspacios();
@@ -210,6 +211,7 @@ public final class ControllerRegistrador extends AbstractController implements I
                         if (modelo.getActivo() != null) {
                             vistaActivo.setVisible(false);
                             vistaActivo.limpiarTodosEspacios();
+                            modeloActivo = null;
                         }else if (modeloActivo.getBien() == null) {
                             vistaSolicitud.setVisible(false);
                             vistaSolicitud.limpiarTodosEspacios();

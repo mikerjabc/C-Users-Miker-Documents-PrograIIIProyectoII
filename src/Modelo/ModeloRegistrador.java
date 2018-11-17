@@ -2,6 +2,7 @@ package Modelo;
 
 
 import Logic.Activo;
+import Logic.Bien;
 import Logic.Funcionario;
 import Logic.Solicitud;
 import accesoADatos.GlobalException;
@@ -20,7 +21,6 @@ import java.util.logging.Logger;
 public class ModeloRegistrador extends Observable {
     private ServicioSolicitud servicioSolicitud;
     private ServicioFuncionario servicioFuncionario;
-    private ServicioBien servicioBien;
     private ServicioActivo servicioActivo;
     public final String[] tiposSolicitud = {"Incorporación","Catálogo"};
     public final Object[] VARIABLESTABLA = {"Número","Fecha","Tipo","Estado","Cantidad de Bienes","Monto Total","Código","Bien","Descripción","Funcionario","Ubicación"};
@@ -51,26 +51,25 @@ public class ModeloRegistrador extends Observable {
         this.notifyObservers();
     }
     
-    public void agregarActivo(String codigo, String bien, String descripcion, String funcionario, String ubicacion) throws Exception {
+    public void agregarActivo(int codigo, Bien bien, String descripcion, Funcionario funcionario, String ubicacion) throws Exception {
         try {
-            if (codigo.equals("")) {
+            if (codigo == 0) {
                 throw (new Exception("Código invalido"));
             }
-            if (bien.equals("")) {
+            if (bien == null) {
                 throw (new Exception("Bien invalido"));
             }
             if (descripcion.equals("")) {
                 throw (new Exception("Descripción invalida"));
             }
-            if (funcionario.equals("")) {
+            if (funcionario == null) {
                 throw (new Exception("Funcionario invalido"));
             }
             if (ubicacion.equals("")) {
                 throw (new Exception("Ubicación invalida"));
             }
-            Activo activo = new Activo(Integer.valueOf(codigo), servicioBien.buscarBien(bien), descripcion, servicioFuncionario.consultarFuncionario(funcionario), ubicacion);
-            //Cambiar por dependencia
-            servicioActivo.insertarActivo(activo, 0);
+            Activo activo = new Activo(codigo, bien, descripcion, funcionario, ubicacion);
+            servicioActivo.insertarActivo(activo, servicioFuncionario.consultarDependenciaPorFuncionario(funcionario.getId()).getCodigo());
             this.setChanged();
             this.notifyObservers();
         } catch (Exception ex) {
@@ -78,25 +77,24 @@ public class ModeloRegistrador extends Observable {
         }
     }
     
-    public void modificarActivo(String codigo, String bien, String descripcion, String funcionario, String ubicacion) throws Exception {
+    public void modificarActivo(int codigo, Bien bien, String descripcion, Funcionario funcionario, String ubicacion) throws Exception {
         try {
-            if (codigo.equals("")) {
+            if (codigo == 0) {
                 throw (new Exception("Código invalido"));
             }
-            if (bien.equals("")) {
+            if (bien == null) {
                 throw (new Exception("Bien invalido"));
             }
             if (descripcion.equals("")) {
                 throw (new Exception("Descripción invalida"));
             }
-            if (funcionario.equals("")) {
+            if (funcionario == null) {
                 throw (new Exception("Funcionario invalido"));
             }
             if (ubicacion.equals("")) {
                 throw (new Exception("Ubicación invalida"));
             }
-            Activo activo = new Activo(Integer.valueOf(codigo), servicioBien.buscarBien(bien), descripcion, servicioFuncionario.consultarFuncionario(funcionario), ubicacion);
-            //Cambiar por dependencia
+            Activo activo = new Activo(codigo, bien, descripcion, funcionario, ubicacion);
             servicioActivo.modificarActivo(activo);
             this.setChanged();
             this.notifyObservers();
@@ -123,6 +121,30 @@ public class ModeloRegistrador extends Observable {
             if (tipo.equalsIgnoreCase(tiposSolicitud[0])) {
                 solicitud = servicioSolicitud.buscarSolicitud(Integer.valueOf(numero));
                 activo = null;
+            }
+            this.setChanged();
+            this.notifyObservers();
+        } catch (Exception ex) {
+            throw (new Exception(ex.getMessage()));
+        }
+    }
+    
+    public void procesarSolicitud(String numero) throws Exception {
+        try {
+            if (numero.equals("")) {
+                throw (new Exception("Número invalido"));
+            }
+            int cant = 0;
+            Iterator<Bien> ite = solicitud.getListaBienes().iterator();
+                while (ite.hasNext()) {
+                    Bien b = ite.next();
+                    if(servicioActivo.buscarActivoPorBien(ite.next().getSerial()) != null){
+                        cant++;
+                    }
+                }
+            if (solicitud.getListaBienes().size() == cant) {
+                solicitud.setEstado("Procesada");
+                servicioSolicitud.modificarSolicitud(solicitud);
             }
             this.setChanged();
             this.notifyObservers();

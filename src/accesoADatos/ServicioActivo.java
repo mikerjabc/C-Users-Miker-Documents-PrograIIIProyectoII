@@ -21,6 +21,7 @@ public class ServicioActivo extends Servicio {
     private static final String LISTARACTIVO = "{?=call listarActivo}";
     private static final String CONSULTARACTIVO = "{?=call consultarActivo(?)}";    
     private static final String BUSCARACTIVOPORDEPENDENCIA = "{?=call buscarActivoPorDependencia(?)}";
+    private static final String BUSCARACTIVOPORBIEN = "{?=call buscarActivoPorBien(?)}";
 
     
     private static ServicioActivo servicioActivo = new ServicioActivo();
@@ -163,6 +164,61 @@ public class ServicioActivo extends Servicio {
 
             while (rs.next()) {
                 if (rs.getInt("codigo") == elCodigo) {
+                    elActivo = new Activo(rs.getInt("codigo"),
+                            ServicioBien.getServicioBien().buscarBien(rs.getString("serial")),
+                            rs.getString("descripcion"),
+                            ServicioFuncionario.getServicioFuncionario().consultarFuncionario(rs.getString("id")),
+                            rs.getString("ubicacion")
+                    );
+                    break;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+            throw new GlobalException("Sentencia no valida");
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                desconectar();
+            } catch (SQLException e) {
+                throw new GlobalException("Estatutos invalidos o nulos");
+            }
+        }
+        if (elActivo == null) {
+            throw new NoDataException("No existe un activo con este número");
+        }
+        return elActivo;
+    }
+    
+    public Activo buscarActivoPorBien(String elSerial) throws GlobalException, NoDataException {
+        try {
+            conectar();
+        } catch (ClassNotFoundException e) {
+            throw new GlobalException("No se ha localizado el driver");
+        } catch (SQLException e) {
+            throw new NoDataException("La base de datos no se encuentra disponible");
+        }
+
+        ResultSet rs = null;
+        CallableStatement pstmt = null;
+        Activo elActivo = null;
+        ArrayList<Activo> coleccion = new ArrayList();
+
+        try {
+            pstmt = conexion.prepareCall(CONSULTARACTIVO);
+            pstmt.registerOutParameter(1, OracleTypes.CURSOR);
+            pstmt.setString(2, elSerial);
+            pstmt.execute();
+            rs = (ResultSet) pstmt.getObject(1);
+
+            while (rs.next()) {
+                if (rs.getString("bien").equals(elSerial)) {
                     elActivo = new Activo(rs.getInt("codigo"),
                             ServicioBien.getServicioBien().buscarBien(rs.getString("serial")),
                             rs.getString("descripcion"),
