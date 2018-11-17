@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Observable;
+import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -56,7 +57,6 @@ public class ModeloRecurHumanos extends Observable {
                 throw (new Exception("Contraseña invalida"));
             }
             servicioFuncionario.modificarFuncionario(new Funcionario(id, nombre, puesto, password));
-            this.setChanged();
             this.notifyObservers();
         } catch (Exception ex) {
             throw (new Exception(ex.getMessage()));
@@ -81,7 +81,6 @@ public class ModeloRecurHumanos extends Observable {
                 throw (new Exception("Dependencia invalida"));
             }
             servicioFuncionario.insertarFuncionario(new Funcionario(id, nombre, puesto, password), servicioDependencia.buscarDependenciaPorNombre(dependencia).getCodigo());
-            this.setChanged();
             this.notifyObservers();
         } catch (Exception ex) {
             throw (new Exception(ex.getMessage()));
@@ -94,7 +93,6 @@ public class ModeloRecurHumanos extends Observable {
                 throw (new Exception("ID invalido"));
             }
             servicioFuncionario.eliminarFuncionario(id);
-            this.setChanged();
             this.notifyObservers();
         } catch (Exception ex) {
             throw (new Exception(ex.getMessage()));
@@ -107,7 +105,6 @@ public class ModeloRecurHumanos extends Observable {
                 throw (new Exception("Codigo invalido"));
             }
             funcionario = servicioFuncionario.consultarFuncionario(id);
-            this.setChanged();
             this.notifyObservers();
         } catch (Exception ex) {
             throw (new Exception(ex.getMessage()));
@@ -125,7 +122,6 @@ public class ModeloRecurHumanos extends Observable {
                 codigoDependencia = servicioDependencia.buscarDependenciaPorNombre(nombre).getCodigo();
             }
             funcionario = null;
-            this.setChanged();
             this.notifyObservers();
         } catch (Exception ex) {
             throw (new Exception(ex.getMessage()));
@@ -186,7 +182,6 @@ public class ModeloRecurHumanos extends Observable {
                     list.add(ite.next().getNombre());
                 }
             }
-            this.setChanged();
             this.notifyObservers();
         } catch (GlobalException | NoDataException ex) {} catch (SQLException ex) {
             Logger.getLogger(ModeloRecurHumanos.class.getName()).log(Level.SEVERE, null, ex);
@@ -207,7 +202,6 @@ public class ModeloRecurHumanos extends Observable {
                     }
                 }
             }
-            this.setChanged();
             this.notifyObservers();
         } catch (GlobalException | NoDataException ex) {} catch (SQLException ex) {
             Logger.getLogger(ModeloRecurHumanos.class.getName()).log(Level.SEVERE, null, ex);
@@ -218,9 +212,15 @@ public class ModeloRecurHumanos extends Observable {
     public Funcionario getFuncionario() {
         return funcionario;
     }
+
+    @Override
+    protected synchronized void setChanged() {
+        super.setChanged();
+    }
     
     @Override
     public void notifyObservers() {
+        setChanged();
         super.notifyObservers(getListaFuncionarios());
     }
 

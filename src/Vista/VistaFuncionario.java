@@ -227,7 +227,7 @@ public class VistaFuncionario extends javax.swing.JFrame {
         jcbPuesto.addItem(modelo.tiposSolicitud[3]);
         jcbPuesto.addItem(modelo.tiposSolicitud[4]);
         jcbPuesto.addItem(modelo.tiposSolicitud[5]);
-        
+        modelo.notifyObservers();
     }
     
     public void setControlador(ControllerRecurHumanos controlador){

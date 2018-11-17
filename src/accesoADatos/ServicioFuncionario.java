@@ -192,6 +192,9 @@ public class ServicioFuncionario extends Servicio {
                 throw new GlobalException("Estatutos invalidos o nulos");
             }
         }
+        if (elFuncionario == null) {
+            throw new NoDataException("El funcionario no existe en la base de datos");
+        }
 
         return elFuncionario;
     }
@@ -344,6 +347,9 @@ public class ServicioFuncionario extends Servicio {
         }
         if (elFuncionario == null) {
             throw new NoDataException("No existe una transferencia con este número");
+        }
+        if (elFuncionario == null) {
+            throw new NoDataException("El funcionario no existe en la base de datos");
         }
         return elFuncionario;
     }

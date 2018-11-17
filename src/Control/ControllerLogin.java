@@ -108,7 +108,6 @@ public class ControllerLogin implements MouseListener, ActionListener, KeyListen
                 }
                 break;
                 case "secretaria": {
-                    JOptionPane.showMessageDialog(null, "Eres un perra Secretaria sigue adelante");
                     VistaSecretaria aux = new VistaSecretaria();
                     aux.addWindowListener(this);
                     controlador = new ControllerSecretaria(new ModeloSecretaria(), aux);
@@ -118,6 +117,7 @@ public class ControllerLogin implements MouseListener, ActionListener, KeyListen
                 break;
                 case "jefe": {
                     VistaJefe aux = new VistaJefe();
+                    aux.setNombreUsuario(funcionario.getNombre());
                     aux.addWindowListener(this);
                     controlador = new ControllerJefe(new ModeloJefe(), aux);
                     this.vista.setVisible(false);
