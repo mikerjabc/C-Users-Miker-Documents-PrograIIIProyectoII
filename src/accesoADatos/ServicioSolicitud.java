@@ -236,7 +236,7 @@ public class ServicioSolicitud extends Servicio {
             }
         }
         if (laSolicitud == null) {
-            throw new NoDataException("No existe una transferencia con este número");
+            throw new NoDataException("No existe una solicitud con este número");
         }
         return laSolicitud;
     }
