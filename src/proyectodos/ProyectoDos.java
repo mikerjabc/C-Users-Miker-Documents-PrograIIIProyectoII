@@ -5,8 +5,11 @@
  */
 package proyectodos;
 
+import Control.ControllerAdministrador;
 import Control.ControllerLogin;
+import Modelo.ModeloAdministrador;
 import Modelo.ModeloLogin;
+import Vista.VistaAdministrador;
 import Vista.VistaLogin;
 import java.sql.SQLException;
  
@@ -18,12 +21,17 @@ public class ProyectoDos {
 
     
     public static void main(String[] args) throws SQLException {
-
-        VistaLogin vista = new VistaLogin();
+ 
+        VistaAdministrador vista = new VistaAdministrador();
         
-        ControllerLogin control = new ControllerLogin(new ModeloLogin(), vista);
+        ControllerAdministrador controller = new ControllerAdministrador(new ModeloAdministrador(), vista);
         
         vista.setVisible(true);
+//        VistaLogin vista = new VistaLogin();
+//        
+//        ControllerLogin control = new ControllerLogin(new ModeloLogin(), vista);
+//        
+//        vista.setVisible(true);
         
         //Jose
     }

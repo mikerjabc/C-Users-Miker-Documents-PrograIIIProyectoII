@@ -52,14 +52,13 @@ public class ModeloAdministrador extends Observable {
                 Integer.parseInt(this.vistaAdmistrador.getCampoNumeroComprobante().getText()) ,
                 this.vistaAdmistrador.getCampoFecha().getText(), 
                 this.vistaAdmistrador.getCampoTipoAdqui().getSelectedItem().toString(), 
-                "por Revisar"
+                "por verificar"
         );
         nuevaSolicitud.setListaBienes(bienes);
         return nuevaSolicitud;
     }
 
     public void limpiar() {
- 
         this.vistaAdmistrador.getCampoFecha().setText("");
         this.vistaAdmistrador.getCampoMontoTotal().setText("");
         this.vistaAdmistrador.dtm.setRowCount(0);
@@ -67,5 +66,14 @@ public class ModeloAdministrador extends Observable {
         setChanged();
         bienes.clear();
      }    
-    
+
+     
+    public void limpiar(int s) { 
+        this.vistaAdmistrador.getCampoFecha().setText("");
+        this.vistaAdmistrador.getCampoMontoTotal().setText("");
+        notifyObservers();
+        setChanged();
+        bienes.clear();
+     }    
+
 }

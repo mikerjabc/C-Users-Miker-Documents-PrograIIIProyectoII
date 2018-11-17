@@ -40,7 +40,7 @@ public class VistaSecretaria extends javax.swing.JFrame implements Observer {
     public VistaSecretaria() {
         initComponents();
         this.setLocationRelativeTo(null);
-        String [] titulo1 = new String []{"comprobante", "fecha", "tipo adquisicion", "funcionario", "dependecia", "estado"};
+        String [] titulo1 = new String []{"comprobante", "fecha", "tipo adquisicion", "estado"};
         tablaSolicitudes.setModel(dtm);
         dtm.setColumnIdentifiers(titulo1);
     }

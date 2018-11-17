@@ -147,11 +147,22 @@ public class ControllerAdministrador extends AbstractController{
             controlbien.getVistaBien().setVisible(true); 
         }
            if(btn.getText().equalsIgnoreCase("Cancelar")) {
-               this.vistaAdmistrador.setVisible(false);
+                 this.vistaAdmistrador.getPanelAgregaNuevaSolicitud().setVisible(false);
+                 this.vistaAdmistrador.dtm.setRowCount(0);
+                 String [] titulo1 = new String []{"#Solicitud", "fecha ","tipo adquisicion", "estado"};
+                 this.vistaAdmistrador.dtm.setColumnIdentifiers(titulo1);
+                 this.vistaAdmistrador.getTituloDeTabla().setText("Mis Solicitudes");   
            }
-           
-            if(btn.getText().equalsIgnoreCase("guardar solicitud")){
+            if(btn.getText().equalsIgnoreCase("guardar solicitud")){                 
+                this.vistaAdmistrador.getPanelAgregaNuevaSolicitud().setVisible(false);
                 guardarSolicitud();
+            }
+             if(btn.getText().equalsIgnoreCase("Nueva Solicitud")){
+                     String [] titulo = new String []{"Descripcion", "Modelo", "Serial", "Precio", "Cantidad"};
+                     this.vistaAdmistrador.dtm.setRowCount(0);
+                     this.vistaAdmistrador.dtm.setColumnIdentifiers(titulo);
+                     this.vistaAdmistrador.getPanelAgregaNuevaSolicitud().setVisible(true);
+                     this.vistaAdmistrador.getTituloDeTabla().setText("Bienes de la Solicitud");     
             }
     }
 
@@ -238,6 +249,9 @@ public class ControllerAdministrador extends AbstractController{
         accesoADatosSolicitud =  new ServicioSolicitud();
         System.out.println(accesoADatosSolicitud.listarSolicitudes().toString());
         modelo.setNumeroNuevoSolicitud( accesoADatosSolicitud.listarSolicitudes());
+        
+        String [] titulo1 = new String []{"#Solicitud", "fecha ","tipo adquisicion", "estado"};
+        this.vistaAdmistrador.dtm.setColumnIdentifiers(titulo1);
     }
     
     @Override
@@ -276,4 +290,5 @@ public class ControllerAdministrador extends AbstractController{
     public void windowDeactivated(WindowEvent we) {
         
     }
+ 
 }

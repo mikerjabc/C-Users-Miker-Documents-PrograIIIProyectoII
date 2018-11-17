@@ -94,7 +94,7 @@ public class ControllerLogin implements MouseListener, ActionListener, KeyListen
                         throw (new Exception("¡No existe ningún funcionario con este ID: " + vista.ftfId.getText() + "!"));
                     }
                     instrucciones(funcionario.getPuesto());
-                    vista.mostrarMensaje("¡Bienvenido " + funcionario.getNombre() + '!');
+                    vista.mostrarMensaje("¡Bienvenido " + funcionario.getNombre() +" "+ '!');
                 }
                 break;
                 case "administrador": {
