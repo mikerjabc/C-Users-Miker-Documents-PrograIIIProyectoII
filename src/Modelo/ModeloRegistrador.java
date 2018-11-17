@@ -2,7 +2,6 @@ package Modelo;
 
 
 import Logic.Activo;
-import Logic.Bien;
 import Logic.Solicitud;
 import accesoADatos.GlobalException;
 import accesoADatos.NoDataException;
