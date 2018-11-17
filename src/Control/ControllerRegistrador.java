@@ -1,5 +1,6 @@
 package Control;
 
+import Modelo.ModeloActivo;
 import Modelo.ModeloRegistrador;
 import Modelo.ModeloSolicitud;
 import Vista.VistaActivo;
@@ -30,6 +31,7 @@ public final class ControllerRegistrador extends AbstractController implements I
     private VistaSolicitud vistaSolicitud;
     private VistaActivo vistaActivo;
     private ModeloSolicitud modeloSolicitud;
+    private ModeloActivo modeloActivo;
 
     public ControllerRegistrador(ModeloRegistrador modelo, VistaRegistrador vista) {
         this.modelo = modelo;
@@ -60,11 +62,13 @@ public final class ControllerRegistrador extends AbstractController implements I
 
     public void ajustarVista() {
         vistaSolicitud = new VistaSolicitud();
-        vistaSolicitud.setModelo(new ModeloSolicitud());
+        modeloSolicitud = new ModeloSolicitud(modelo.getFuncionario());
+        vistaSolicitud.setModelo(modeloSolicitud);
+        vistaSolicitud.setControlador(this);
         //
         vistaActivo = new VistaActivo();
-        //
-        vistaSolicitud.ajustatVistaParaFuncionario("Registrador");
+        vistaActivo.setControlador(this);
+        modeloActivo = null;
     }
 
     @Override
@@ -75,30 +79,31 @@ public final class ControllerRegistrador extends AbstractController implements I
                 JTable tabla = (JTable) ae.getSource();
                 numero = tabla.getValueAt(tabla.getSelectedRow(), 0).toString();
                 tabla.changeSelection(tabla.getSelectedRow(), 0, false, true);
-                if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[0])) {
-                    modelo.buscarIncorporacion_Activo(vista.jtIdBuscar.getText());
+                if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[0]) && modelo.getSolicitud() != null) {
+                    modeloSolicitud.buscarBien(numero);
+                } else if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[0]) && modelo.getSolicitud() == null) {
+                    modelo.buscarIncorporacion_Activo(numero);
                 } else if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[1])) {
-                    modelo.buscarIncorporacion_Activo(vista.jtIdBuscar.getText());
-                } else {
-                    modeloSolicitud.buscarBien(vistaSolicitud.jtfIdBuscar.getText());
+                    modelo.buscarIncorporacion_Activo(numero);
                 }
                 
-                if (ae.getClickCount() == 2) {
+                if (ae.getClickCount() == 1) {
                     switch (ae.getButton()) {
                         case MouseEvent.BUTTON2: {//Click derecho
-                            //instrucciones("eliminar");
+                            instrucciones("eliminar");
                         }
                         break;
                         case MouseEvent.BUTTON1: {//Click izquierdo
-                            if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[0])) {
+                            if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[0]) && modeloSolicitud.getBien() == null) {
                                 vistaSolicitud.cargarDatos(modelo.getSolicitud());
                                 vistaSolicitud.setVisible(true);
+                            } else if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[0]) && modeloSolicitud.getBien() != null) {
+                                modeloActivo = new ModeloActivo(modeloSolicitud.getBien(),modelo.numeroConsecutivoParaActivo());
+                                modeloActivo.setServicioFuncionario(ServicioFuncionario.getServicioFuncionario());
+                                vistaActivo.setModelo(modeloActivo);
+                                vistaActivo.setVisible(true);
                             } else if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[1])) {
                                 vistaActivo.cargarDatos(modelo.getActivo());
-                                vistaActivo.setVisible(true);
-                            } else {
-                                vistaActivo.jtfDescripcion.setText(modeloSolicitud.getBien().getDescripcion());
-                                vistaActivo.jtfDescripcion.setText(String.valueOf(modelo.numeroConsecutivoParaActivo()));
                                 vistaActivo.setVisible(true);
                             }
                         }
@@ -182,6 +187,11 @@ public final class ControllerRegistrador extends AbstractController implements I
                     }
                 }
                 break;
+                case "buscarfuncionario": {
+                    modeloActivo.buscarFuncionario(vistaActivo.jtfFuncionario.getText());
+                    mensaje = "¡Funcionario encontrado!";
+                }
+                break;
                 case "limpiar": {
                     if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[0])) {
                         vistaActivo.limpiarTodosEspacios();
@@ -195,16 +205,22 @@ public final class ControllerRegistrador extends AbstractController implements I
                 }
                 break;
                 case "cancelar": {
-                    mensaje = "No se realizo ningun cambio";
+                    mensaje = "No se realizó ningún cambio";
                     if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[0])) {
-                        if (modelo.getSolicitud() != null) {
+                        if (modelo.getActivo() != null) {
                             vistaActivo.setVisible(false);
                             vistaActivo.limpiarTodosEspacios();
-                        } else {
+                        }else if (modeloActivo.getBien() == null) {
                             vistaSolicitud.setVisible(false);
                             vistaSolicitud.limpiarTodosEspacios();
+                        }else if (modeloActivo.getBien() != null) {
+                            vistaActivo.setVisible(false);
+                            vistaActivo.limpiarTodosEspacios();
                         }
-                    } 
+                    }else{
+                        vistaActivo.setVisible(false);
+                        vistaActivo.limpiarTodosEspacios();
+                    }
                 }
                 break;
                 case "cambiar": {

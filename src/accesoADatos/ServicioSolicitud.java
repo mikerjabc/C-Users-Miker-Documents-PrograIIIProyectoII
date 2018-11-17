@@ -21,9 +21,9 @@ public class ServicioSolicitud extends Servicio {
     private static final String INSERTARSOLICITUD = "{call insertarSolicitud(?,?,?,?)}";
     private static final String ELIMINARSOLICITUD = "{call eliminarSolicitud(?)}";
     private static final String MODIFICARSOLICITUD = "{call modificarSolicitud(?,?,?,?)}";
-    private static final String LISTARSOLICITUD = "{?=call listarSolicitudes}";
-    private static final String CONSULTARSOLICITUD = "{?=call consultarSolicitud(?)}";
-    
+    private static final String LISTARSOLICITUD = "{?=call listarSolicitud}";
+    private static final String CONSULTARSOLICITUD = "{?=call buscarSolicitud(?)}";
+
     private static ServicioSolicitud servicioSolicitud = new ServicioSolicitud();
 
     public void insertarSolicitud(Solicitud laSolicitud) throws GlobalException, NoDataException {
@@ -35,7 +35,7 @@ public class ServicioSolicitud extends Servicio {
             throw new NoDataException("La base de datos no se encuentra disponible");
         }
         CallableStatement pstmt = null;
-        
+
         try {
             pstmt = conexion.prepareCall(INSERTARSOLICITUD);
             pstmt.setInt(1, laSolicitud.getNumeroSolicitud());
@@ -61,7 +61,7 @@ public class ServicioSolicitud extends Servicio {
             }
         }
     }
-    
+
     public void eliminarSolicitud(int elNumero) throws GlobalException, NoDataException {
         try {
             conectar();
@@ -70,15 +70,15 @@ public class ServicioSolicitud extends Servicio {
         } catch (SQLException e) {
             throw new NoDataException("La base de datos no se encuentra disponible");
         }
-        
+
         CallableStatement pstmt = null;
         ResultSet rs = null;
-        
+
         try {
             pstmt = conexion.prepareCall(ELIMINARSOLICITUD);
             pstmt.setInt(1, elNumero);
             pstmt.execute();
-            
+
         } catch (SQLException e) {
             e.printStackTrace();
             throw new GlobalException("Sentencia no valida");
@@ -99,7 +99,7 @@ public class ServicioSolicitud extends Servicio {
     }
 
     public void modificarSolicitud(Solicitud laSolicitud) throws GlobalException, NoDataException {
-        
+
         try {
             conectar();
         } catch (ClassNotFoundException e) {
@@ -136,7 +136,7 @@ public class ServicioSolicitud extends Servicio {
             }
         }
     }
-   
+
     public ArrayList<Solicitud> listarSolicitudes() throws GlobalException, NoDataException, SQLException {
 
         try {
@@ -149,22 +149,23 @@ public class ServicioSolicitud extends Servicio {
         ResultSet rs = null;
         Solicitud laSolicitud = null;
         ArrayList<Solicitud> coleccion = new ArrayList();
-        
+
         CallableStatement pstmt = null;
-        try { 
-            pstmt = conexion.prepareCall(LISTARSOLICITUD);	
+        try {
+            pstmt = conexion.prepareCall(LISTARSOLICITUD);
             pstmt.registerOutParameter(1, OracleTypes.CURSOR);
-            pstmt.execute();	
-            rs = (ResultSet)pstmt.getObject(1);
-           
+            pstmt.execute();
+            rs = (ResultSet) pstmt.getObject(1);
+
             while (rs.next()) {
                 laSolicitud = new Solicitud(
-                        rs.getInt("numero"),
+                        rs.getInt("numerosolicitud"),
                         rs.getString("fecha"),
                         rs.getString("tipo"),
                         rs.getString("estado")
-                    );
-                    coleccion.add(laSolicitud);
+                );
+                laSolicitud.setListaBienes(ServicioBien.getServicioBien().buscarBienPorSolicitud(rs.getInt("numerosolicitud")));
+                coleccion.add(laSolicitud);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -199,24 +200,25 @@ public class ServicioSolicitud extends Servicio {
         }
         ResultSet rs = null;
         Solicitud laSolicitud = null;
-        
+
         CallableStatement pstmt = null;
-        try { 
-            pstmt = conexion.prepareCall(CONSULTARSOLICITUD);	
+        try {
+            pstmt = conexion.prepareCall(CONSULTARSOLICITUD);
             pstmt.registerOutParameter(1, OracleTypes.CURSOR);
-            pstmt.setInt(2, numero );
-            pstmt.execute();	
-            
-            rs = (ResultSet)pstmt.getObject(1);
+            pstmt.setInt(2, numero);
+            pstmt.execute();
+
+            rs = (ResultSet) pstmt.getObject(1);
             while (rs.next()) {
                 laSolicitud = new Solicitud(
-                        rs.getInt("numero"),
+                        rs.getInt("numerosolicitud"),
                         rs.getString("fecha"),
                         rs.getString("tipo"),
                         rs.getString("estado")
-                    );
+                );
+                laSolicitud.setListaBienes(ServicioBien.getServicioBien().buscarBienPorSolicitud(rs.getInt("numerosolicitud")));
                 break;
-             }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             throw new GlobalException("Sentencia no valida");

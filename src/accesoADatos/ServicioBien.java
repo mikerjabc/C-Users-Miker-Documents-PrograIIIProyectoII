@@ -7,14 +7,10 @@ package accesoADatos;
 
 import Logic.Bien;
 import java.sql.CallableStatement;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import oracle.jdbc.OracleTypes;
-//import oracle.jdbc.OracleTypes;
-//import oracle.jdbc.OracleTypes;
-//import oracle.jdbc.OracleTypes;
 
 /**
  *
@@ -22,13 +18,13 @@ import oracle.jdbc.OracleTypes;
  */
 public class ServicioBien extends Servicio {
 
-    private static final String INSERTARBIEN = "{call insertarBien(?,?,?,?,?,?,?)}";
-    private static final String ELIMINARBIEN = "{call eliminarBien(?)}";
-    private static final String MODIFICARBIEN = "{call modificarBien(?,?,?,?,?)}";
-    private static final String LISTARBIEN = "{?=call listarBien}";
-    private static final String CONSULTARBIEN = "{?=call consultarBien(?)}";    
-    private static final String BUSCARBIENPORSOLICITUD = "{?=call buscarBienPorSolicitud(?)}";
-    private static final String BUSCARBIENPORTRANSFERENCIA = "{?=call buscarBienPorTransferencia(?)}";
+    private static final String INSERTARBIEN = "{call insertarBienMueble(?,?,?,?,?,?,?)}";
+    private static final String ELIMINARBIEN = "{call eliminarBienMueble(?)}";
+    private static final String MODIFICARBIEN = "{call modificarBienMueble(?,?,?,?,?)}";
+    private static final String LISTARBIEN = "{?=call listarBienMueble}";
+    private static final String CONSULTARBIEN = "{?=call buscarBienMueble(?)}";
+    private static final String BUSCARBIENPORSOLICITUD = "{?=call buscarBienMueblePorSolicitud(?)}";
+    private static final String BUSCARBIENPORTRANSFERENCIA = "{?=call buscarBienMueblePorTransferencia(?)}";
 
     
     private static ServicioBien servicioBien = new ServicioBien();
@@ -179,7 +175,8 @@ public class ServicioBien extends Servicio {
                             rs.getString("descripcion"),
                             rs.getString("marca"),
                             rs.getString("modelo"),
-                            rs.getInt("precio"),rs.getInt("cantidad")
+                            rs.getInt("precio"),
+                            rs.getInt("cantidad")
                     );
                     break;
                 }
@@ -277,12 +274,12 @@ public class ServicioBien extends Servicio {
             rs = (ResultSet) pstmt.getObject(1);
             while (rs.next()) {
                 elBien = new Bien(
-                        rs.getString("SERIAL"),
-                        rs.getString("DESCRIPCION"),
-                        rs.getString("MARCA"),
-                        rs.getString("MODELO"),
-                        rs.getInt("PRECIOUNITARIO"),
-                        rs.getInt("CANTIDAD")
+                        rs.getString("serial"),
+                        rs.getString("descripcion"),
+                        rs.getString("marca"),
+                        rs.getString("modelo"),
+                        rs.getInt("precio"),
+                        rs.getInt("cantidad")
                 );
                 coleccion.add(elBien);
             }

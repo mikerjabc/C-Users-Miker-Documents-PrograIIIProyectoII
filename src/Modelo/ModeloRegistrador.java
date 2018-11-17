@@ -2,6 +2,7 @@ package Modelo;
 
 
 import Logic.Activo;
+import Logic.Funcionario;
 import Logic.Solicitud;
 import accesoADatos.GlobalException;
 import accesoADatos.NoDataException;
@@ -26,9 +27,11 @@ public class ModeloRegistrador extends Observable {
     private String tipo;
     private Solicitud solicitud;
     private Activo activo;
+    private Funcionario funcionario;
 
-    public ModeloRegistrador() {
+    public ModeloRegistrador(Funcionario funcionario) {
         tipo = tiposSolicitud[0];
+        this.funcionario = funcionario;
     }
     
     public void setServicioSolicitud(ServicioSolicitud servicioDependencia) {
@@ -245,6 +248,10 @@ public class ModeloRegistrador extends Observable {
         super.notifyObservers(getListaSolicitudes());
     }
 
+    public Funcionario getFuncionario() {
+        return funcionario;
+    }
+    
     public void limpiar() {
         solicitud = null;
         this.setChanged();

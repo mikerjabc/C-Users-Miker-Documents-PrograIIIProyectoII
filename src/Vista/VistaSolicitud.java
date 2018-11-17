@@ -79,7 +79,7 @@ public class VistaSolicitud extends javax.swing.JFrame implements Observer {
         jtBienes = new javax.swing.JTable();
         jbAgregarBien = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel6.setFont(new java.awt.Font("Comic Sans MS", 2, 26)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -369,10 +369,11 @@ public class VistaSolicitud extends javax.swing.JFrame implements Observer {
         jtfIdBuscar.addKeyListener(controlador);
         jtfMontoTotal.addKeyListener(controlador);
         jtfFecha.addKeyListener(controlador);
+        jtBienes.addMouseListener(controlador);
     }
     
-    public void ajustatVistaParaFuncionario(String tipo) {
-        switch (tipo.toLowerCase()) {
+    public void ajustatVistaParaFuncionario() {
+        switch (modelo.getFuncionario().getPuesto().toLowerCase()) {
             case "administrador": {
                 jcbEstado.addItem(modelo.tiposEstadoSolicitud[0]);
                 
@@ -411,11 +412,11 @@ public class VistaSolicitud extends javax.swing.JFrame implements Observer {
                 
                 jbAgregarBien.setEnabled(false);
                 jbLimpiar.setEnabled(false);
-                
+                jtfRegistrador.setEditable(false);
                 jtfCantidadBienes.setEditable(false);
                 jtfNumero.setEditable(false);
                 jtfMontoTotal.setEditable(false);
-                jcbTipo.setEditable(false);
+                jcbTipo.setEnabled(false);
                 jtfFecha.setEditable(false);
             }
             break;
@@ -441,6 +442,8 @@ public class VistaSolicitud extends javax.swing.JFrame implements Observer {
         jcbTipo.getModel().setSelectedItem(solicitud.getTipo());
         jtfCantidadBienes.setText(String.valueOf(solicitud.getCantiadadBienes()));
         modelo.setListaBienes(solicitud.getListaBienes());
+        jtfRegistrador.setText(modelo.getFuncionario().getNombre());
+        ajustatVistaParaFuncionario();
     }
     
     public void mostrarMensaje(String mensaje){

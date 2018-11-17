@@ -128,9 +128,8 @@ public class ControllerLogin implements MouseListener, ActionListener, KeyListen
                 break;
                 case "registrador": {
                     VistaRegistrador aux = new VistaRegistrador();
-                    aux.setNombreUsuario(funcionario.getNombre());
                     aux.addWindowListener(this);
-                    controlador = new ControllerRegistrador(new ModeloRegistrador(), aux);
+                    controlador = new ControllerRegistrador(new ModeloRegistrador(funcionario), aux);
                     this.vista.setVisible(false);
                     controlador.mostrarVista();
                 }

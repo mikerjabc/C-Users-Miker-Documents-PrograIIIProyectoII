@@ -6,6 +6,7 @@
 package Modelo;
 
 import Logic.Bien;
+import Logic.Funcionario;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ListIterator;
@@ -21,9 +22,12 @@ public class ModeloSolicitud extends Observable {
     private Bien bien;
     public final String[] tiposBien = {"Compra", "Donación", "Producción institucional"};
     public final String[] tiposEstadoSolicitud = {"Recibida", "Por verificar", "Rechazada", "Espera de rotulación", "Procesada"};
+    public Funcionario funcionario;
 
-    public ModeloSolicitud() {
+    public ModeloSolicitud(Funcionario funcionario) {
         listaBienes = new ArrayList();
+        bien = null;
+        this.funcionario = funcionario;
     }
 
     public void agregarBien(String serial, String descripcion, String modelo, String marca, String precio, String cantidad) throws Exception {
@@ -47,7 +51,6 @@ public class ModeloSolicitud extends Observable {
                 throw (new Exception("Cantidad invalida"));
             }
             listaBienes.add(new Bien(serial, descripcion, modelo, marca, Integer.valueOf(precio), Integer.valueOf(cantidad)));
-            this.setChanged();
             this.notifyObservers();
         } catch (Exception ex) {
             throw (new Exception(ex.getMessage()));
@@ -92,7 +95,6 @@ public class ModeloSolicitud extends Observable {
                     break;
                 }
             }
-            this.setChanged();
             this.notifyObservers();
         } catch (Exception ex) {
             throw (new Exception(ex.getMessage()));
@@ -111,7 +113,6 @@ public class ModeloSolicitud extends Observable {
                 bien = d;
                 break;
             }
-            this.setChanged();
             this.notifyObservers();
         } catch (Exception ex) {
             throw (new Exception(ex.getMessage()));
@@ -140,7 +141,6 @@ public class ModeloSolicitud extends Observable {
 
     public void setListaBienes(ArrayList<Bien> listaBienes) {
         this.listaBienes = listaBienes;
-        this.setChanged();
         this.notifyObservers();
     }
 
@@ -149,10 +149,20 @@ public class ModeloSolicitud extends Observable {
     }
 
     @Override
+    protected synchronized void setChanged() {
+        super.setChanged();
+    }
+
+    @Override
     public void notifyObservers() {
+        setChanged();
         super.notifyObservers(getListaBien());
     }
 
+    public Funcionario getFuncionario() {
+        return funcionario;
+    }
+    
     public void limpiar() {
         bien = null;
         listaBienes.removeAll(listaBienes);
