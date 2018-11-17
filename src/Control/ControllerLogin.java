@@ -101,6 +101,7 @@ public class ControllerLogin implements MouseListener, ActionListener, KeyListen
                 break;
                 case "administrador": {
                     VistaAdministrador aux = new VistaAdministrador();
+                    aux.setNombreUsuario(funcionario.getNombre());
                     aux.addWindowListener(this);
                     controlador = new ControllerAdministrador(new ModeloAdministrador(), aux);
                     this.vista.setVisible(false);
@@ -109,6 +110,7 @@ public class ControllerLogin implements MouseListener, ActionListener, KeyListen
                 break;
                 case "secretaria": {
                     VistaSecretaria aux = new VistaSecretaria();
+                    aux.setNombreUsuario(funcionario.getNombre());
                     aux.addWindowListener(this);
                     controlador = new ControllerSecretaria(new ModeloSecretaria(), aux);
                     this.vista.setVisible(false);
@@ -126,6 +128,7 @@ public class ControllerLogin implements MouseListener, ActionListener, KeyListen
                 break;
                 case "registrador": {
                     VistaRegistrador aux = new VistaRegistrador();
+                    aux.setNombreUsuario(funcionario.getNombre());
                     aux.addWindowListener(this);
                     controlador = new ControllerRegistrador(new ModeloRegistrador(), aux);
                     this.vista.setVisible(false);
@@ -134,6 +137,7 @@ public class ControllerLogin implements MouseListener, ActionListener, KeyListen
                 break;
                 case "recursos humanos": {
                     VistaRecursosHumanos aux = new VistaRecursosHumanos();
+                    aux.setNombreUsuario(funcionario.getNombre());
                     aux.addWindowListener(this);
                     controlador = new ControllerRecurHumanos(new ModeloRecurHumanos(), aux);
                     this.vista.setVisible(false);
