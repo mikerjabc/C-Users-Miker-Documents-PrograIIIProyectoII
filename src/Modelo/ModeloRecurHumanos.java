@@ -15,7 +15,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Observable;
-import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,7 +31,10 @@ public class ModeloRecurHumanos extends Observable {
     private int codigoDependencia;
     
     
-    public ModeloRecurHumanos(){}
+    public ModeloRecurHumanos(){
+        funcionario = null;
+        codigoDependencia = -1;
+    }
 
     public void setServicioDependencia(ServicioDependencia servicioDependencia) {
         this.servicioDependencia = servicioDependencia;

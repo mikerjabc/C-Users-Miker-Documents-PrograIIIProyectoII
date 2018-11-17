@@ -6,9 +6,7 @@
 package Vista;
 
 import Control.ControllerRecurHumanos;
-import Control.ControllerRegistrador;
 import Modelo.ModeloRecurHumanos;
-import Modelo.ModeloRegistrador;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Observable;
@@ -236,11 +234,9 @@ public class VistaRecursosHumanos extends javax.swing.JFrame implements Observer
     public void setModelo(ModeloRecurHumanos modelo) {
         this.modelo = modelo;
         modelo.addObserver(this);
-        if(modelo.getNombresDependencias() != null){
         Iterator<String> ite = modelo.getNombresDependencias().iterator();
         while (ite.hasNext()) {
             jcbBuscar.addItem(ite.next());
-        }
         }
     }
     
