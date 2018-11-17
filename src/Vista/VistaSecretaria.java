@@ -265,7 +265,7 @@ public class VistaSecretaria extends javax.swing.JFrame implements Observer {
     }
     
      public void setNombreUsuario(String nombre){
-        jlNombre.setText(nombre);
+        jlNombre1.setText(nombre);
     }
     
     public void setControlador(ControllerSecretaria controlador){
