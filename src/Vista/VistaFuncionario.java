@@ -26,7 +26,6 @@ public class VistaFuncionario extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jtfId = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
-        jtfContrasenna = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel6 = new javax.swing.JLabel();
         jtfNombre = new javax.swing.JTextField();
@@ -34,6 +33,7 @@ public class VistaFuncionario extends javax.swing.JFrame {
         jcbPuesto = new javax.swing.JComboBox<>();
         jcbDependencia = new javax.swing.JComboBox<>();
         jLabel15 = new javax.swing.JLabel();
+        jtfPassword1 = new javax.swing.JPasswordField();
         jlfFuncionario = new javax.swing.JLabel();
         jbtnGuardar = new javax.swing.JButton();
         jbtnLimpiar = new javax.swing.JButton();
@@ -51,9 +51,6 @@ public class VistaFuncionario extends javax.swing.JFrame {
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel14.setText("Contraseña:");
-
-        jtfContrasenna.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jtfContrasenna.setName("contrasenna"); // NOI18N
 
         jSeparator1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
@@ -88,9 +85,9 @@ public class VistaFuncionario extends javax.swing.JFrame {
                             .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
                             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jtfId, javax.swing.GroupLayout.PREFERRED_SIZE, 469, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jtfContrasenna, javax.swing.GroupLayout.PREFERRED_SIZE, 469, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jtfId, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
+                            .addComponent(jtfPassword1))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -122,14 +119,18 @@ public class VistaFuncionario extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtfId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addComponent(jtfId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtfContrasenna, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel14))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel14)
+                        .addGap(0, 13, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(jtfPassword1)))
+                .addContainerGap())
         );
 
         jlfFuncionario.setFont(new java.awt.Font("Comic Sans MS", 2, 26)); // NOI18N
@@ -154,6 +155,7 @@ public class VistaFuncionario extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(95, 95, 95)
                         .addComponent(jbtnLimpiar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jbtnCancelar)
@@ -206,9 +208,9 @@ public class VistaFuncionario extends javax.swing.JFrame {
     public javax.swing.JComboBox<String> jcbDependencia;
     public javax.swing.JComboBox<String> jcbPuesto;
     private javax.swing.JLabel jlfFuncionario;
-    public javax.swing.JTextField jtfContrasenna;
     public javax.swing.JTextField jtfId;
     public javax.swing.JTextField jtfNombre;
+    public javax.swing.JPasswordField jtfPassword1;
     // End of variables declaration//GEN-END:variables
     private ModeloRecurHumanos modelo;
     private ControllerRecurHumanos controlador;
@@ -237,11 +239,11 @@ public class VistaFuncionario extends javax.swing.JFrame {
        jbtnCancelar.addActionListener(controlador);
        jtfNombre.addActionListener(controlador);
        jtfId.addActionListener(controlador);
-       jtfContrasenna.addActionListener(controlador);
+       jtfPassword1.addActionListener(controlador);
     }
     
     public void limpiarTodos(){
-        jtfContrasenna.setText("");
+        jtfPassword1.setText("");
         jtfNombre.setText("");
         jtfId.setText("");
         jcbDependencia.setSelectedItem("-");
@@ -253,7 +255,7 @@ public class VistaFuncionario extends javax.swing.JFrame {
     }
     
     public void cargarDatos(Funcionario funcionario, String dependencia){
-        jtfContrasenna.setText(funcionario.getPassword());
+        jtfPassword1.setText(funcionario.getPassword());
         jtfNombre.setText(funcionario.getNombre());
         jtfId.setText(funcionario.getId());
         jtfId.setEditable(false);
