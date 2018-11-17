@@ -8,19 +8,11 @@ package accesoADatos;
 import Logic.Activo;
 import Logic.Bien;
 import java.sql.CallableStatement;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import oracle.jdbc.OracleTypes;
-//import oracle.jdbc.OracleTypes;
-//import oracle.jdbc.OracleTypes;
-//import oracle.jdbc.OracleTypes;
 
-/**
- *
- * @author Fernando
- */
 public class ServicioActivo extends Servicio {
 
     private static final String INSERTARACTIVO = "{call insertarActivo(?,?,?,?,?,?)}";

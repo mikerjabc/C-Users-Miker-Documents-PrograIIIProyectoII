@@ -271,7 +271,6 @@ public class VistaRegistrador extends javax.swing.JFrame implements Observer {
         modelo.addObserver(this);
         jcbBuscar.addItem(modelo.tiposSolicitud[0]);
         jcbBuscar.addItem(modelo.tiposSolicitud[1]);
-        jcbBuscar.addItem(modelo.tiposSolicitud[2]);
         
     }
     
@@ -329,22 +328,6 @@ public class VistaRegistrador extends javax.swing.JFrame implements Observer {
             jtFuncionarios.getColumnModel().getColumn(4).setHeaderValue(modelo.VARIABLESTABLA[4]);//CantidadBienes
             jtFuncionarios.getColumnModel().getColumn(5).setHeaderValue(modelo.VARIABLESTABLA[5]);//MontoTotal
             jtFuncionarios.repaint();
-        } else if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[1])) {
-            //Asignar tamaño de ancho de cada columna
-            jtFuncionarios.getColumnModel().getColumn(0).setPreferredWidth(100);//Numero
-            jtFuncionarios.getColumnModel().getColumn(1).setPreferredWidth(200);//Origen
-            jtFuncionarios.getColumnModel().getColumn(2).setPreferredWidth(200);//Destino
-            jtFuncionarios.getColumnModel().getColumn(3).setPreferredWidth(150);//Ubicacion
-            jtFuncionarios.getColumnModel().getColumn(4).setPreferredWidth(150);//Funcionario
-            jtFuncionarios.getColumnModel().getColumn(5).setPreferredWidth(150);//estado
-            //Cargar nombres de cada columna
-            jtFuncionarios.getColumnModel().getColumn(0).setHeaderValue(modelo.VARIABLESTABLA[0]);//Numero
-            jtFuncionarios.getColumnModel().getColumn(1).setHeaderValue(modelo.VARIABLESTABLA[6]);//Origen
-            jtFuncionarios.getColumnModel().getColumn(2).setHeaderValue(modelo.VARIABLESTABLA[7]);//Destino
-            jtFuncionarios.getColumnModel().getColumn(3).setHeaderValue(modelo.VARIABLESTABLA[8]);//Ubicacion
-            jtFuncionarios.getColumnModel().getColumn(4).setHeaderValue(modelo.VARIABLESTABLA[9]);//funcionario
-            jtFuncionarios.getColumnModel().getColumn(5).setHeaderValue(modelo.VARIABLESTABLA[10]);//estado
-            jtFuncionarios.repaint();
         }else {
             //Asignar tamaño de ancho de cada columna
             jtFuncionarios.getColumnModel().getColumn(0).setPreferredWidth(100);//Codigo
@@ -357,11 +340,11 @@ public class VistaRegistrador extends javax.swing.JFrame implements Observer {
             jtFuncionarios.getTableHeader().getColumnModel().getColumn(5).setMaxWidth(0);
             jtFuncionarios.getTableHeader().getColumnModel().getColumn(5).setMinWidth(0);
             //Cargar nombre de cada columna
-            jtFuncionarios.getColumnModel().getColumn(0).setHeaderValue(modelo.VARIABLESTABLA[11]);//Codigo
-            jtFuncionarios.getColumnModel().getColumn(1).setHeaderValue(modelo.VARIABLESTABLA[12]);//DescripcionBien
-            jtFuncionarios.getColumnModel().getColumn(2).setHeaderValue(modelo.VARIABLESTABLA[13]);//DescripcionActivo
+            jtFuncionarios.getColumnModel().getColumn(0).setHeaderValue(modelo.VARIABLESTABLA[6]);//Codigo
+            jtFuncionarios.getColumnModel().getColumn(1).setHeaderValue(modelo.VARIABLESTABLA[7]);//DescripcionBien
+            jtFuncionarios.getColumnModel().getColumn(2).setHeaderValue(modelo.VARIABLESTABLA[8]);//DescripcionActivo
             jtFuncionarios.getColumnModel().getColumn(3).setHeaderValue(modelo.VARIABLESTABLA[9]);//funcionario
-            jtFuncionarios.getColumnModel().getColumn(4).setHeaderValue(modelo.VARIABLESTABLA[8]);//Ubicacion
+            jtFuncionarios.getColumnModel().getColumn(4).setHeaderValue(modelo.VARIABLESTABLA[10]);//Ubicacion
             jtFuncionarios.getColumnModel().getColumn(5).setHeaderValue("");//Ocultar
             jtFuncionarios.repaint();
         }

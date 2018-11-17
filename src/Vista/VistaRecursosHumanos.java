@@ -235,9 +235,11 @@ public class VistaRecursosHumanos extends javax.swing.JFrame implements Observer
     public void setModelo(ModeloRecurHumanos modelo) {
         this.modelo = modelo;
         modelo.addObserver(this);
+        if(modelo.getNombresDependencias() != null){
         Iterator<String> ite = modelo.getNombresDependencias().iterator();
         while (ite.hasNext()) {
             jcbBuscar.addItem(ite.next());
+        }
         }
     }
     

@@ -4,14 +4,12 @@ package Modelo;
 import Logic.Activo;
 import Logic.Bien;
 import Logic.Solicitud;
-import Logic.Transferencia;
 import accesoADatos.GlobalException;
 import accesoADatos.NoDataException;
 import accesoADatos.ServicioActivo;
 import accesoADatos.ServicioBien;
 import accesoADatos.ServicioFuncionario;
 import accesoADatos.ServicioSolicitud;
-import accesoADatos.ServicioTransferencia;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -21,16 +19,13 @@ import java.util.logging.Logger;
 
 public class ModeloRegistrador extends Observable {
     private ServicioSolicitud servicioSolicitud;
-    private ServicioTransferencia servicioTransferencia;
     private ServicioFuncionario servicioFuncionario;
     private ServicioBien servicioBien;
     private ServicioActivo servicioActivo;
-    public final String[] tiposSolicitud = {"Incorporación","Traslado","Catálogo"};
-    public final Object[] VARIABLESTABLA = {"Número","Fecha","Tipo","Estado","Cantidad de Bienes","Monto Total","Origen","Destino","Ubicación","Funcionario","Autorización","Código","Bien","Descripción"};
+    public final String[] tiposSolicitud = {"Incorporación","Catálogo"};
+    public final Object[] VARIABLESTABLA = {"Número","Fecha","Tipo","Estado","Cantidad de Bienes","Monto Total","Código","Bien","Descripción","Funcionario","Ubicación"};
     private String tipo;
     private Solicitud solicitud;
-    private Transferencia transferencia;
-    private Bien bien;
     private Activo activo;
 
     public ModeloRegistrador() {
@@ -39,12 +34,6 @@ public class ModeloRegistrador extends Observable {
     
     public void setServicioSolicitud(ServicioSolicitud servicioDependencia) {
         this.servicioSolicitud = servicioDependencia;
-        this.setChanged();
-        this.notifyObservers();
-    }
-    
-    public void setServicioTransferencia(ServicioTransferencia servicioTransferencia) {
-        this.servicioTransferencia = servicioTransferencia;
         this.setChanged();
         this.notifyObservers();
     }
@@ -60,24 +49,26 @@ public class ModeloRegistrador extends Observable {
         this.notifyObservers();
     }
     
-    public void buscarTransferencia_Incorporacion_Activo(String numero) throws Exception {
+    public void agregarActivo(String codigo, String bien, String descripcion, String funcionario, String ubicacion) throws Exception {
         try {
-            if (numero.equals("")) {
-                throw (new Exception("numero invalido"));
+            if (codigo.equals("")) {
+                throw (new Exception("Código invalido"));
             }
-            if(tipo.equalsIgnoreCase(tiposSolicitud[0])){
-                solicitud = servicioSolicitud.buscarSolicitud(Integer.valueOf(numero));
-                transferencia = null;
-                activo = null;
-            } else if(tipo.equalsIgnoreCase(tiposSolicitud[1])){
-                transferencia = servicioTransferencia.buscarTransferencia(Integer.valueOf(numero));
-                solicitud = null;
-                activo = null;
-            }else if(tipo.equalsIgnoreCase(tiposSolicitud[2])){
-                activo = servicioActivo.buscarActivo(Integer.valueOf(numero));
-                solicitud = null;
-                transferencia = null;
+            if (bien.equals("")) {
+                throw (new Exception("Bien invalido"));
             }
+            if (descripcion.equals("")) {
+                throw (new Exception("Descripción invalida"));
+            }
+            if (funcionario.equals("")) {
+                throw (new Exception("Funcionario invalido"));
+            }
+            if (ubicacion.equals("")) {
+                throw (new Exception("Ubicación invalida"));
+            }
+            Activo activo = new Activo(Integer.valueOf(codigo), servicioBien.buscarBien(bien), descripcion, servicioFuncionario.consultarFuncionario(funcionario), ubicacion);
+            //Cambiar por dependencia
+            servicioActivo.insertarActivo(activo, 0);
             this.setChanged();
             this.notifyObservers();
         } catch (Exception ex) {
@@ -85,26 +76,57 @@ public class ModeloRegistrador extends Observable {
         }
     }
     
-    public Bien RegistrarListaBien(String codigo, String descripcion, String ubicacion, String funcionario ,String bien) throws Exception {
-        Bien aux = null;
+    public void modificarActivo(String codigo, String bien, String descripcion, String funcionario, String ubicacion) throws Exception {
         try {
             if (codigo.equals("")) {
-                throw (new Exception("Numero invalido"));
-            }
-            if (ubicacion.equals("")) {
-                throw (new Exception("Ubicación invalida"));
-            }
-            if (funcionario.equals("")) {
-                throw (new Exception("Funcionario invalido"));
+                throw (new Exception("Código invalido"));
             }
             if (bien.equals("")) {
                 throw (new Exception("Bien invalido"));
             }
-            servicioActivo.insertarActivo(new Activo(Integer.valueOf(codigo),servicioBien.buscarBien(bien),descripcion,servicioFuncionario.consultarFuncionario(funcionario),ubicacion), 0);
+            if (descripcion.equals("")) {
+                throw (new Exception("Descripción invalida"));
+            }
+            if (funcionario.equals("")) {
+                throw (new Exception("Funcionario invalido"));
+            }
+            if (ubicacion.equals("")) {
+                throw (new Exception("Ubicación invalida"));
+            }
+            Activo activo = new Activo(Integer.valueOf(codigo), servicioBien.buscarBien(bien), descripcion, servicioFuncionario.consultarFuncionario(funcionario), ubicacion);
+            //Cambiar por dependencia
+            servicioActivo.modificarActivo(activo);
+            this.setChanged();
+            this.notifyObservers();
         } catch (Exception ex) {
             throw (new Exception(ex.getMessage()));
         }
-        return aux;
+    }
+    
+    public void eliminarActivo(String codigo) throws Exception {
+        try {
+            servicioActivo.eliminarBien(codigo);
+            this.setChanged();
+            this.notifyObservers();
+        } catch (Exception ex) {
+            throw (new Exception(ex.getMessage()));
+        }
+    }
+    
+    public void buscarIncorporacion_Activo(String numero) throws Exception {
+        try {
+            if (numero.equals("")) {
+                throw (new Exception("Número invalido"));
+            }
+            if (tipo.equalsIgnoreCase(tiposSolicitud[0])) {
+                solicitud = servicioSolicitud.buscarSolicitud(Integer.valueOf(numero));
+                activo = null;
+            }
+            this.setChanged();
+            this.notifyObservers();
+        } catch (Exception ex) {
+            throw (new Exception(ex.getMessage()));
+        }
     }
     
     public void AsignarArticulosADependencia(String numero, String id) throws Exception {
@@ -124,24 +146,6 @@ public class ModeloRegistrador extends Observable {
         }
     }
     
-    public void AutorizarTransferencia(String numero, String estado) throws Exception {
-        try {
-            if (numero.equals("")) {
-                throw (new Exception("numero invalido"));
-            }
-            if (numero.equals("")) {
-                throw (new Exception("estado invalido"));
-            }
-            transferencia = servicioTransferencia.buscarTransferencia(Integer.valueOf(numero));
-            transferencia.setAutorizacion(estado);
-            servicioTransferencia.modificarTransferencia(transferencia);
-            this.setChanged();
-            this.notifyObservers();
-        } catch (Exception ex) {
-            throw (new Exception(ex.getMessage()));
-        }
-    }
-    
     public void cambiarTipo(String tipo) throws Exception {
         try {
             if (tipo.equals("")) {
@@ -149,7 +153,6 @@ public class ModeloRegistrador extends Observable {
             }
             this.tipo = tipo;
             solicitud = null;
-            transferencia = null;
             activo = null;
             this.setChanged();
             this.notifyObservers();
@@ -177,21 +180,6 @@ public class ModeloRegistrador extends Observable {
                     }
                 }
             } else if (tipo.equals(tiposSolicitud[1])) {
-                Iterator<Transferencia> ite = servicioTransferencia.listarTransferencia().iterator();
-                while (ite.hasNext()) {
-                    Transferencia transferencia = ite.next();
-                    if (transferencia.getAutorizacion().equalsIgnoreCase("Recibida")) {
-                        Object[] fila = {transferencia.getNumero(),
-                            transferencia.getOrigen().getNombre(),
-                            transferencia.getDestino().getNombre(),
-                            transferencia.getUbicacion(),
-                            transferencia.getFuncionario(),
-                            transferencia.getAutorizacion()
-                        };
-                        list.add(fila);
-                    }
-                }
-            } else if (tipo.equals(tiposSolicitud[2])) {
                 Iterator<Activo> ite = servicioActivo.listarActivo().iterator();
                 while (ite.hasNext()) {
                     Activo activo = ite.next();
@@ -209,15 +197,6 @@ public class ModeloRegistrador extends Observable {
                     solicitud.getEstado(),
                     solicitud.getCantiadadBienes(),
                     solicitud.getMontoTotal()
-                };
-                list.add(fila);
-            } else if (transferencia != null) {
-                Object[] fila = {transferencia.getNumero(),
-                    transferencia.getOrigen().getNombre(),
-                    transferencia.getDestino().getNombre(),
-                    transferencia.getUbicacion(),
-                    transferencia.getFuncionario(),
-                    transferencia.getAutorizacion()
                 };
                 list.add(fila);
             } else if (activo != null) {
@@ -248,8 +227,18 @@ public class ModeloRegistrador extends Observable {
         return solicitud;
     }
 
-    public Transferencia getTransferencia() {
-        return transferencia;
+    public Activo getActivo() {
+        return activo;
+    }
+    
+    public int numeroConsecutivoParaActivo() throws Exception {
+        int aux;
+        try{
+           aux = servicioActivo.listarActivo().size();
+        }catch(Exception ex){
+            throw(new Exception(ex.getMessage()));
+        }
+        return aux + 1;
     }
     
     @Override
@@ -259,7 +248,6 @@ public class ModeloRegistrador extends Observable {
 
     public void limpiar() {
         solicitud = null;
-        transferencia = null;
         this.setChanged();
         this.notifyObservers();
     }

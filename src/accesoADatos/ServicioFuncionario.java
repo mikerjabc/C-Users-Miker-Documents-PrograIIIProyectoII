@@ -31,7 +31,7 @@ public class ServicioFuncionario extends Servicio {
     private static final String MODIFICARFUNCIONARIO = "{call modificarFuncionario(?,?,?,?)}";
     private static final String LISTARFUNCIONARIO = "{?=call listarFuncionario}";
     private static final String CONSULTARFUNCIONARIO = "{?=call buscarFuncionario(?)}";
-    private static final String CONSULTARFUNCIONARIOPORDEPENDENCIA = "{?=call buscarFuncionarioPorDependencia(?)}";
+    private static final String CONSULTARFUNCIONARIOPORDEPENDENCIA = "{?=call buscarPorDependencia(?)}";
     private static final String CONSULTARFUNCIONARIOPORTRANSFERENCIA = "{?=call buscarFuncionarioPorTransferencia(?)}";
 
     private static ServicioFuncionario servicioFuncionario = new ServicioFuncionario();
@@ -48,7 +48,6 @@ public class ServicioFuncionario extends Servicio {
 
         try {
             pstmt = conexion.prepareCall(INSERTARFUNCIONARIO);
-            
             pstmt.setString(1, elFuncionario.getId());
             pstmt.setString(2, elFuncionario.getNombre());
             pstmt.setString(3, elFuncionario.getPuesto());
@@ -56,6 +55,7 @@ public class ServicioFuncionario extends Servicio {
             pstmt.setInt(5, elCodigoDependencia);
             
             boolean resultado = pstmt.execute();
+            
             if (resultado == true) {
                 throw new NoDataException("No se realizo la insercion");
             }
@@ -218,7 +218,7 @@ public class ServicioFuncionario extends Servicio {
         CallableStatement pstmt = null;
         try {
             pstmt = conexion.prepareCall(LISTARFUNCIONARIO);
-            //pstmt.registerOutParameter(1, OracleTypes.CURSOR);	
+            pstmt.registerOutParameter(1, OracleTypes.CURSOR);	
             while (rs.next()) {
                     elFuncionario = new Funcionario(rs.getString("id"),
                             rs.getString("nombre"),
@@ -264,18 +264,18 @@ public class ServicioFuncionario extends Servicio {
 
         try {
             pstmt = conexion.prepareCall(CONSULTARFUNCIONARIOPORDEPENDENCIA);
-            //pstmt.registerOutParameter(1, OracleTypes.CURSOR);
+            pstmt.registerOutParameter(1, OracleTypes.CURSOR);
             pstmt.setInt(2, elCodigoDependencia);
             pstmt.execute();
             rs = (ResultSet) pstmt.getObject(1);
 
             while (rs.next()) {
                 Funcionario elFuncionario = null;
-                if (rs.getInt("numeroSolicitud") == elCodigoDependencia) {
+                if (rs.getInt("codigodependencia") == elCodigoDependencia) {
                     elFuncionario = new Funcionario(rs.getString("id"),
                             rs.getString("nombre"),
                             rs.getString("puesto"),
-                            rs.getString("password")
+                            rs.getString("contrasena")
                     );
                     coleccion.add(elFuncionario);
                 }
@@ -315,7 +315,7 @@ public class ServicioFuncionario extends Servicio {
         Funcionario elFuncionario = null;
         try {
             pstmt = conexion.prepareCall(CONSULTARFUNCIONARIOPORDEPENDENCIA);
-            //pstmt.registerOutParameter(1, OracleTypes.CURSOR);
+            pstmt.registerOutParameter(1, OracleTypes.CURSOR);
             pstmt.setInt(2, numeroTrasferencia);
             pstmt.execute();
             rs = (ResultSet) pstmt.getObject(1);

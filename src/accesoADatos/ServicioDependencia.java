@@ -21,7 +21,8 @@ public class ServicioDependencia extends Servicio {
     private static final String ELIMINARDEPENDENCIA = "{call eliminarDependencia(?)}";
     private static final String MODIFICARDEPENDENCIA = "{call modificarDependencia(?,?)}";
     private static final String LISTARDEPENDENCIA = "{?=call listarDependencia}";
-    private static final String CONSULTARDEPENDENCIA = "{?=call consultarDependencia(?)}";
+    private static final String CONSULTARDEPENDENCIA = "{?=call buscarDependencia(?)}";
+    private static final String CONSULTARDEPENDENCIANOMBRE = "{?=call buscarDependenciaNombre(?)}";
 
     private static ServicioDependencia servicioDependencia = new ServicioDependencia();
 
@@ -199,6 +200,60 @@ public class ServicioDependencia extends Servicio {
         }
         return laDependencia;
     }
+    
+    public Dependencia buscarDependenciaPorNombre(String elNombre) throws GlobalException, NoDataException {
+        try {
+            conectar();
+        } catch (ClassNotFoundException e) {
+            throw new GlobalException("No se ha localizado el driver");
+        } catch (SQLException e) {
+            throw new NoDataException("La base de datos no se encuentra disponible");
+        }
+
+        ResultSet rs = null;
+        Dependencia laDependencia = null;
+        CallableStatement pstmt = null;
+
+        try {
+            pstmt = conexion.prepareCall(CONSULTARDEPENDENCIANOMBRE);
+            pstmt.registerOutParameter(1, OracleTypes.CURSOR);            
+            pstmt.setString(2, elNombre);
+            pstmt.execute();
+            rs = (ResultSet) pstmt.getObject(1);
+
+            while (rs.next()) {
+                if (rs.getString("nombre").equals(elNombre)){
+                    laDependencia = new Dependencia(rs.getInt("codigo"),
+                                                    rs.getString("nombre")
+                    );
+                    laDependencia.setListaFuncionarios(ServicioFuncionario.getServicioFuncionario().consultarFuncionarioPorDependencia(laDependencia.getCodigo()));
+                    laDependencia.setInventario(ServicioActivo.getServicioActivo().buscarActivoPorDependencia(laDependencia.getCodigo()));
+                    break;
+                }
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+            throw new GlobalException("Sentencia no valida");
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                desconectar();
+            } catch (SQLException e) {
+                throw new GlobalException("Estatutos invalidos o nulos");
+            }
+        }
+        if (laDependencia == null) {
+            throw new NoDataException("No existe una dependencia con este código");
+        }
+        return laDependencia;
+    }
 
     public ArrayList<Dependencia> listarDependencia() throws GlobalException, NoDataException, SQLException {
 
@@ -216,7 +271,9 @@ public class ServicioDependencia extends Servicio {
         CallableStatement pstmt = null;
         try {
             pstmt = conexion.prepareCall(LISTARDEPENDENCIA);
-            pstmt.registerOutParameter(1, OracleTypes.CURSOR);	
+            pstmt.registerOutParameter(1, OracleTypes.CURSOR);
+            pstmt.execute();
+            rs = (ResultSet) pstmt.getObject(1);
             while (rs.next()) {
                     laDependencia = new Dependencia(rs.getInt("codigo"),
                                                     rs.getString("nombre")

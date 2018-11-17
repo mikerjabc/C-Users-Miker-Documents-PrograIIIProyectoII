@@ -31,8 +31,8 @@ public final class ControllerRegistrador extends AbstractController implements I
     private ModeloRegistrador modelo ;
     private VistaRegistrador vista;
     private VistaSolicitud vistaSolicitud;
-    private VistaTransferencia vistaTransferencia;
     private VistaActivo vistaActivo;
+    private ModeloSolicitud modeloSolicitud;
 
     public ControllerRegistrador(ModeloRegistrador modelo, VistaRegistrador vista) {
         this.modelo = modelo;
@@ -41,7 +41,6 @@ public final class ControllerRegistrador extends AbstractController implements I
         vista.setControlador(this);
         this.ajustarVista();
         modelo.setServicioSolicitud(ServicioSolicitud.getServicioSolicitud());
-        modelo.setServicioTransferencia(ServicioTransferencia.getServicioTransferencia());
         modelo.setServicioFuncionario(ServicioFuncionario.getServicioFuncionario());
         modelo.setServicioActivo(ServicioActivo.getServicioActivo());
     }
@@ -66,13 +65,9 @@ public final class ControllerRegistrador extends AbstractController implements I
         vistaSolicitud = new VistaSolicitud();
         vistaSolicitud.setModelo(new ModeloSolicitud());
         //
-        vistaTransferencia = new VistaTransferencia();
-        vistaTransferencia.setModelo(new ModeloTransferencia());
-        //
         vistaActivo = new VistaActivo();
         //
         vistaSolicitud.ajustatVistaParaFuncionario("Registrador");
-        vistaTransferencia.ajustatVistaParaFuncionario("Registrador");
     }
 
     @Override
@@ -83,7 +78,14 @@ public final class ControllerRegistrador extends AbstractController implements I
                 JTable tabla = (JTable) ae.getSource();
                 numero = tabla.getValueAt(tabla.getSelectedRow(), 0).toString();
                 tabla.changeSelection(tabla.getSelectedRow(), 0, false, true);
-                modelo.buscarTransferencia_Incorporacion_Activo(vista.jtIdBuscar.getText());
+                if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[0])) {
+                    modelo.buscarIncorporacion_Activo(vista.jtIdBuscar.getText());
+                } else if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[1])) {
+                    modelo.buscarIncorporacion_Activo(vista.jtIdBuscar.getText());
+                } else {
+                    modeloSolicitud.buscarBien(vistaSolicitud.jtfIdBuscar.getText());
+                }
+                
                 if (ae.getClickCount() == 2) {
                     switch (ae.getButton()) {
                         case MouseEvent.BUTTON2: {//Click derecho
@@ -94,9 +96,13 @@ public final class ControllerRegistrador extends AbstractController implements I
                             if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[0])) {
                                 vistaSolicitud.cargarDatos(modelo.getSolicitud());
                                 vistaSolicitud.setVisible(true);
+                            } else if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[1])) {
+                                vistaActivo.cargarDatos(modelo.getActivo());
+                                vistaActivo.setVisible(true);
                             } else {
-                                vistaTransferencia.cargarDatos(modelo.getTransferencia());
-                                vistaTransferencia.setVisible(true);
+                                vistaActivo.jtfDescripcion.setText(modeloSolicitud.getBien().getDescripcion());
+                                vistaActivo.jtfDescripcion.setText(String.valueOf(modelo.numeroConsecutivoParaActivo()));
+                                vistaActivo.setVisible(true);
                             }
                         }
                         break;
@@ -154,63 +160,58 @@ public final class ControllerRegistrador extends AbstractController implements I
             switch (x.toLowerCase()) {
                 case "Agregar": {
                     if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[0])) {
-                        
-                        vistaSolicitud.setVisible(false);
-                        modelo.RegistrarListaBien(vistaActivo.jtfCodigo.getText(),
-                                                    vistaActivo.jtfDescripcion.getText(),
-                                                    vistaActivo.jtfCodigo.getText(),
-                                                    vistaActivo.jtfBien.getText(),
-                                                    vistaActivo.jtfDescripcion1.getText());
+                        if (modelo.getSolicitud() != null) {
+                            modelo.agregarActivo(vistaActivo.jtfCodigo.getText(),
+                                    vistaActivo.jtfBien.getText(),
+                                    vistaActivo.jtfDescripcion.getText(),
+                                    vistaActivo.jtfFuncionario.getText(),
+                                    vistaActivo.jtfUbicacion.getText()
+                            );
+                            vistaActivo.limpiarTodosEspacios();
+                        }else{
+                            vistaSolicitud.setVisible(false);
+                            vistaSolicitud.limpiarTodosEspacios();
+                            modelo.limpiar();
+                        }
                         mensaje = "Se asigno como activo el bien";
-                    } else {
-                        modelo.AutorizarTransferencia(vistaTransferencia.jtfNumero.getText(),vistaTransferencia.jcbEstado.getModel().getSelectedItem().toString());
-                        vistaTransferencia.setVisible(false);
-                        mensaje = "Se guardo el cambio en el estado de la trasferencia";
                     }
                 }
                 break;
                 case "buscar": {
-                    if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[0])) {
-                        
-                        vistaSolicitud.setVisible(false);
-                        //modelo.buscarBien(vistaSolicitud.jtfNumero.getText(), vistaSolicitud.jtfIdBuscar.getText());
-                        mensaje = "Se encontro el bien";
-                    } else {
-                        modelo.AutorizarTransferencia(vistaTransferencia.jtfNumero.getText(), vistaTransferencia.jtfCodigoBuscar.getText());
-                        vistaTransferencia.setVisible(false);
-                        mensaje = "Se encontro el bien";
+                    if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[0]) && modelo.getSolicitud() != null) {
+                        modeloSolicitud.buscarBien(vistaSolicitud.jtfIdBuscar.getText());
+                    }else{
+                       modelo.buscarIncorporacion_Activo(vista.jtIdBuscar.getText()); 
                     }
                 }
                 break;
                 case "limpiar": {
                     if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[0])) {
-                        
-                        vistaSolicitud.setVisible(false);
-                        //modelo.buscarBien(vistaSolicitud.jtfNumero.getText(), vistaSolicitud.jtfIdBuscar.getText());
-                        mensaje = "Se encontro el bien";
-                    } else {
-                        modelo.AutorizarTransferencia(vistaTransferencia.jtfNumero.getText(), vistaTransferencia.jtfCodigoBuscar.getText());
-                        vistaTransferencia.setVisible(false);
-                        mensaje = "Se encontro el bien";
+                        vistaActivo.limpiarTodosEspacios();
+                    }
+                }
+                break;
+                case "eliminar": {
+                    if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[0])) {
+                        //
                     }
                 }
                 break;
                 case "cancelar": {
                     mensaje = "No se realizo ningun cambio";
                     if (modelo.getTipo().equalsIgnoreCase(modelo.tiposSolicitud[0])) {
-                        vistaSolicitud.setVisible(false);
-                        vistaSolicitud.limpiarTodosEspacios();
-                    } else {
-                        vistaTransferencia.setVisible(false);
-                        vistaSolicitud.limpiarTodosEspacios();
-                    }
+                        if (modelo.getSolicitud() != null) {
+                            vistaActivo.setVisible(false);
+                            vistaActivo.limpiarTodosEspacios();
+                        } else {
+                            vistaSolicitud.setVisible(false);
+                            vistaSolicitud.limpiarTodosEspacios();
+                        }
+                    } 
                 }
                 break;
                 case "cambiar": {
                     vista.dispose();
-                }
-                break;
-                case "catalogo": {
                 }
                 break;
                 case "salir": {

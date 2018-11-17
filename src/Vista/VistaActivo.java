@@ -5,6 +5,10 @@
  */
 package Vista;
 
+import Logic.Activo;
+import Logic.Solicitud;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author David
@@ -37,8 +41,8 @@ public class VistaActivo extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jtfCodigo = new javax.swing.JTextField();
         jtfBien = new javax.swing.JTextField();
-        jtfDescripcion1 = new javax.swing.JTextField();
         jtfDescripcion = new javax.swing.JTextField();
+        jtfFuncionario = new javax.swing.JTextField();
         jtfUbicacion = new javax.swing.JTextField();
         jbCancelar = new javax.swing.JButton();
         jbLimpiar = new javax.swing.JButton();
@@ -72,9 +76,9 @@ public class VistaActivo extends javax.swing.JFrame {
 
         jtfBien.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
-        jtfDescripcion1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-
         jtfDescripcion.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
+        jtfFuncionario.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         jtfUbicacion.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
@@ -93,8 +97,8 @@ public class VistaActivo extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jtfUbicacion, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jtfFuncionario)
                     .addComponent(jtfDescripcion)
-                    .addComponent(jtfDescripcion1)
                     .addComponent(jtfBien)
                     .addComponent(jtfCodigo))
                 .addContainerGap())
@@ -113,11 +117,11 @@ public class VistaActivo extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jtfDescripcion1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtfDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jtfDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtfFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -217,9 +221,27 @@ public class VistaActivo extends javax.swing.JFrame {
     public javax.swing.JTextField jtfBien;
     public javax.swing.JTextField jtfCodigo;
     public javax.swing.JTextField jtfDescripcion;
-    public javax.swing.JTextField jtfDescripcion1;
+    public javax.swing.JTextField jtfFuncionario;
     public javax.swing.JTextField jtfUbicacion;
     // End of variables declaration//GEN-END:variables
 
+    public void limpiarTodosEspacios() {
+        jtfCodigo.setText("");
+        jtfBien.setText("");
+        jtfFuncionario.setText("");
+        jtfDescripcion.setText("");
+        jtfUbicacion.setText("");
+    }
     
+    public void cargarDatos(Activo activo) {
+        jtfCodigo.setText(String.valueOf(activo.getCodigoActivo()));
+        jtfBien.setText(activo.getBien().getDescripcion());
+        jtfFuncionario.setText(activo.getFuncionario().getNombre());
+        jtfDescripcion.setText(activo.getDescripcionActivo());
+        jtfUbicacion.setText(activo.getUbicacion());
+    }
+    
+    public void mostrarMensaje(String mensaje){
+        JOptionPane.showMessageDialog(this, mensaje);
+    }
 }

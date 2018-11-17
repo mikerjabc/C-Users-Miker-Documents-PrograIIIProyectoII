@@ -351,6 +351,7 @@ public class VistaTransferencia extends javax.swing.JFrame implements Observer {
     public void ajustatVistaParaFuncionario(String tipo) {
         switch (tipo.toLowerCase()) {
             case "administrador": {
+                jcbEstado.addItem(modelo.tiposEstadoTransferencia[0]);
             }
             break;
             case "jefe": {
@@ -368,10 +369,6 @@ public class VistaTransferencia extends javax.swing.JFrame implements Observer {
                 jtfFuncionario.setEditable(false);
             }
             break;
-            case "registrador": {
-                jcbEstado.addItem(modelo.tiposEstadoTransferencia[0]);
-            }
-            break;
         }
     }
 
@@ -383,6 +380,7 @@ public class VistaTransferencia extends javax.swing.JFrame implements Observer {
         jtfCodigoBuscar.setText("");
         jtfFuncionario.setText("");
         jtfUbicacion.setText("");
+        modelo.limpiar();
     }
 
     public void cargarDatos(Transferencia transferencia) {

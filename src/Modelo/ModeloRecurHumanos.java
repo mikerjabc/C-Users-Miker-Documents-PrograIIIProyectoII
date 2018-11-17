@@ -41,8 +41,6 @@ public class ModeloRecurHumanos extends Observable {
     
     public void setServicioFuncionario(ServicioFuncionario servicioFuncionario) {
         this.servicioFuncionario = servicioFuncionario;
-        this.setChanged();
-        this.notifyObservers();
     }
     
     public void modificarFuncionario(String id, String nombre, String puesto, String password, String dependencia) throws Exception {
@@ -63,7 +61,7 @@ public class ModeloRecurHumanos extends Observable {
                 throw (new Exception("Dependencia invalida"));
             }
             servicioFuncionario.modificarFuncionario(new Funcionario(id, nombre, puesto, password));
-            this.dependencia = servicioDependencia.buscarDependencia(Integer.valueOf(dependencia));
+            this.dependencia = servicioDependencia.buscarDependenciaPorNombre(dependencia);
             this.setChanged();
             this.notifyObservers();
         } catch (Exception ex) {
@@ -88,8 +86,8 @@ public class ModeloRecurHumanos extends Observable {
             if (dependencia.equals("") || id.equals("-")) {
                 throw (new Exception("Dependencia invalida"));
             }
-            servicioFuncionario.insertarFuncionario(new Funcionario(id, nombre, puesto, password), Integer.valueOf(dependencia));
-            this.dependencia = servicioDependencia.buscarDependencia(Integer.valueOf(dependencia));
+            this.dependencia = servicioDependencia.buscarDependenciaPorNombre(dependencia);
+            servicioFuncionario.insertarFuncionario(new Funcionario(id, nombre, puesto, password), this.dependencia.getCodigo());
             this.setChanged();
             this.notifyObservers();
         } catch (Exception ex) {
@@ -198,10 +196,12 @@ public class ModeloRecurHumanos extends Observable {
         ArrayList<String> list = new ArrayList();
         list.add(ALL);
         try {
+            if(servicioDependencia.listarDependencia() != null){
             Iterator<Dependencia> ite = servicioDependencia.listarDependencia().iterator();
                 while (ite.hasNext()) {
                     list.add(ite.next().getNombre());
                 }
+            }
         } catch (GlobalException | NoDataException ex) {} catch (SQLException ex) {
             Logger.getLogger(ModeloRecurHumanos.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -211,6 +211,7 @@ public class ModeloRecurHumanos extends Observable {
     public int getCodigoDependencia(String nombre) {
         int codigo = -1;
         try {
+            if(servicioDependencia.listarDependencia() == null){
             Iterator<Dependencia> ite = servicioDependencia.listarDependencia().iterator();
                 while (ite.hasNext()) {
                     Dependencia d = ite.next();
@@ -219,6 +220,7 @@ public class ModeloRecurHumanos extends Observable {
                         break;
                     }
                 }
+            }
         } catch (GlobalException | NoDataException ex) {} catch (SQLException ex) {
             Logger.getLogger(ModeloRecurHumanos.class.getName()).log(Level.SEVERE, null, ex);
         }

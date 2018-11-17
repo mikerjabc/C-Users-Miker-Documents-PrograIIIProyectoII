@@ -11,7 +11,6 @@ import accesoADatos.ServicioBien;
 import accesoADatos.ServicioFuncionario;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.ListIterator;
 import java.util.Observable;
 
 public class ModeloTransferencia extends Observable {
@@ -39,66 +38,9 @@ public class ModeloTransferencia extends Observable {
         listaActivos = new ArrayList();
     }
 
-    public void agregarActivo(String codigo, String bien, String descripcion, String funcionario, String ubicacion) throws Exception {
-        try {
-            if (codigo.equals("")) {
-                throw (new Exception("Código invalido"));
-            }
-            if (bien.equals("")) {
-                throw (new Exception("Bien invalido"));
-            }
-            if (descripcion.equals("")) {
-                throw (new Exception("Descripción invalida"));
-            }
-            if (funcionario.equals("")) {
-                throw (new Exception("Funcionario invalido"));
-            }
-            if (ubicacion.equals("")) {
-                throw (new Exception("Ubicación invalida"));
-            }
-            listaActivos.add(new Activo(Integer.valueOf(codigo), servicioBien.buscarBien(bien), descripcion, servicioFuncionario.consultarFuncionario(funcionario), ubicacion));
-            this.setChanged();
-            this.notifyObservers();
-        } catch (Exception ex) {
-            throw (new Exception(ex.getMessage()));
-        }
-    }
-
     public void eliminarActivo(Activo activo) throws Exception {
         try {
             listaActivos.remove(activo);
-            this.setChanged();
-            this.notifyObservers();
-        } catch (Exception ex) {
-            throw (new Exception(ex.getMessage()));
-        }
-    }
-
-    public void modificarActivo(String codigo, String bien, String descripcion, String funcionario, String ubicacion) throws Exception {
-        try {
-            if (codigo.equals("")) {
-                throw (new Exception("Código invalido"));
-            }
-            if (bien.equals("")) {
-                throw (new Exception("Bien invalido"));
-            }
-            if (descripcion.equals("")) {
-                throw (new Exception("Descripción invalida"));
-            }
-            if (funcionario.equals("")) {
-                throw (new Exception("Funcionario invalido"));
-            }
-            if (ubicacion.equals("")) {
-                throw (new Exception("Ubicación invalida"));
-            }
-            ListIterator<Activo> ite = listaActivos.listIterator();
-            while (ite.hasNext()) {
-                Activo d = ite.next();
-                if (activo.getCodigoActivo() == Integer.valueOf(codigo)) {
-                    listaActivos.add(new Activo(Integer.valueOf(codigo), servicioBien.buscarBien(bien), descripcion, servicioFuncionario.consultarFuncionario(funcionario), ubicacion));
-                    break;
-                }
-            }
             this.setChanged();
             this.notifyObservers();
         } catch (Exception ex) {
