@@ -211,7 +211,7 @@ public class ServicioActivo extends Servicio {
         ArrayList<Activo> coleccion = new ArrayList();
 
         try {
-            pstmt = conexion.prepareCall(CONSULTARACTIVO);
+            pstmt = conexion.prepareCall(BUSCARACTIVOPORBIEN);
             pstmt.registerOutParameter(1, OracleTypes.CURSOR);
             pstmt.setString(2, elSerial);
             pstmt.execute();

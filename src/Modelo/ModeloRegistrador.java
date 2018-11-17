@@ -137,7 +137,6 @@ public class ModeloRegistrador extends Observable {
             int cant = 0;
             Iterator<Bien> ite = solicitud.getListaBienes().iterator();
                 while (ite.hasNext()) {
-                    Bien b = ite.next();
                     if(servicioActivo.buscarActivoPorBien(ite.next().getSerial()) != null){
                         cant++;
                     }
