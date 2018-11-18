@@ -166,6 +166,13 @@ public class VistaAdministrador extends javax.swing.JFrame implements Observer {
         nombreUsuario = new javax.swing.JLabel();
         tituloDeTabla = new javax.swing.JLabel();
         btnNuevaSolicitud = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jmOpciones = new javax.swing.JMenu();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        jmiCambiarUsuario = new javax.swing.JMenuItem();
+        jSeparator3 = new javax.swing.JPopupMenu.Separator();
+        jmiSalir = new javax.swing.JMenuItem();
+        jmAyuda = new javax.swing.JMenu();
 
         solictud.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         solictud.setText("Solicitud de Bienes Muebles");
@@ -295,14 +302,16 @@ public class VistaAdministrador extends javax.swing.JFrame implements Observer {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(campoTipoAdqui, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelAgregaNuevaSolicitudLayout.createSequentialGroup()
-                        .addGroup(panelAgregaNuevaSolicitudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnCancelar)
-                            .addComponent(btnAgregarBien)
-                            .addComponent(jLabel5))
+                        .addComponent(btnCancelar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(panelAgregaNuevaSolicitudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(campoMontoTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnGuardarSolicitud))))
+                        .addComponent(btnGuardarSolicitud))
+                    .addGroup(panelAgregaNuevaSolicitudLayout.createSequentialGroup()
+                        .addComponent(btnAgregarBien)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(panelAgregaNuevaSolicitudLayout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(campoMontoTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         panelAgregaNuevaSolicitudLayout.setVerticalGroup(
@@ -320,13 +329,13 @@ public class VistaAdministrador extends javax.swing.JFrame implements Observer {
                 .addGroup(panelAgregaNuevaSolicitudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(campoTipoAdqui, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(39, 39, 39)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnAgregarBien)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                 .addGroup(panelAgregaNuevaSolicitudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(campoMontoTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnAgregarBien)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(panelAgregaNuevaSolicitudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardarSolicitud)
                     .addComponent(btnCancelar))
@@ -350,7 +359,10 @@ public class VistaAdministrador extends javax.swing.JFrame implements Observer {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(nombreUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(nombreUsuario)
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         tituloDeTabla.setText("Solicitudes Actuales");
@@ -362,6 +374,29 @@ public class VistaAdministrador extends javax.swing.JFrame implements Observer {
             }
         });
 
+        jmOpciones.setText("Opciones");
+        jmOpciones.add(jSeparator2);
+
+        jmiCambiarUsuario.setText("Cambiar de Usuario");
+        jmiCambiarUsuario.setName("cambiar"); // NOI18N
+        jmOpciones.add(jmiCambiarUsuario);
+        jmOpciones.add(jSeparator3);
+
+        jmiSalir.setText("Salir");
+        jmiSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiSalirActionPerformed(evt);
+            }
+        });
+        jmOpciones.add(jmiSalir);
+
+        jMenuBar1.add(jmOpciones);
+
+        jmAyuda.setText("Ayuda");
+        jMenuBar1.add(jmAyuda);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -369,17 +404,18 @@ public class VistaAdministrador extends javax.swing.JFrame implements Observer {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(220, 220, 220)
-                        .addComponent(btnNuevaSolicitud)
-                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(tituloDeTabla)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(panelAgregaNuevaSolicitud, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(panelAgregaNuevaSolicitud, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnNuevaSolicitud)))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -424,6 +460,10 @@ public class VistaAdministrador extends javax.swing.JFrame implements Observer {
     private void btnNuevaSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaSolicitudActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnNuevaSolicitudActionPerformed
+
+    private void jmiSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiSalirActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jmiSalirActionPerformed
 
     
     
@@ -476,11 +516,18 @@ public class VistaAdministrador extends javax.swing.JFrame implements Observer {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     public javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JPopupMenu.Separator jSeparator3;
+    public javax.swing.JMenu jmAyuda;
+    public javax.swing.JMenu jmOpciones;
+    public javax.swing.JMenuItem jmiCambiarUsuario;
+    public javax.swing.JMenuItem jmiSalir;
     private javax.swing.JLabel nombreUsuario;
     private javax.swing.JPanel panelAgregaNuevaSolicitud;
     private javax.swing.JLabel solictud;

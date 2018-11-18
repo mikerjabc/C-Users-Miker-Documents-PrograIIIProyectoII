@@ -22,16 +22,16 @@ public class ProyectoDos {
     
     public static void main(String[] args) throws SQLException {
  
-        VistaAdministrador vista = new VistaAdministrador();
-        
-        ControllerAdministrador controller = new ControllerAdministrador(new ModeloAdministrador(), vista);
-        
-        vista.setVisible(true);
-//        VistaLogin vista = new VistaLogin();
+//        VistaAdministrador vista = new VistaAdministrador();
 //        
-//        ControllerLogin control = new ControllerLogin(new ModeloLogin(), vista);
+//        ControllerAdministrador controller = new ControllerAdministrador(new ModeloAdministrador(), vista);
 //        
 //        vista.setVisible(true);
+        VistaLogin vista = new VistaLogin();
+        
+        ControllerLogin control = new ControllerLogin(new ModeloLogin(), vista);
+        
+        vista.setVisible(true);
         
         //Jose
     }
